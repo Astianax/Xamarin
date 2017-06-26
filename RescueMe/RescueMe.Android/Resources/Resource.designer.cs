@@ -44,6 +44,9 @@ namespace RescueMe.Droid
 		public partial class Color
 		{
 			
+			// aapt resource value: 0x7f050005
+			public const int bar_color = 2131034117;
+			
 			// aapt resource value: 0x7f050000
 			public const int my_blue = 2131034112;
 			
@@ -55,6 +58,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f050002
 			public const int my_purple = 2131034114;
+			
+			// aapt resource value: 0x7f050004
+			public const int title_color = 2131034116;
 			
 			static Color()
 			{
@@ -70,7 +76,13 @@ namespace RescueMe.Droid
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int arrowLeft = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public const int arrowLeft1 = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int Icon = 2130837506;
 			
 			static Drawable()
 			{
@@ -85,6 +97,12 @@ namespace RescueMe.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f070009
+			public const int back = 2131165193;
+			
+			// aapt resource value: 0x7f07000e
+			public const int btnRegister = 2131165198;
+			
 			// aapt resource value: 0x7f070003
 			public const int button1 = 2131165187;
 			
@@ -97,8 +115,20 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f070001
 			public const int editText2 = 2131165185;
 			
+			// aapt resource value: 0x7f07000a
+			public const int emailRegister = 2131165194;
+			
 			// aapt resource value: 0x7f070007
 			public const int myButton = 2131165191;
+			
+			// aapt resource value: 0x7f07000b
+			public const int nameRegister = 2131165195;
+			
+			// aapt resource value: 0x7f07000d
+			public const int passwordConfirmRegister = 2131165197;
+			
+			// aapt resource value: 0x7f07000c
+			public const int passwordRegister = 2131165196;
 			
 			// aapt resource value: 0x7f070004
 			public const int textView1 = 2131165188;
@@ -108,6 +138,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f070006
 			public const int textView3 = 2131165190;
+			
+			// aapt resource value: 0x7f070008
+			public const int toolbar1 = 2131165192;
 			
 			static Id()
 			{
@@ -127,6 +160,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f030001
 			public const int Main = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Register = 2130903042;
 			
 			static Layout()
 			{

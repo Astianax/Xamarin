@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:layout_width="wrap_content">
+    <Toolbar
+        android:minHeight="?android:attr/actionBarSize"
+        android:background="@color/bar_color"
+        android:minWidth="25px"
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:id="@+id/toolbar1"
+        android:layout_marginBottom="0.0dp">
+        <Button
+            android:id="@+id/back"
+            android:layout_height="40dp"
+            android:background="@drawable/arrowleft"
+            android:layout_marginRight="0.0dp"
+            android:layout_marginLeft="0.0dp"
+            android:layout_width="40dp" />
+        <TextView
+            android:text="Registro"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1"
+            android:layout_marginLeft="105dp"
+            android:textStyle="normal"
+            android:textColor="@color/title_color"
+            android:textSize="20dp" />
+    </Toolbar>
+    <EditText
+        android:inputType="textEmailAddress"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:id="@+id/emailRegister"
+        android:hint="Email"
+        android:textSize="16dp"
+        android:layout_width="300dp"
+        android:layout_marginLeft="30dp" />
+    <EditText
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/emailRegister"
+        android:id="@+id/nameRegister"
+        android:hint="Nombre Completo"
+        android:textSize="16dp"
+        android:layout_width="300dp"
+        android:layout_marginTop="10dp" />
+    <EditText
+        android:inputType="textPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordRegister"
+        android:layout_below="@id/nameRegister"
+        android:layout_marginLeft="30dp"
+        android:hint="Contraseña"
+        android:textSize="16dp"
+        android:layout_marginTop="10dp" />
+    <EditText
+        android:inputType="textPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordConfirmRegister"
+        android:layout_below="@id/passwordRegister"
+        android:layout_marginLeft="30dp"
+        android:hint="Confirmar Contraseña"
+        android:textSize="16dp"
+        android:layout_marginTop="10dp" />
+    <Button
+        android:text="Registrarme"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRegister"
+        android:layout_marginRight="100dp"
+        android:layout_below="@id/passwordConfirmRegister"
+        android:capitalize="words"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_marginLeft="50dp" />
+</RelativeLayout>
