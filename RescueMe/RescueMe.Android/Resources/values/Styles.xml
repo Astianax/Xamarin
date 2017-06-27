@@ -16,7 +16,9 @@
     <item name="android:textColor">@android:color/background_light</item>
   </style>
 
-
+  <!--<style name="TextViewCustomFont">
+    <item name="fontPath">fonts/OpenSans-Regular.ttf</item>
+  </style>-->
 
   <!-- Inherit from the light Material Theme -->
   <style name="MyCustomTheme" parent="android:Theme.Material.Light.NoActionBar">

@@ -31,6 +31,9 @@ namespace RescueMe.Droid
 		public partial class Attribute
 		{
 			
+			// aapt resource value: 0x7f010000
+			public const int fontPath = 2130771968;
+			
 			static Attribute()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -44,32 +47,32 @@ namespace RescueMe.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f050005
-			public const int bar_color = 2131034117;
+			// aapt resource value: 0x7f060005
+			public const int bar_color = 2131099653;
 			
-			// aapt resource value: 0x7f050007
-			public const int bg_bage = 2131034119;
+			// aapt resource value: 0x7f060007
+			public const int bg_bage = 2131099655;
 			
-			// aapt resource value: 0x7f050006
-			public const int bg_color = 2131034118;
+			// aapt resource value: 0x7f060006
+			public const int bg_color = 2131099654;
 			
-			// aapt resource value: 0x7f050008
-			public const int btn_color = 2131034120;
+			// aapt resource value: 0x7f060008
+			public const int btn_color = 2131099656;
 			
-			// aapt resource value: 0x7f050000
-			public const int my_blue = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int my_blue = 2131099648;
 			
-			// aapt resource value: 0x7f050003
-			public const int my_gray = 2131034115;
+			// aapt resource value: 0x7f060003
+			public const int my_gray = 2131099651;
 			
-			// aapt resource value: 0x7f050001
-			public const int my_green = 2131034113;
+			// aapt resource value: 0x7f060001
+			public const int my_green = 2131099649;
 			
-			// aapt resource value: 0x7f050002
-			public const int my_purple = 2131034114;
+			// aapt resource value: 0x7f060002
+			public const int my_purple = 2131099650;
 			
-			// aapt resource value: 0x7f050004
-			public const int title_color = 2131034116;
+			// aapt resource value: 0x7f060004
+			public const int title_color = 2131099652;
 			
 			static Color()
 			{
@@ -112,92 +115,134 @@ namespace RescueMe.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070017
-			public const int arrowRight = 2131165207;
+			// aapt resource value: 0x7f040025
+			public const int arrowRight = 2130968613;
 			
-			// aapt resource value: 0x7f07000a
-			public const int back = 2131165194;
+			// aapt resource value: 0x7f04000a
+			public const int back = 2130968586;
 			
-			// aapt resource value: 0x7f070003
-			public const int btnLogin = 2131165187;
+			// aapt resource value: 0x7f04000e
+			public const int btnAdd = 2130968590;
 			
-			// aapt resource value: 0x7f070018
-			public const int btnRegister = 2131165208;
+			// aapt resource value: 0x7f040004
+			public const int btnLogin = 2130968580;
 			
-			// aapt resource value: 0x7f070002
-			public const int checkbox = 2131165186;
+			// aapt resource value: 0x7f040026
+			public const int btnRegister = 2130968614;
 			
-			// aapt resource value: 0x7f070001
-			public const int editText2 = 2131165185;
+			// aapt resource value: 0x7f040000
+			public const int calligraphy_tag_id = 2130968576;
 			
-			// aapt resource value: 0x7f070019
-			public const int emailRegister = 2131165209;
+			// aapt resource value: 0x7f040003
+			public const int checkbox = 2130968579;
 			
-			// aapt resource value: 0x7f07000b
-			public const int imageView1 = 2131165195;
+			// aapt resource value: 0x7f040002
+			public const int editText2 = 2130968578;
 			
-			// aapt resource value: 0x7f07000c
-			public const int imageView2 = 2131165196;
+			// aapt resource value: 0x7f040027
+			public const int emailRegister = 2130968615;
 			
-			// aapt resource value: 0x7f07000f
-			public const int lblCedula = 2131165199;
+			// aapt resource value: 0x7f04001b
+			public const int imageView1 = 2130968603;
 			
-			// aapt resource value: 0x7f07000d
-			public const int lblName = 2131165197;
+			// aapt resource value: 0x7f04001c
+			public const int imageView2 = 2130968604;
 			
-			// aapt resource value: 0x7f070013
-			public const int lblPassword = 2131165203;
+			// aapt resource value: 0x7f04001f
+			public const int lblCedula = 2130968607;
 			
-			// aapt resource value: 0x7f070011
-			public const int lblTelefono = 2131165201;
+			// aapt resource value: 0x7f04001d
+			public const int lblName = 2130968605;
 			
-			// aapt resource value: 0x7f070016
-			public const int lblcars = 2131165206;
+			// aapt resource value: 0x7f040023
+			public const int lblPassword = 2130968611;
 			
-			// aapt resource value: 0x7f070015
-			public const int line2 = 2131165205;
+			// aapt resource value: 0x7f040021
+			public const int lblTelefono = 2130968609;
 			
-			// aapt resource value: 0x7f070007
-			public const int myButton = 2131165191;
+			// aapt resource value: 0x7f040010
+			public const int lblcars = 2130968592;
 			
-			// aapt resource value: 0x7f07001a
-			public const int nameRegister = 2131165210;
+			// aapt resource value: 0x7f04000f
+			public const int line2 = 2130968591;
 			
-			// aapt resource value: 0x7f07001c
-			public const int passwordConfirmRegister = 2131165212;
+			// aapt resource value: 0x7f040015
+			public const int linearLayout1 = 2130968597;
 			
-			// aapt resource value: 0x7f07001b
-			public const int passwordRegister = 2131165211;
+			// aapt resource value: 0x7f040016
+			public const int linearLayout2 = 2130968598;
 			
-			// aapt resource value: 0x7f070008
-			public const int scrollView1 = 2131165192;
+			// aapt resource value: 0x7f040017
+			public const int linearLayout3 = 2130968599;
 			
-			// aapt resource value: 0x7f070004
-			public const int textView1 = 2131165188;
+			// aapt resource value: 0x7f040018
+			public const int linearLayout4 = 2130968600;
 			
-			// aapt resource value: 0x7f070005
-			public const int textView2 = 2131165189;
+			// aapt resource value: 0x7f04000d
+			public const int marque = 2130968589;
 			
-			// aapt resource value: 0x7f070006
-			public const int textView3 = 2131165190;
+			// aapt resource value: 0x7f040008
+			public const int myButton = 2130968584;
 			
-			// aapt resource value: 0x7f070009
-			public const int toolbar1 = 2131165193;
+			// aapt resource value: 0x7f040028
+			public const int nameRegister = 2130968616;
 			
-			// aapt resource value: 0x7f070010
-			public const int txtCedula = 2131165200;
+			// aapt resource value: 0x7f04002a
+			public const int passwordConfirmRegister = 2130968618;
 			
-			// aapt resource value: 0x7f070000
-			public const int txtEmail = 2131165184;
+			// aapt resource value: 0x7f040029
+			public const int passwordRegister = 2130968617;
 			
-			// aapt resource value: 0x7f07000e
-			public const int txtName = 2131165198;
+			// aapt resource value: 0x7f040019
+			public const int scrollView1 = 2130968601;
 			
-			// aapt resource value: 0x7f070014
-			public const int txtPassword = 2131165204;
+			// aapt resource value: 0x7f040014
+			public const int tabHost1 = 2130968596;
 			
-			// aapt resource value: 0x7f070012
-			public const int txtTelefono = 2131165202;
+			// aapt resource value: 0x7f040011
+			public const int tableLayout1 = 2130968593;
+			
+			// aapt resource value: 0x7f040012
+			public const int tableRow1 = 2130968594;
+			
+			// aapt resource value: 0x7f040005
+			public const int textView1 = 2130968581;
+			
+			// aapt resource value: 0x7f040006
+			public const int textView2 = 2130968582;
+			
+			// aapt resource value: 0x7f040007
+			public const int textView3 = 2130968583;
+			
+			// aapt resource value: 0x7f040009
+			public const int toolbar = 2130968585;
+			
+			// aapt resource value: 0x7f04001a
+			public const int toolbar1 = 2130968602;
+			
+			// aapt resource value: 0x7f040020
+			public const int txtCedula = 2130968608;
+			
+			// aapt resource value: 0x7f040001
+			public const int txtEmail = 2130968577;
+			
+			// aapt resource value: 0x7f04001e
+			public const int txtName = 2130968606;
+			
+			// aapt resource value: 0x7f040024
+			public const int txtPassword = 2130968612;
+			
+			// aapt resource value: 0x7f040013
+			public const int txtRescues = 2130968595;
+			
+			// aapt resource value: 0x7f040022
+			public const int txtTelefono = 2130968610;
+			
+			// aapt resource value: 0x7f04000b
+			public const int txtcars = 2130968587;
+			
+			// aapt resource value: 0x7f04000c
+			public const int type = 2130968588;
 			
 			static Id()
 			{
@@ -219,10 +264,16 @@ namespace RescueMe.Droid
 			public const int Main = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Profile = 2130903042;
+			public const int MyCars = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Register = 2130903043;
+			public const int MyRescues = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int Profile = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int Register = 2130903045;
 			
 			static Layout()
 			{
@@ -237,11 +288,11 @@ namespace RescueMe.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int app_name = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int app_name = 2131034113;
 			
-			// aapt resource value: 0x7f040000
-			public const int hello = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int hello = 2131034112;
 			
 			static String()
 			{
@@ -256,11 +307,11 @@ namespace RescueMe.Droid
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f060001
-			public const int MyCustomTheme = 2131099649;
+			// aapt resource value: 0x7f070001
+			public const int MyCustomTheme = 2131165185;
 			
-			// aapt resource value: 0x7f060000
-			public const int button_primary = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int button_primary = 2131165184;
 			
 			static Style()
 			{
