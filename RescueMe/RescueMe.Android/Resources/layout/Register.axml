@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:layout_width="wrap_content">
+    android:layout_width="wrap_content"
+    android:background="@color/bg_bage">
     <Toolbar
         android:minHeight="?android:attr/actionBarSize"
-        android:background="@color/bar_color"
+        android:background="@color/bg_color"
         android:minWidth="25px"
         android:layout_width="match_parent"
         android:layout_height="48.5dp"
@@ -26,9 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
-            android:layout_marginLeft="105dp"
+            android:layout_marginLeft="85dp"
             android:textStyle="normal"
-            android:textColor="@color/title_color"
+            android:textColor="@android:color/background_light"
             android:textSize="20dp" />
     </Toolbar>
     <EditText
@@ -79,7 +80,9 @@
         android:capitalize="words"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_width="300dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginLeft="50dp"
+        android:background="@color/bg_color"
+        android:textColor="@android:color/background_light" />
 </RelativeLayout>

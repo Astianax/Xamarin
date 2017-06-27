@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <resources>
-  <color name="my_blue">#3498DB</color>
+  <color name="my_blue">#2a65c6</color>  
   <color name="my_green">#77D065</color>
   <color name="my_purple">#B455B6</color>
   <color name="my_gray">#738182</color>
   <color name="title_color">#202b3c</color>
   <color name="bar_color">#fffb8c00</color>
+  <color name="bg_color">#d9802e</color>
+  <color name="bg_bage">#f4ece3</color>
+  <color name="btn_color">#33569d</color>
+  
+  <!-- Button Primary-->
+  <style name="button_primary">
+    <item name="android:background">@color/bg_color</item>
+    <item name="android:textColor">@android:color/background_light</item>
+  </style>
+
 
 
   <!-- Inherit from the light Material Theme -->
   <style name="MyCustomTheme" parent="android:Theme.Material.Light.NoActionBar">
     <item name="android:colorPrimary">@color/bar_color</item>
     <!-- Override the color of UI controls -->
-    <item name="android:colorAccent">@color/my_purple</item>
+    <item name="android:colorAccent">@color/my_gray</item>
   </style>
 </resources>
