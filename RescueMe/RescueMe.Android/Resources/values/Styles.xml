@@ -26,4 +26,9 @@
     <!-- Override the color of UI controls -->
     <item name="android:colorAccent">@color/my_gray</item>
   </style>
+
+
+
+
+
 </resources>

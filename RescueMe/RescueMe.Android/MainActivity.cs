@@ -27,11 +27,11 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Login);
-            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
+            SetContentView(Resource.Layout.Home);
+            //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
 
-            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += BtnLogin_Click;
+            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //btnLogin.Click += BtnLogin_Click;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
