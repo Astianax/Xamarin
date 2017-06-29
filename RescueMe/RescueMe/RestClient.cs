@@ -23,7 +23,7 @@ namespace RescueMe
 
         public async Task<object> Get(string endpoint, object model)
         {
-             _httpClient = new HttpClient();
+             //_httpClient = new HttpClient();
             var response = _httpClient.GetAsync(endpoint).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)

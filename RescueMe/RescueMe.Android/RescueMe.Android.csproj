@@ -50,6 +50,14 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\AboutActivity.cs" />
+    <Compile Include="Activities\BaseActivity.cs" />
+    <Compile Include="Activities\CarsActivity.cs" />
+    <Compile Include="Activities\DirectoryActivity.cs" />
+    <Compile Include="Activities\HomeActivity.cs" />
+    <Compile Include="Activities\ProfileActivity.cs" />
+    <Compile Include="Activities\RegisterActivity.cs" />
+    <Compile Include="Activities\RescueActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +99,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Home.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ToolBar.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -154,5 +165,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\menu_2.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

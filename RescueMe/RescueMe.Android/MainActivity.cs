@@ -9,16 +9,16 @@ using Android.OS;
 using UK.CO.Chrisjenx.Calligraphy;
 using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
+using RescueMe.Droid.Activities;
 
 namespace RescueMe.Droid
 {
     [Activity(Label = "RescueMe.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    public class MainActivity : BaseActivity
     {
-        private RestClient _client;
+       
         protected override void OnCreate(Bundle bundle)
         {
-
             base.OnCreate(bundle);
 
             //CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
@@ -27,11 +27,11 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Home);
-            //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-
-            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //btnLogin.Click += BtnLogin_Click;
+            SetContentView(Resource.Layout.Login);
+          
+            //Controls
+            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            btnLogin.Click += BtnLogin_Click;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -43,22 +43,15 @@ namespace RescueMe.Droid
             userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
             userViewModel.password = "hello123456";//txtPassword.Text.ToString();
             userViewModel.platform = "web";
-           
-            var user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
+
+            UserProfile user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
             if (user != null)
             {
-                SetContentView(Resource.Layout.Register);
+                Intent intent = new Intent(this, typeof(DirectoryActivity));
+                StartActivity(intent);
             }
              
         }
-
-     
-
-        //protected override void AttachBaseContext(Android.Content.Context @base)
-        //{
-        //    base.AttachBaseContext(CalligraphyContextWrapper.Wrap(@base));
-        //}
-
 
     }
 }
