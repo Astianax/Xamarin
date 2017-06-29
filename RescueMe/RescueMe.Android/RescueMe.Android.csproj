@@ -78,6 +78,7 @@
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\RegisterActivity.cs" />
     <Compile Include="Activities\RescueActivity.cs" />
+    <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +123,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ToolBar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Splash.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -14,7 +14,7 @@ using Android.Support.Design.Widget;
 
 namespace RescueMe.Droid
 {
-    [Activity(Label = "RescueMe.Android", Icon = "@drawable/icon", MainLauncher = true)]
+    [Activity(Label = "RescueMe.Android", Icon = "@drawable/icon")]
     public class MainActivity : BaseActivity
     {
 

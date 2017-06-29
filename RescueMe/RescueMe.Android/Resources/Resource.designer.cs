@@ -2608,10 +2608,13 @@ namespace RescueMe.Droid
 			public const int select_dialog_singlechoice_material = 2130903096;
 			
 			// aapt resource value: 0x7f030039
-			public const int support_simple_spinner_dropdown_item = 2130903097;
+			public const int Splash = 2130903097;
 			
 			// aapt resource value: 0x7f03003a
-			public const int ToolBar = 2130903098;
+			public const int support_simple_spinner_dropdown_item = 2130903098;
+			
+			// aapt resource value: 0x7f03003b
+			public const int ToolBar = 2130903099;
 			
 			static Layout()
 			{

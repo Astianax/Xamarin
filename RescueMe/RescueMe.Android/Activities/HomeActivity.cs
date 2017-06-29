@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "HomeActivity")]
+    [Activity(Label = "HomeActivity", NoHistory = true)]
     public class HomeActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
