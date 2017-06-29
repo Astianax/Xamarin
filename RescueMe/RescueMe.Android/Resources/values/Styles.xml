@@ -21,7 +21,8 @@
   </style>-->
 
   <!-- Inherit from the light Material Theme -->
-  <style name="MyCustomTheme" parent="android:Theme.Material.Light.NoActionBar">
+  <!--<style name="MyCustomTheme" parent="android:Theme.Material.Light.NoActionBar">-->
+  <style name="MyCustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:colorPrimary">@color/bar_color</item>
     <!-- Override the color of UI controls -->
     <item name="android:colorAccent">@color/my_gray</item>

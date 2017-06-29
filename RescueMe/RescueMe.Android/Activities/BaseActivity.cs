@@ -9,11 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V7.App;
 
 namespace RescueMe.Droid.Activities
 {
     [Activity(Label = "BaseActivity")]
-    public class BaseActivity : Activity
+    public class BaseActivity : AppCompatActivity
     {
         protected RestClient _client;
         public BaseActivity()

@@ -5,29 +5,38 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:background="@color/bg_color">
-    <EditText
-        android:inputType="textEmailAddress"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="202dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="90dp"
         android:layout_marginLeft="90dp"
         android:layout_marginTop="180dp"
-        android:id="@+id/txtEmail"
-        android:layout_marginRight="90dp"
-        android:hint="Email"
-        android:textColorHint="@android:color/background_light"
-        android:foregroundTint="#00000000"
-        android:backgroundTint="#fff5f5f5" />
-    <EditText
-        android:inputType="textPassword"
+        >
+        <EditText
+            android:inputType="textEmailAddress"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEmail"
+            android:hint="Email"
+            android:textColorHint="@android:color/background_light"
+            android:foregroundTint="#00000000"
+            android:backgroundTint="#fff5f5f5" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
         android:layout_width="202dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtPassword"
-        android:layout_marginRight="90dp"
-        android:layout_marginTop="230dp"
-        android:layout_marginLeft="90dp"
-        android:hint="Contraseña"
-        android:textColorHint="@android:color/background_light"
-        android:backgroundTint="#fff5f5f5" />
+         android:layout_marginRight="90dp"
+            android:layout_marginTop="230dp"        
+            android:layout_marginLeft="90dp">
+        <EditText
+            android:inputType="textPassword"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPassword"           
+            android:hint="Contraseña"
+            android:textColorHint="@android:color/background_light"
+            android:backgroundTint="#fff5f5f5" />
+    </android.support.design.widget.TextInputLayout>
     <CheckBox
         android:id="@+id/chkRememberMe"
         android:layout_width="162.0dp"

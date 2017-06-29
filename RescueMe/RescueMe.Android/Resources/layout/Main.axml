@@ -8,5 +8,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
+  <android.support.design.widget.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <EditText
+        android:id="@+id/editTextFirstName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="First Name" />
+
+  </android.support.design.widget.TextInputLayout>
+  <android.support.design.widget.TextInputLayout
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/editTextLastName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last Name" />
+
+  </android.support.design.widget.TextInputLayout>
 </LinearLayout>

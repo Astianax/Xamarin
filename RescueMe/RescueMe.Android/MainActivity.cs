@@ -28,7 +28,7 @@ namespace RescueMe.Droid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Login);
-          
+
             //Controls
             var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             btnLogin.Click += BtnLogin_Click;
@@ -47,10 +47,10 @@ namespace RescueMe.Droid
             UserProfile user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
             if (user != null)
             {
-                Intent intent = new Intent(this, typeof(DirectoryActivity));
+                Intent intent = new Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             }
-             
+
         }
 
     }
