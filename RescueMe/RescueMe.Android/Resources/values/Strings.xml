@@ -2,4 +2,6 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">RescueMe.Android</string>
+  <string name="required_error_message">Requerido</string>
 </resources>
+

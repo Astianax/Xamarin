@@ -171,12 +171,6 @@
     <AndroidAsset Include="Assets\fonts\Apache License.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RescueMe\RescueMe.csproj">
-      <Project>{67612f4f-95be-4ca8-a802-a26389a9008a}</Project>
-      <Name>RescueMe</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\menu.png" />
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +179,15 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\menu_2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\sos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RescueMe\RescueMe.csproj">
+      <Project>{67612f4f-95be-4ca8-a802-a26389a9008a}</Project>
+      <Name>RescueMe</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

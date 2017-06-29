@@ -10,13 +10,14 @@ using UK.CO.Chrisjenx.Calligraphy;
 using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
 using RescueMe.Droid.Activities;
+using Android.Support.Design.Widget;
 
 namespace RescueMe.Droid
 {
-    [Activity(Label = "RescueMe.Android", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "RescueMe.Android", Icon = "@drawable/icon", MainLauncher = true)]
     public class MainActivity : BaseActivity
     {
-       
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -29,6 +30,30 @@ namespace RescueMe.Droid
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Login);
 
+
+
+            //Android.Support.Design.Widget.TextInputLayout usernameLayout;
+            //Android.Support.Design.Widget.TextInputEditText userNameView;
+
+
+
+            //var txtEmail = FindViewById<TextInputEditText>(Resource.Id.txtEmail);
+            //var txtEmailLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.email_layout);
+
+
+            //var userViewModel = new UserViewModel();
+            //userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
+            //userViewModel.password = "hello123456";//txtPassword.Text.ToString();
+            //userViewModel.platform = "web";
+
+            //if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            //{
+            //    txtEmailLayout.ErrorEnabled = true;
+            //    txtEmailLayout.Error = GetString(Resource.String.password_required_error_message);
+            //}
+
+
+
             //Controls
             var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             btnLogin.Click += BtnLogin_Click;
@@ -36,24 +61,48 @@ namespace RescueMe.Droid
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            var txtEmail = FindViewById<EditText>(Resource.Id.txtEmail);
-            var txtPassword = FindViewById<EditText>(Resource.Id.txtPassword);
-            var chkRememberMe = FindViewById<CheckBox>(Resource.Id.chkRememberMe);
-            var userViewModel = new UserViewModel();
-            userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-            userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-            userViewModel.platform = "web";
+            bool valid = true;
+            var txtEmail = FindViewById<TextInputEditText>(Resource.Id.txtEmail);
+            var emailLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.emaiLayout);
 
-            UserProfile user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
-            if (user != null)
+            var txtPassword = FindViewById<TextInputEditText>(Resource.Id.txtPassword);
+            var passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
+            //var chkRememberMe = FindViewById<CheckBox>(Resource.Id.chkRememberMe);
+            var userViewModel = new UserViewModel();
+
+
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                Intent intent = new Intent(this, typeof(MainActivity));
+                emailLayout.ErrorEnabled = true;
+                emailLayout.Error = GetString(Resource.String.required_error_message);
+                valid = false;
+            }
+            else if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                passwordLayout.ErrorEnabled = true;
+                passwordLayout.Error = GetString(Resource.String.required_error_message);
+                valid = false;
+            }
+            else
+            {
+                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
+                userViewModel.password = "hello123456";//txtPassword.Text.ToString();
+                userViewModel.platform = "web";
+                valid = true;
+            }
+
+            if (valid)
+            {
+                UserProfile user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
+                Intent intent = new Intent(this, typeof(HomeActivity));
                 StartActivity(intent);
             }
 
         }
 
+
+
+
+
     }
 }
-
-
