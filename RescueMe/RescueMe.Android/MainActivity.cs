@@ -11,6 +11,7 @@ using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
 using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
+using Android.Graphics;
 
 namespace RescueMe.Droid
 {
@@ -31,29 +32,6 @@ namespace RescueMe.Droid
             SetContentView(Resource.Layout.Login);
 
 
-
-            //Android.Support.Design.Widget.TextInputLayout usernameLayout;
-            //Android.Support.Design.Widget.TextInputEditText userNameView;
-
-
-
-            //var txtEmail = FindViewById<TextInputEditText>(Resource.Id.txtEmail);
-            //var txtEmailLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.email_layout);
-
-
-            //var userViewModel = new UserViewModel();
-            //userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-            //userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-            //userViewModel.platform = "web";
-
-            //if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            //{
-            //    txtEmailLayout.ErrorEnabled = true;
-            //    txtEmailLayout.Error = GetString(Resource.String.password_required_error_message);
-            //}
-
-
-
             //Controls
             var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             btnLogin.Click += BtnLogin_Click;
@@ -67,6 +45,9 @@ namespace RescueMe.Droid
 
             var txtPassword = FindViewById<TextInputEditText>(Resource.Id.txtPassword);
             var passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
+            //var loginLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.loginLayout);
+
+
             //var chkRememberMe = FindViewById<CheckBox>(Resource.Id.chkRememberMe);
             var userViewModel = new UserViewModel();
 
@@ -86,7 +67,7 @@ namespace RescueMe.Droid
             else
             {
                 userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-                userViewModel.password = "hello123456";//txtPassword.Text.ToString();
+                userViewModel.password = "hello12356";//txtPassword.Text.ToString();
                 userViewModel.platform = "web";
                 valid = true;
             }
@@ -94,8 +75,20 @@ namespace RescueMe.Droid
             if (valid)
             {
                 UserProfile user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
-                Intent intent = new Intent(this, typeof(HomeActivity));
-                StartActivity(intent);
+
+                if (user != null)
+                {
+                    Intent intent = new Intent(this, typeof(HomeActivity));
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
+                            .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
+                            .SetDuration(8000)
+                            .Show();
+                }
+
             }
 
         }

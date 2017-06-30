@@ -4,6 +4,8 @@
   <color name="my_green">#77D065</color>
   <color name="my_purple">#B455B6</color>
   <color name="my_gray">#738182</color>
+  <color name="Light_Grey">#d6d9dc</color>
+  
   <color name="title_color">#202b3c</color>
   <color name="bar_color">#fffb8c00</color>
   <color name="bg_color">#d9802e</color>
@@ -22,16 +24,31 @@
 
   <!-- Inherit from the light Material Theme -->
   <!--<style name="MyCustomTheme" parent="android:Theme.Material.Light.NoActionBar">-->
-  <style name="MyCustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MyCustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:colorPrimary">@color/bar_color</item>
-    <!-- Override the color of UI controls -->
-    <item name="android:colorAccent">@color/my_gray</item>
-
-
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowFullscreen">true</item>
+
+
+
+    <!-- TextLabel -->
+    <item name="android:textColorHint">@color/Light_Grey</item>
+    <item name="android:textSize">16sp</item>
+    <item name="colorControlActivated">@color/bg_bage</item>
+    <!-- END TextLabel -->
+
   </style>
 
+
+  <!--<style name="TextLabel" parent="TextAppearance.AppCompat">
+    --><!-- Hint color and label color in FALSE state --><!--
+    <item name="android:textColorHint">@color/my_purple</item>
+    <item name="android:textSize">16sp</item>
+    --><!-- Label color in TRUE state and bar color FALSE and TRUE State --><!--
+     <item name="colorAccent">@color/my_purple</item>
+    --><!--<item name="colorControlNormal">@color/Color Name</item>--><!--
+    <item name="colorControlActivated">@color/my_gray</item>
+  </style>-->
 
 
 
