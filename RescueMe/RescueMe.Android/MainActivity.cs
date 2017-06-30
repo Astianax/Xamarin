@@ -12,6 +12,7 @@ using RescueMe.Domain;
 using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
 using Android.Graphics;
+using System.Threading;
 
 namespace RescueMe.Droid
 {
@@ -74,20 +75,34 @@ namespace RescueMe.Droid
 
             if (valid)
             {
-                UserProfile user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
+                UserProfile user = null;
 
-                if (user != null)
+                var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
+                progressDialog.Indeterminate = true;
+                progressDialog.SetCancelable(false);
+
+
+                new Thread(new ThreadStart(delegate
                 {
-                    Intent intent = new Intent(this, typeof(HomeActivity));
-                    StartActivity(intent);
-                }
-                else
-                {
-                    Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
-                            .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
-                            .SetDuration(8000)
-                            .Show();
-                }
+                    //LOAD METHOD TO GET ACCOUNT INFO
+                    user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
+                    
+                    if (user != null)
+                    {
+                        Intent intent = new Intent(this, typeof(HomeActivity));
+                        StartActivity(intent);
+                    }
+                    else
+                    {
+                        Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
+                                .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
+                                .SetDuration(8000)
+                                .Show();
+                    }
+                    //HIDE PROGRESS DIALOG
+                    RunOnUiThread(() => progressDialog.Hide());
+
+                })).Start();
 
             }
 
