@@ -128,9 +128,6 @@
     <AndroidResource Include="Resources\layout\Splash.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Drawer.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\drawer_header.axml">
       <SubType>Designer</SubType>
     </AndroidResource>

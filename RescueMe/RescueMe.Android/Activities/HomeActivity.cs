@@ -55,10 +55,26 @@ namespace RescueMe.Droid.Activities
             Intent intent;
             switch (menuItem.ItemId)
             {
-                //case Resource.Id.nav_messages:
-                //    intent = new Intent(this, typeof(ProfileActivity));
-                //    StartActivity(intent);
-                //    break;
+                case Resource.Id.nav_profile:
+                    intent = new Intent(this, typeof(ProfileActivity));
+                    StartActivity(intent);
+                    break;
+                case Resource.Id.nav_rescue:
+                    intent = new Intent(this, typeof(RescueActivity));
+                    StartActivity(intent);
+                    break;
+                case Resource.Id.nav_directory:
+                    intent = new Intent(this, typeof(DirectoryActivity));
+                    StartActivity(intent);
+                    break;
+                case Resource.Id.nav_about:
+                    intent = new Intent(this, typeof(AboutActivity));
+                    StartActivity(intent);
+                    break;
+                case Resource.Id.nav_logOut:
+                    //intent = new Intent(this, typeof(ProfileActivity));
+                    //StartActivity(intent);
+                    break;
             }
         }
 

@@ -11,26 +11,31 @@
 
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <group android:checkableBehavior="single">
-    <item
-      android:id="@+id/nav_home"
-      android:title="Home" />
-    <item
-      android:id="@+id/nav_messages"
-      android:title="Messages" />
-    <item
-      android:id="@+id/nav_friends"
-      android:title="Friends" />
-    <item
-      android:id="@+id/nav_discussion"
-      android:title="Discussion" />
+  <group android:id="@+id/group_feature" android:checkableBehavior="single">
+     <item  android:id="@+id/nav_profile"
+            android:checked="true"
+            android:title="Perfil"/>
+    
+    <item android:id="@+id/nav_rescue"
+          android:title="Mis Rescates"/>
+    
+    <item android:id="@+id/nav_directory"
+          android:title="Mi Directorio"/>
+
+
   </group>
-  <item android:title="Sub items">
-    <menu>
-      <item
-        android:title="Sub item 1" />
-      <item
-        android:title="Sub item 2" />
-    </menu>
-  </item>
+  
+    <group android:id="@+id/group_settings"  android:checkableBehavior="single">
+      
+      <item android:id="@+id/nav_about"
+           android:title="Acerca De"/>
+      
+      <item android:id="@+id/nav_logOut"
+            android:title="Salir"/>
+  </group>
 </menu>
+
+
+
+
+

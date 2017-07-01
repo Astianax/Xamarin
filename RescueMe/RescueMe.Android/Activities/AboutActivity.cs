@@ -18,7 +18,7 @@ namespace RescueMe.Droid.Activities
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Login);
+            SetContentView(Resource.Layout.About);
             // Create your application here
         }
     }
