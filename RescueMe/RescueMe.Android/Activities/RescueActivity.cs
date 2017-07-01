@@ -19,6 +19,7 @@ namespace RescueMe.Droid.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.MyRescues);
+            SetTools();
             // Create your application here
         }
     }

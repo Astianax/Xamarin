@@ -5,7 +5,13 @@
     android:layout_height="match_parent"
     android:minHeight="25dp"
     android:minWidth="25dp">
-    <Toolbar
+  <include
+    layout="@layout/ToolBar" />
+  <TextView android:id="@+id/titleText"
+            android:text="Mis Rescates"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+    <!--<Toolbar
         android:minHeight="?android:attr/actionBarSize"
         android:background="@color/bg_color"
         android:minWidth="25px"
@@ -30,7 +36,7 @@
             android:textStyle="normal"
             android:textColor="@android:color/background_light"
             android:textSize="20dp" />
-    </Toolbar>
+    </Toolbar>-->
 <!--<TabHost>
         android:layout_width="match_parent"
         android:layout_height="match_parent"

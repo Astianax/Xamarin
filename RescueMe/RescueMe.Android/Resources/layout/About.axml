@@ -5,33 +5,14 @@
     android:layout_height="match_parent"
     android:minHeight="25dp"
     android:minWidth="25dp">
-    <Toolbar
-        android:minHeight="?android:attr/actionBarSize"
-        android:background="@color/bg_color"
-        android:minWidth="25px"
-        android:layout_width="match_parent"
-        android:layout_height="48.5dp"
-        android:id="@+id/toolbar">
-        <Button
-            android:id="@+id/back"
-            android:layout_height="20dp"
-            android:background="@drawable/arrowleft"
-            android:layout_marginRight="0.0dp"
-            android:layout_marginLeft="0.0dp"
-            android:layout_width="20dp"
-            android:layout_marginTop="0.0dp" />
-        <TextView
+  
+<!--<include layout="@layout/ToolBar"
+         android:id="@+id/toolbar"  />
+  <TextView android:id="@+id/titleText"
             android:text="Acerca De"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtRescues"
-            android:layout_marginLeft="85dp"
-            android:textStyle="normal"
-            android:textColor="@android:color/background_light"
-            android:textSize="20dp" />
-    </Toolbar>
-    <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>-->
+<!--<TextView
         android:text="Esta es la aplicación demo de Asistencia Vial, desarrollada con el objetivo de constribuir con el programa de Seguridad Val y el Plan Nacional de Seguridad Ciudadana."
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textView2"
@@ -42,5 +23,5 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="10dp"
         android:textSize="16dp"
-        android:textStyle="normal" />
+        android:textStyle="normal" />-->
 </RelativeLayout>
