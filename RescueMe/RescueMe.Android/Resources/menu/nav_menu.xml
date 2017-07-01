@@ -27,7 +27,7 @@
   
     <group android:id="@+id/group_settings"  android:checkableBehavior="single">
       
-      <item android:id="@+id/nav_firulais"
+      <item android:id="@+id/nav_about"
            android:title="Acerca De"/>
       
       <item android:id="@+id/nav_logOut"

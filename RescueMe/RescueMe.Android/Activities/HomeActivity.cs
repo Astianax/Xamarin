@@ -67,7 +67,7 @@ namespace RescueMe.Droid.Activities
                     intent = new Intent(this, typeof(DirectoryActivity));
                     StartActivity(intent);
                     break;
-                case Resource.Id.nav_firulais:
+                case Resource.Id.nav_about:
                     intent = new Intent(this, typeof(AboutActivity));
                     StartActivity(intent);
                     break;
