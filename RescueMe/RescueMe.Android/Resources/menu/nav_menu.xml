@@ -19,11 +19,11 @@
     
     <item android:id="@+id/nav_rescue"
           android:title="Mis Rescates"
-          android:icon="@drawable/ic_menu_manage"/>
+          android:icon="@drawable/ic_rescue"/>
     
     <item android:id="@+id/nav_directory"
           android:title="Mi Directorio"
-          android:icon="@drawable/ic_profile"/>
+          android:icon="@drawable/ic_directory"/>
 
 
   </group>

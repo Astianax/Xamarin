@@ -18,5 +18,6 @@
         app:theme="@style/MyCustomThemeNavigation"
         app:headerLayout="@layout/drawer_header"        
         app:itemTextColor="@color/menu_text_color"
+        app:itemIconTint="@menu/navigationviewstyle"
         app:menu="@menu/nav_menu" />
 </android.support.v4.widget.DrawerLayout>

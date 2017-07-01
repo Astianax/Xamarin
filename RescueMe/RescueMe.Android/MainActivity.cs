@@ -33,7 +33,7 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            // SetContentView(Resource.Layout.Home);
+             // SetContentView(Resource.Layout.Login);
              StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
 
             //Controls
