@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "AboutActivity")]
+    [Activity(Label = "AboutActivity", NoHistory = true)]
     public class AboutActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

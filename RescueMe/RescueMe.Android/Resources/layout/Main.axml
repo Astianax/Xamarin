@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
   <ImageButton
-         android:background="@drawable/menu_2"
+         android:background="@drawable/menu"
          android:layout_width="30dp"
          android:layout_height="25dp"
          android:id="@+id/menuIcon"
