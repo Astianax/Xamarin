@@ -116,9 +116,6 @@
     <AndroidResource Include="Resources\layout\Directory.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\About.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\Home.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -134,6 +131,8 @@
     <AndroidResource Include="Resources\layout\HomeContainer.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\Firulais.axml" />
+    <AndroidResource Include="Resources\layout\About.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
