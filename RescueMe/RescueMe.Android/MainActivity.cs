@@ -11,14 +11,17 @@ using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
 using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
-using Android.Graphics;
 using System.Threading;
 
 namespace RescueMe.Droid
 {
-    [Activity(Label = "RescueMe.Android", Icon = "@drawable/icon")]
+    [Activity(Label = "RescueMe.Android", Icon = "@drawable/icon", MainLauncher = true)]
+    //[Activity(Label = "Leftdrawerlayout", Theme = "@style/Theme.DesignDemo", MainLauncher = true, Icon = "@drawable/icon")]
+
     public class MainActivity : BaseActivity
     {
+
+
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -30,12 +33,12 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Login);
-
+            // SetContentView(Resource.Layout.Home);
+             StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
 
             //Controls
-            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += BtnLogin_Click;
+            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //btnLogin.Click += BtnLogin_Click;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -86,7 +89,7 @@ namespace RescueMe.Droid
                 {
                     //LOAD METHOD TO GET ACCOUNT INFO
                     user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
-                    
+
                     if (user != null)
                     {
                         Intent intent = new Intent(this, typeof(HomeActivity));

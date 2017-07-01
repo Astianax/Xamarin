@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "SplashActivity", MainLauncher = true, NoHistory = true)]
+    [Activity(Label = "SplashActivity", NoHistory = true)]
     public class SplashActivity : BaseActivity
     {
         static readonly string TAG = "X:" + typeof(SplashActivity).Name;
