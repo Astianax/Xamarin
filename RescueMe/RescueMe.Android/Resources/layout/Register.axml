@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:layout_width="wrap_content"
-    android:background="@color/bg_bage">
+    android:layout_width="wrap_content">
   <include layout="@layout/ToolBar" />
   <TextView android:id="@+id/titleText"
             android:text="Registro"

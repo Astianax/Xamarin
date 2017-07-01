@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="my_blue">#2a65c6</color>
   <color name="my_green">#77D065</color>
   <color name="my_purple">#B455B6</color>
   <color name="my_gray">#738182</color>
@@ -10,13 +9,14 @@
 
 
   <color name="lightwhite">#d9d9d9</color>
-  <color name="title_color">#202b3c</color>
-  <!--<color name="bar_color">#fffb8c00</color>-->
+  <color name="login_bg_color">#E45F40</color>
   <color name="main_color">#DD6F00</color>
-  <!--#d9802e-->
-  <color name="bg_bage">#f4ece3</color>
-  <color name="btn_color">#33569d</color>
+  <color name="btn_color">#DD6F00</color>
+  <color name="links_color">#DD6F00</color>
   <color name="menu_text_color">#03033B</color>
+  
+  <!--#d9802e-->
+  <!--<color name="bg_bage">#f4ece3</color>-->
 
   <!-- Button Primary-->
   <!--<style name="button_primary">
