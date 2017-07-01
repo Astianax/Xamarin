@@ -7,10 +7,10 @@
     android:minWidth="25dp">
     <Toolbar
         android:minHeight="?android:attr/actionBarSize"
-        android:background="@color/bg_color"
         android:minWidth="25px"
         android:layout_width="match_parent"
         android:layout_height="48.5dp"
+        android:background="@color/main_color"
         android:id="@+id/toolbar">
         <Button
             android:id="@+id/back"

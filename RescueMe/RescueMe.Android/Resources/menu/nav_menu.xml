@@ -14,7 +14,7 @@
   <group android:id="@+id/group_feature" android:checkableBehavior="single">
      <item  android:id="@+id/nav_profile"
             android:checked="true"
-            android:title="Perfil"/>
+            android:title="Perfil"            />
     
     <item android:id="@+id/nav_rescue"
           android:title="Mis Rescates"/>
