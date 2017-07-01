@@ -11,7 +11,7 @@
 
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <group android:id="@+id/group_feature" android:checkableBehavior="single">
+  <group android:id="@+id/group_feature" android:checkableBehavior="none">
      <item  android:id="@+id/nav_profile"
             android:checked="true"
             android:title="Perfil"            />
@@ -25,7 +25,7 @@
 
   </group>
   
-    <group android:id="@+id/group_settings"  android:checkableBehavior="single">
+    <group android:id="@+id/group_settings"  android:checkableBehavior="none">
       
       <item android:id="@+id/nav_about"
            android:title="Acerca De"/>

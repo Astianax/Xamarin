@@ -34,9 +34,9 @@
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowFullscreen">true</item>
 
+      <item name="colorControlHighlight">#ffffff</item>
 
-
-    <!-- TextLabel -->
+      <!-- TextLabel -->
 
       <item name="android:textColorHint">@color/Light_Grey</item>
       <item name="android:textSize">16sp</item>
@@ -46,6 +46,15 @@
 
   </style>
 
+
+  <style name="MyCustomThemeNavigation" parent="Theme.AppCompat.Light.NoActionBar">
+    
+    <item name="android:textColorHint">@color/Light_Grey</item>
+
+  </style>
+  
+  
+  
 
   <!--<style name="TextLabel" parent="TextAppearance.AppCompat">
     --><!-- Hint color and label color in FALSE state --><!--

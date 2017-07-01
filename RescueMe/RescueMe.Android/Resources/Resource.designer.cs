@@ -3240,6 +3240,9 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090157
 			public const int MyCustomTheme = 2131296599;
 			
+			// aapt resource value: 0x7f090158
+			public const int MyCustomThemeNavigation = 2131296600;
+			
 			// aapt resource value: 0x7f090017
 			public const int Platform_AppCompat = 2131296279;
 			
