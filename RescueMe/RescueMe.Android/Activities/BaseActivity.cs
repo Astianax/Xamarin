@@ -22,11 +22,21 @@ namespace RescueMe.Droid.Activities
             _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
         }
 
-        protected void SetTitle()
+        protected void SetTools()
         {
             var title = FindViewById<TextView>(Resource.Id.titleID);
             var titleText = FindViewById<TextView>(Resource.Id.titleText);
+            var btnBack = FindViewById(Resource.Id.back);
+
             title.Text = titleText.Text;
+
+            btnBack.Click += btnBack_click;
+        }
+
+
+        protected void btnBack_click(object sender, EventArgs e)
+        {
+            this.Finish();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RescueMe.Droid.Activities
 
             // Create your application here
             SetContentView(Resource.Layout.Directory);
-            SetTitle();
+            SetTools();
            
         }
     }
