@@ -34,7 +34,7 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            StartActivity(new Intent(Application.Context, typeof(ProfileActivity)));
+            StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
             // SetContentView(Resource.Layout.Login);
             //if (_context.GetUser() == null)
             //{
