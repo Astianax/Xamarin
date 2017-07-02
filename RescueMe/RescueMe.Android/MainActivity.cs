@@ -34,6 +34,8 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
+
+            //SetContentView(Resource.Layout.Login);
             if (_context.GetUser() == null)
             {
                 SetContentView(Resource.Layout.Login);
@@ -45,7 +47,7 @@ namespace RescueMe.Droid
             {
                 StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
             }
-        
+
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)

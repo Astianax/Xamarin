@@ -84,9 +84,14 @@ namespace RescueMe.Droid.Activities
             if (valid)
             {
                 UserProfile userProfile = new UserProfile();
+                bool updatedProfile;
+                UserProfile context = _context.GetUser();
+
                 userProfile.Name = txtName.Text;
                 userProfile.IdentificationCard = txtCedula.Text;
                 userProfile.TelephoneNumber = txTelefono.Text;
+                userProfile.Id = context.Id;
+                userProfile.Email = context.Email;
                 userProfile.User = new User
                 {
                     PassworDigest = txtPassword.Text
@@ -97,18 +102,19 @@ namespace RescueMe.Droid.Activities
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
 
+                updatedProfile = (bool)_client.Post("Authentication/Update", userProfile).Result;
 
 
 
                 new Thread(new ThreadStart(delegate
                 {
                     //LOAD METHOD TO GET ACCOUNT INFO
-                    userProfile = null;// _client.Post("Authentication/Update", userProfile).Result.JsonToObject<UserProfile>();
-
-                    if (userProfile == null)
+             
+                    if (updatedProfile != false)
                     {
-                        Snackbar.Make(passwordLayout, "Usuario No logueado", Snackbar.LengthLong)
-                              .SetAction("OK", (v) => { this.Finish(); })
+                        Snackbar.Make(passwordLayout, "Perfil Actualizado", Snackbar.LengthLong)
+                              .SetAction("OK", (v) => { this.Finish();
+                              })
                               .SetDuration(4000)
                               .SetActionTextColor(Android.Graphics.Color.Orange)
                               .Show();
