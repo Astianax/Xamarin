@@ -14,7 +14,7 @@
         <Button
             android:id="@+id/back"
             android:layout_height="20dp"
-            android:background="@drawable/arrowleft"
+            android:background="@drawable/back"
             android:layout_width="20dp" />
         <TextView
             android:text="title"

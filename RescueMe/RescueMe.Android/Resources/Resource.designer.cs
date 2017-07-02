@@ -1861,40 +1861,49 @@ namespace RescueMe.Droid
 			public const int arrowright = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int circle_profile = 2130837581;
+			public const int back = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int circle_rescue = 2130837582;
+			public const int circle_profile = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int design_fab_background = 2130837583;
+			public const int circle_rescue = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int design_snackbar_background = 2130837584;
+			public const int design_fab_background = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int ic_directory = 2130837585;
+			public const int design_snackbar_background = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int ic_profile = 2130837586;
+			public const int ic_directory = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int ic_rescue = 2130837587;
+			public const int ic_exit = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int Icon = 2130837588;
+			public const int ic_info = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int line = 2130837589;
+			public const int ic_profile = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int menu = 2130837590;
-			
-			// aapt resource value: 0x7f020058
-			public const int notification_template_icon_bg = 2130837592;
+			public const int ic_rescue = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int sos = 2130837591;
+			public const int Icon = 2130837591;
+			
+			// aapt resource value: 0x7f020058
+			public const int line = 2130837592;
+			
+			// aapt resource value: 0x7f020059
+			public const int menu = 2130837593;
+			
+			// aapt resource value: 0x7f02005b
+			public const int notification_template_icon_bg = 2130837595;
+			
+			// aapt resource value: 0x7f02005a
+			public const int sos = 2130837594;
 			
 			static Drawable()
 			{
@@ -3240,9 +3249,6 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090157
 			public const int MyCustomTheme = 2131296599;
 			
-			// aapt resource value: 0x7f090158
-			public const int MyCustomThemeNavigation = 2131296600;
-			
 			// aapt resource value: 0x7f090017
 			public const int Platform_AppCompat = 2131296279;
 			
@@ -3491,9 +3497,6 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f0900e4
 			public const int TextAppearance_Widget_AppCompat_Toolbar_Title = 2131296484;
-			
-			// aapt resource value: 0x7f090159
-			public const int TextLabel = 2131296601;
 			
 			// aapt resource value: 0x7f0900e5
 			public const int Theme_AppCompat = 2131296485;

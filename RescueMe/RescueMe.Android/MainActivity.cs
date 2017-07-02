@@ -34,11 +34,11 @@ namespace RescueMe.Droid
 
             // Set our view from the "main" layout resource
               SetContentView(Resource.Layout.Login);
-             //StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            // StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
 
             //Controls
-            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //btnLogin.Click += BtnLogin_Click;
+            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            btnLogin.Click += BtnLogin_Click;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace RescueMe.Droid
             else
             {
                 userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-                userViewModel.password = "hello12356";//txtPassword.Text.ToString();
+                userViewModel.password = "helo123456";//txtPassword.Text.ToString();
                 userViewModel.platform = "web";
                 valid = true;
             }
@@ -100,6 +100,7 @@ namespace RescueMe.Droid
                         Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
                                 .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
                                 .SetDuration(8000)
+                                .SetActionTextColor(Android.Graphics.Color.Orange)
                                 .Show();
                     }
                     //HIDE PROGRESS DIALOG

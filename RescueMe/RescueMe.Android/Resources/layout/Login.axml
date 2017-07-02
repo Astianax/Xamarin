@@ -2,25 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/login_bg_color"
     android:minWidth="25px"
     android:minHeight="25px"
     android:id="@+id/loginLayout">
+  
     <android.support.design.widget.TextInputLayout
         android:id="@+id/emaiLayout"
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
         android:layout_marginRight="70dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="150dp">
+        android:layout_marginTop="150dp"
+        >
         <android.support.design.widget.TextInputEditText
             android:inputType="textEmailAddress"
             android:layout_height="wrap_content"
             android:layout_width="278.0dp"
             android:id="@+id/txtEmail"
-            android:hint="Email"
-            android:textColorHint="@android:color/background_light"
-            android:foregroundTint="#00000000"
-            android:backgroundTint="#fff5f5f5" />
+            android:hint="Email"/>
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/passwordLayout"
@@ -37,9 +37,7 @@
             android:layout_below="@id/emaiLayout"
             android:layout_marginTop="20dp"
             android:id="@+id/txtPassword"
-            android:hint="Contraseña"
-            android:textColorHint="@android:color/background_light"
-            android:backgroundTint="#fff5f5f5" />
+            android:hint="Contraseña"/>
     </android.support.design.widget.TextInputLayout>
 <!--<CheckBox
         android:id="@+id/chkRememberMe"
