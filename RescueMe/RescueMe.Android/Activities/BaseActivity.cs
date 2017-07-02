@@ -19,6 +19,7 @@ namespace RescueMe.Droid.Activities
     {
         protected RestClient _client;
         protected DbContext _context;
+
         public BaseActivity()
         {
             _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");

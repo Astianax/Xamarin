@@ -71,6 +71,10 @@ namespace RescueMe.Droid.Data
                     {
                         Email = user.Email,
                         Name = user.FullName,
+                        User = new User()
+                        {
+                            PassworDigest = user.Password
+                        },
                         Id = user.Id
                     };
                 }

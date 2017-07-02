@@ -101,7 +101,8 @@ namespace RescueMe.Droid
                         {
                             Email = user.Email,
                             Id = user.Id,
-                            FullName = user.Name
+                            FullName = user.Name,
+                            Password=user.User.PassworDigest
                         });
                         //Save Vehicles
 
