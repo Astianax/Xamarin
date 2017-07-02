@@ -5,17 +5,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent">
-  <include
-      layout="@layout/homeContainer"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
-  <android.support.design.widget.NavigationView
-      android:id="@+id/nav_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_gravity="start"
-      android:fitsSystemWindows="true"
-      app:headerLayout="@layout/drawer_header"
-      app:menu="@menu/nav_menu" />
+    <include
+        layout="@layout/homeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_header"        
+        app:itemTextColor="@color/menu_text_color"
+        app:itemIconTint="@menu/navigationviewstyle"
+        app:menu="@menu/nav_menu" />
 </android.support.v4.widget.DrawerLayout>
-

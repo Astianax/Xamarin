@@ -19,7 +19,19 @@ namespace RescueMe.Droid.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Profile);
+            SetTools();
             // Create your application here
+
+
+            //Controls
+            var btnCars = FindViewById<ImageView>(Resource.Id.btnCars);
+            btnCars.Click += btnCars_click;
+        }
+
+        private void btnCars_click(object sender, EventArgs e)
+        {
+
+            StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
         }
     }
 }

@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "DirectoryActivity")]
+    [Activity(Label = "DirectoryActivity", NoHistory = true)]
     public class DirectoryActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

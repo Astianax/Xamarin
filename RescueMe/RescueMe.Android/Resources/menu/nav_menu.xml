@@ -11,27 +11,32 @@
 
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <group android:id="@+id/group_feature" android:checkableBehavior="single">
+  <group android:id="@+id/group_feature" android:checkableBehavior="none">
      <item  android:id="@+id/nav_profile"
             android:checked="true"
-            android:title="Perfil"/>
+            android:title="Perfil"            
+            android:icon="@drawable/ic_profile"/>
     
     <item android:id="@+id/nav_rescue"
-          android:title="Mis Rescates"/>
+          android:title="Mis Rescates"
+          android:icon="@drawable/ic_rescue"/>
     
     <item android:id="@+id/nav_directory"
-          android:title="Mi Directorio"/>
+          android:title="Mi Directorio"
+          android:icon="@drawable/ic_directory"/>
 
 
   </group>
   
-    <group android:id="@+id/group_settings"  android:checkableBehavior="single">
+    <group android:id="@+id/group_settings"  android:checkableBehavior="none">
       
       <item android:id="@+id/nav_about"
-           android:title="Acerca De"/>
+           android:title="Acerca De"
+           android:icon="@drawable/ic_info"/>
       
       <item android:id="@+id/nav_logOut"
-            android:title="Salir"/>
+            android:title="Salir"
+            android:icon="@drawable/ic_exit"/>
   </group>
 </menu>
 

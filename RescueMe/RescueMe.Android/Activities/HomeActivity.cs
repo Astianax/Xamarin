@@ -52,6 +52,7 @@ namespace RescueMe.Droid.Activities
         {
             var menuItem = e.MenuItem;
             menuItem.SetChecked(!menuItem.IsChecked);
+            drawerLayout.CloseDrawer(GravityCompat.Start);
             Intent intent;
             switch (menuItem.ItemId)
             {
@@ -78,5 +79,12 @@ namespace RescueMe.Droid.Activities
             }
         }
 
+
+
+        public override void OnBackPressed()
+        {
+            drawerLayout.CloseDrawer(GravityCompat.Start);
+            return;
+        }
     }
 }
