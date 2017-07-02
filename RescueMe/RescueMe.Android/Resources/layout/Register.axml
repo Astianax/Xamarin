@@ -1,66 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:layout_width="wrap_content"
     android:minWidth="25px"
-    android:minHeight="25px"
-    android:layout_width="wrap_content">
-  <include layout="@layout/ToolBar" />
-  <TextView android:id="@+id/titleText"
-            android:text="Registro"
-            android:layout_width="0dp"
-            android:layout_height="0dp"/>
-    <EditText
-        android:inputType="textEmailAddress"
+    android:minHeight="25px">
+    <include
+        layout="@layout/ToolBar" />
+    <TextView
+        android:id="@+id/titleText"
+        android:text="Registro"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/emailLayout"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:id="@+id/emailRegister"
-        android:hint="Email"
-        android:textSize="16dp"
-        android:layout_width="300dp"
-        android:layout_marginLeft="30dp" />
-    <EditText
-        android:inputType="text"
+        android:layout_width="278.0dp"
+        android:layout_below="@id/titleText"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="100dp">
+        <android.support.design.widget.TextInputEditText
+            android:inputType="textEmailAddress"
+            android:layout_width="278.0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEmail"
+            android:hint="Email" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/nameLayout"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_below="@id/emailRegister"
-        android:id="@+id/nameRegister"
-        android:hint="Nombre Completo"
-        android:textSize="16dp"
-        android:layout_width="300dp"
-        android:layout_marginTop="10dp" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="300dp"
+        android:layout_width="278.0dp"
+        android:layout_below="@id/emailLayout"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp">
+        <android.support.design.widget.TextInputEditText
+            android:inputType="text"
+            android:layout_width="278.0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtName"
+            android:hint="Nombre Completo" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordLayout"
+        android:layout_width="278.0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/passwordRegister"
-        android:layout_below="@id/nameRegister"
-        android:layout_marginLeft="30dp"
-        android:hint="Contraseña"
-        android:textSize="16dp"
-        android:layout_marginTop="10dp" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="300dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/nameLayout"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp">
+        <android.support.design.widget.TextInputEditText
+            android:inputType="textPassword"
+            android:layout_width="278.0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emaiLayout"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtPassword"
+            android:hint="Contraseña" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordConfirmLayout"
+        android:layout_width="278.0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/passwordConfirmRegister"
-        android:layout_below="@id/passwordRegister"
-        android:layout_marginLeft="30dp"
-        android:hint="Confirmar Contraseña"
-        android:textSize="16dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginRight="30dp"
+        android:layout_below="@id/passwordLayout"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp">
+        <android.support.design.widget.TextInputEditText
+            android:inputType="textPassword"
+            android:layout_width="278.0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/passwordLayout"
+            android:layout_marginTop="20dp"
+            android:id="@+id/txtPasswordConfirm"
+            android:hint="Confirmar Contraseña" />
+    </android.support.design.widget.TextInputLayout>
     <Button
+        android:text="Registrarme"
+        android:layout_height="40dp"
+        android:id="@+id/btnRegister"
+        android:layout_marginRight="100dp"
+        android:layout_below="@id/passwordConfirmLayout"
+        android:capitalize="words"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:layout_marginTop="50dp"
+        android:layout_width="300dp"
+        android:layout_marginLeft="50dp"
+        android:background="@color/main_color"
+        android:textColor="@android:color/background_light"
+        android:layout_marginBottom="15dp"
+        android:textSize="16dp" />
+<!--<Button
         android:text="Registrarme"
         android:layout_height="wrap_content"
         android:id="@+id/btnRegister"
         android:layout_marginRight="100dp"
-        android:layout_below="@id/passwordConfirmRegister"
+        android:layout_below="@id/passwordConfirmLayout"
         android:capitalize="words"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
         android:layout_marginTop="40dp"
         android:layout_width="300dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="40dp"
         android:background="@color/main_color"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/background_light" />-->
 </RelativeLayout>

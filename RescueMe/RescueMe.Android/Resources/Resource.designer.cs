@@ -1981,8 +1981,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f06001f
 			public const int always = 2131099679;
 			
-			// aapt resource value: 0x7f0600a8
-			public const int back = 2131099816;
+			// aapt resource value: 0x7f0600a7
+			public const int back = 2131099815;
 			
 			// aapt resource value: 0x7f06001c
 			public const int beginning = 2131099676;
@@ -1999,8 +1999,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f060081
 			public const int btnLogin = 2131099777;
 			
-			// aapt resource value: 0x7f0600a7
-			public const int btnRegister = 2131099815;
+			// aapt resource value: 0x7f0600a6
+			public const int btnRegister = 2131099814;
 			
 			// aapt resource value: 0x7f0600a2
 			public const int btnSave = 2131099810;
@@ -2084,7 +2084,7 @@ namespace RescueMe.Droid
 			public const int emaiLayout = 2131099773;
 			
 			// aapt resource value: 0x7f0600a3
-			public const int emailRegister = 2131099811;
+			public const int emailLayout = 2131099811;
 			
 			// aapt resource value: 0x7f06001d
 			public const int end = 2131099677;
@@ -2119,11 +2119,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f060039
 			public const int @fixed = 2131099705;
 			
-			// aapt resource value: 0x7f0600aa
-			public const int group_feature = 2131099818;
+			// aapt resource value: 0x7f0600a9
+			public const int group_feature = 2131099817;
 			
-			// aapt resource value: 0x7f0600ae
-			public const int group_settings = 2131099822;
+			// aapt resource value: 0x7f0600ad
+			public const int group_settings = 2131099821;
 			
 			// aapt resource value: 0x7f060005
 			public const int home = 2131099653;
@@ -2194,23 +2194,20 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f06009b
 			public const int nameLayout = 2131099803;
 			
-			// aapt resource value: 0x7f0600a4
-			public const int nameRegister = 2131099812;
-			
-			// aapt resource value: 0x7f0600af
-			public const int nav_about = 2131099823;
-			
-			// aapt resource value: 0x7f0600ad
-			public const int nav_directory = 2131099821;
-			
-			// aapt resource value: 0x7f0600b0
-			public const int nav_logOut = 2131099824;
-			
-			// aapt resource value: 0x7f0600ab
-			public const int nav_profile = 2131099819;
+			// aapt resource value: 0x7f0600ae
+			public const int nav_about = 2131099822;
 			
 			// aapt resource value: 0x7f0600ac
-			public const int nav_rescue = 2131099820;
+			public const int nav_directory = 2131099820;
+			
+			// aapt resource value: 0x7f0600af
+			public const int nav_logOut = 2131099823;
+			
+			// aapt resource value: 0x7f0600aa
+			public const int nav_profile = 2131099818;
+			
+			// aapt resource value: 0x7f0600ab
+			public const int nav_rescue = 2131099819;
 			
 			// aapt resource value: 0x7f060079
 			public const int nav_view = 2131099769;
@@ -2233,14 +2230,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f060047
 			public const int parentPanel = 2131099719;
 			
-			// aapt resource value: 0x7f0600a6
-			public const int passwordConfirmRegister = 2131099814;
+			// aapt resource value: 0x7f0600a4
+			public const int passwordConfirmLayout = 2131099812;
 			
 			// aapt resource value: 0x7f06007f
 			public const int passwordLayout = 2131099775;
-			
-			// aapt resource value: 0x7f0600a5
-			public const int passwordRegister = 2131099813;
 			
 			// aapt resource value: 0x7f06002a
 			public const int pin = 2131099690;
@@ -2395,8 +2389,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f060044
 			public const int title = 2131099716;
 			
-			// aapt resource value: 0x7f0600a9
-			public const int titleID = 2131099817;
+			// aapt resource value: 0x7f0600a8
+			public const int titleID = 2131099816;
 			
 			// aapt resource value: 0x7f060073
 			public const int titleText = 2131099763;
@@ -2430,6 +2424,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f060080
 			public const int txtPassword = 2131099776;
+			
+			// aapt resource value: 0x7f0600a5
+			public const int txtPasswordConfirm = 2131099813;
 			
 			// aapt resource value: 0x7f060086
 			public const int type = 2131099782;
