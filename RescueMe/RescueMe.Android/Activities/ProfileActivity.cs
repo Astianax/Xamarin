@@ -72,12 +72,21 @@ namespace RescueMe.Droid.Activities
                 nameLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
+            else
+            {
+                nameLayout.ErrorEnabled = false;
+            }
 
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 passwordLayout.ErrorEnabled = true;
                 passwordLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
+            }
+            else
+            {
+                passwordLayout.ErrorEnabled = false;
+
             }
 
 
@@ -102,14 +111,14 @@ namespace RescueMe.Droid.Activities
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
 
-                updatedProfile = (bool)_client.Post("Authentication/Update", userProfile).Result;
-
-
 
                 new Thread(new ThreadStart(delegate
                 {
                     //LOAD METHOD TO GET ACCOUNT INFO
-             
+
+                    
+                    updatedProfile = bool.Parse(_client.Post("Authentication/Update", userProfile).Result.ToString());
+
                     if (updatedProfile != false)
                     {
                         Snackbar.Make(passwordLayout, "Perfil Actualizado", Snackbar.LengthLong)
@@ -118,10 +127,6 @@ namespace RescueMe.Droid.Activities
                               .SetDuration(4000)
                               .SetActionTextColor(Android.Graphics.Color.Orange)
                               .Show();
-
-
-                        //Intent intent = new Intent(this, typeof(HomeActivity));
-                        //StartActivity(intent);
                     }
                     else
                     {
@@ -132,7 +137,10 @@ namespace RescueMe.Droid.Activities
                                 .Show();
                     }
                     //HIDE PROGRESS DIALOG
-                    RunOnUiThread(() => progressDialog.Hide());
+                    RunOnUiThread(() => {
+                        progressDialog.Hide();
+
+                    });
 
                 })).Start();
 

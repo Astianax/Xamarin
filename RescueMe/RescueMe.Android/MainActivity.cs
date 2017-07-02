@@ -16,7 +16,7 @@ using RescueMe.Droid.Data;
 
 namespace RescueMe.Droid
 {
-    [Activity(Label = "RescueMe.Android", Icon = "@drawable/icon", MainLauncher = true)]
+    [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true)]
     //[Activity(Label = "Leftdrawerlayout", Theme = "@style/Theme.DesignDemo", MainLauncher = true, Icon = "@drawable/icon")]
 
     public class MainActivity : BaseActivity
@@ -34,8 +34,8 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            StartActivity(new Intent(Application.Context, typeof(RegisterActivity)));
-            //SetContentView(Resource.Layout.Login);
+            StartActivity(new Intent(Application.Context, typeof(ProfileActivity)));
+            // SetContentView(Resource.Layout.Login);
             //if (_context.GetUser() == null)
             //{
             //    SetContentView(Resource.Layout.Login);
@@ -71,13 +71,21 @@ namespace RescueMe.Droid
                 emailLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
+            else
+            {
+                emailLayout.ErrorEnabled = false;
+            }
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 passwordLayout.ErrorEnabled = true;
                 passwordLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
-            
+            else
+            {
+                passwordLayout.ErrorEnabled = false;
+            }
+
             if (valid)
             {
                 UserProfile user = null;
@@ -104,7 +112,7 @@ namespace RescueMe.Droid
                             Email = user.Email,
                             Id = user.Id,
                             FullName = user.Name,
-                            Password=user.User.PassworDigest
+                            Password = user.User.PassworDigest
                         });
                         //Save Vehicles
 
