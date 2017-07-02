@@ -12,6 +12,7 @@ using RescueMe.Domain;
 using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
 using System.Threading;
+using RescueMe.Droid.Data;
 
 namespace RescueMe.Droid
 {
@@ -33,12 +34,18 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-              SetContentView(Resource.Layout.Login);
-            // StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-
-            //Controls
-            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += BtnLogin_Click;
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                //Controls
+                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                btnLogin.Click += BtnLogin_Click;
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
+        
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -71,7 +78,7 @@ namespace RescueMe.Droid
             else
             {
                 userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-                userViewModel.password = "helo123456";//txtPassword.Text.ToString();
+                userViewModel.password = "hello123456";//txtPassword.Text.ToString();
                 userViewModel.platform = "web";
                 valid = true;
             }
@@ -92,6 +99,15 @@ namespace RescueMe.Droid
 
                     if (user != null)
                     {
+                        //Save Database
+                        _context.Save<UserSaved>(new UserSaved()
+                        {
+                            Email = user.Email,
+                            Id = user.Id,
+                            FullName = user.Name
+                        });
+                        //Save Vehicles
+
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }
@@ -111,10 +127,5 @@ namespace RescueMe.Droid
             }
 
         }
-
-
-
-
-
     }
 }

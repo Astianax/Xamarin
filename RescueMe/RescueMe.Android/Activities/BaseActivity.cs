@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Support.V7.App;
+using RescueMe.Droid.Data;
 
 namespace RescueMe.Droid.Activities
 {
@@ -17,9 +18,11 @@ namespace RescueMe.Droid.Activities
     public class BaseActivity : AppCompatActivity
     {
         protected RestClient _client;
+        protected DbContext _context;
         public BaseActivity()
         {
             _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
+            _context = DbContext.Instance;
         }
 
         protected void SetTools()
