@@ -33,12 +33,12 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-              SetContentView(Resource.Layout.Login);
-            // StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+              //SetContentView(Resource.Layout.Login);
+            StartActivity(new Intent(Application.Context, typeof(ProfileActivity)));
 
             //Controls
-            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += BtnLogin_Click;
+            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //btnLogin.Click += BtnLogin_Click;
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
@@ -62,23 +62,20 @@ namespace RescueMe.Droid
                 emailLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
-            else if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 passwordLayout.ErrorEnabled = true;
                 passwordLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
-            else
-            {
-                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-                userViewModel.password = "helo123456";//txtPassword.Text.ToString();
-                userViewModel.platform = "web";
-                valid = true;
-            }
-
+            
             if (valid)
             {
                 UserProfile user = null;
+                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
+                userViewModel.password = "helo123456";//txtPassword.Text.ToString();
+                userViewModel.platform = "web";
+
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
                 progressDialog.Indeterminate = true;

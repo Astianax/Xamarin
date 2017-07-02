@@ -89,108 +89,22 @@
                     android:id="@+id/txtPassword"
                     android:hint="Contraseña" />
             </android.support.design.widget.TextInputLayout>
-        <!--<TextView
-                android:text="Nombre Completo"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line"
-                android:layout_marginTop="50dp"
-                android:id="@+id/lblName"
-                android:layout_marginLeft="25dp"
-                android:textSize="16dp"
-                android:textStyle="normal" />
-            <EditText
-                android:inputType="text"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_below="@id/lblName"
-                android:id="@+id/txtName"
-                android:textSize="16dp"
-                android:layout_width="300dp"
-                android:layout_marginTop="0dp" />
-            <TextView
-                android:text="Cédula"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtName"
-                android:layout_marginTop="10dp"
-                android:id="@+id/lblCedula"
-                android:layout_marginLeft="25dp"
-                android:textSize="16dp"
-                android:textStyle="normal" />
-            <EditText
-                android:inputType="text"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_below="@id/lblCedula"
-                android:id="@+id/txtCedula"
-                android:textSize="16dp"
-                android:layout_width="300dp"
-                android:layout_marginTop="0dp" />
-            <TextView
-                android:text="Teléfono"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtCedula"
-                android:layout_marginTop="10dp"
-                android:id="@+id/lblTelefono"
-                android:layout_marginLeft="25dp"
-                android:textSize="16dp"
-                android:textStyle="normal" />
-            <EditText
-                android:inputType="text"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_below="@id/lblTelefono"
-                android:id="@+id/txtTelefono"
-                android:textSize="16dp"
-                android:layout_width="300dp"
-                android:layout_marginTop="0dp" />
-            <TextView
-                android:text="Contraseña"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtTelefono"
-                android:layout_marginTop="10dp"
-                android:id="@+id/lblPassword"
-                android:layout_marginLeft="25dp"
-                android:textSize="16dp"
-                android:textStyle="normal" />
-            <EditText
-                android:inputType="textPassword"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_below="@id/lblPassword"
-                android:id="@+id/txtPassword"
-                android:textSize="16dp"
-                android:layout_width="300dp"
-                android:layout_marginTop="0dp" />
-            <ImageView
-                android:src="@drawable/line"
-                android:layout_width="match_parent"
-                android:layout_height="26.0dp"
-                android:layout_below="@id/txtPassword"
-                android:id="@+id/line2"
-                android:layout_marginBottom="0.0dp"
-                android:layout_marginRight="13.5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp" />-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/passwordLayout"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="30dp"
                 android:id="@+id/lblcars"
                 android:text="Mis Vehículos"
                 android:layout_marginLeft="25dp"
                 android:textStyle="bold"
                 android:textSize="16dp" />
             <ImageView
-                android:src="@drawable/arrowright"
+                android:src="@drawable/next"
                 android:layout_width="30dp"
                 android:layout_toRightOf="@id/lblcars"
                 android:layout_below="@id/passwordLayout"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="30dp"
                 android:id="@+id/btnCars"
                 android:layout_marginLeft="200dp"
                 android:layout_marginRight="15dp"
