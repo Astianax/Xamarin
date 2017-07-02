@@ -69,23 +69,20 @@ namespace RescueMe.Droid
                 emailLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
-            else if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 passwordLayout.ErrorEnabled = true;
                 passwordLayout.Error = GetString(Resource.String.required_error_message);
                 valid = false;
             }
-            else
-            {
-                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-                userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-                userViewModel.platform = "web";
-                valid = true;
-            }
-
+            
             if (valid)
             {
                 UserProfile user = null;
+                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
+                userViewModel.password = "hello123456";//txtPassword.Text.ToString();
+                userViewModel.platform = "web";
+
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
                 progressDialog.Indeterminate = true;

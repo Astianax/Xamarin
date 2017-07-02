@@ -1899,11 +1899,14 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f020059
 			public const int menu = 2130837593;
 			
-			// aapt resource value: 0x7f02005b
-			public const int notification_template_icon_bg = 2130837595;
-			
 			// aapt resource value: 0x7f02005a
-			public const int sos = 2130837594;
+			public const int next = 2130837594;
+			
+			// aapt resource value: 0x7f02005c
+			public const int notification_template_icon_bg = 2130837596;
+			
+			// aapt resource value: 0x7f02005b
+			public const int sos = 2130837595;
 			
 			static Drawable()
 			{
