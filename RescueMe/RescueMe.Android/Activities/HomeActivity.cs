@@ -13,14 +13,24 @@ using Android.Support.V4.Widget;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using RescueMe.Droid.Data;
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
+using Android.Locations;
+using Android.Util;
 
 namespace RescueMe.Droid.Activities
 {
     [Activity(Label = "HomeActivity")]
-    public class HomeActivity : BaseActivity
+    public class HomeActivity : BaseActivity, IOnMapReadyCallback, ILocationListener
     {
         DrawerLayout drawerLayout;
         NavigationView navigationView;
+
+        private GoogleMap mMap;
+        LocationManager locationManager;
+        string _provider;
+        Location currentLocation = new Location("gps");
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -54,13 +64,94 @@ namespace RescueMe.Droid.Activities
 
 
 
+        public void GetLocation()
+        {
+
+
+            locationManager = (LocationManager)GetSystemService(LocationService);
+            Criteria criteriaForLocationService = new Criteria()
+            {
+                Accuracy = Accuracy.Fine,
+                PowerRequirement = Power.Medium
+            };
+            _provider = locationManager.GetBestProvider(criteriaForLocationService, true);
+
+            currentLocation = locationManager.GetLastKnownLocation(_provider);
+            locationManager.RequestLocationUpdates(_provider, 0, 0, this);
+            SetUpMap();
+        }
+
+
+
+        private void SetUpMap()
+        {
+            if (mMap == null)
+            {
+                FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
+            }
+        }
+
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            mMap = googleMap;
+            LatLng latlng = new LatLng(0, 0);
+
+            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
+            MarkerOptions markerOptions = new MarkerOptions()
+                                                 .SetPosition(latlng)
+                                                 .SetTitle("My Position");
+
+
+            mMap.AddMarker(markerOptions);
+            mMap.UiSettings.ZoomControlsEnabled = true;
+            mMap.UiSettings.CompassEnabled = true;
+            mMap.MoveCamera(camera);
+            //mMap.MoveCamera(CameraUpdateFactory.ZoomIn());
+        }
+
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            //locationManager.RequestLocationUpdates(_provider, 0, 0, this);
+        }
+
+        //doesn't need location updates while its Activity is not on the screen
+        protected override void OnPause()
+        {
+            base.OnPause();
+            if (locationManager != null)
+            {
+                locationManager.RemoveUpdates(this);
+
+            }
+        }
 
 
 
 
 
+        // ILocationListener interface Implementation
+        public void OnLocationChanged(Location locationUpdated)
+        {
+            currentLocation.Latitude = locationUpdated.Latitude;
+            currentLocation.Longitude = locationUpdated.Longitude;
+        }
 
+        public void OnProviderDisabled(string provider)
+        {
+            Log.Info("", provider + " is not available. Does the device have location services enabled?");
+        }
 
+        public void OnProviderEnabled(string provider)
+        {
+
+        }
+
+        public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
+        {
+            throw new NotImplementedException();
+        }
 
 
 
