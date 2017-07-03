@@ -17,6 +17,9 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.Util;
+using System.Threading.Tasks;
+using Android;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
@@ -42,27 +45,55 @@ namespace RescueMe.Droid.Activities
             menu.Click += menu_Click;
             navigationView.NavigationItemSelected += NavigationItemSelected;
 
+            TryGetLocationAsync();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
 
         }
 
 
+
+        async Task TryGetLocationAsync()
+        {
+            if ((int)Build.VERSION.SdkInt < 23)
+            {
+                GetLocation();
+                return;
+            }
+            else
+            {
+
+                SetUp();
+                GetLocation();
+
+            }
+        }
+
+
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+
+            //var message = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.message);
+            switch (requestCode)
+            {
+                case 0:
+                    {
+                        if (grantResults[0] == Permission.Granted)
+                        {
+                            //Permission granted :)
+                            GetLocation();
+                        }
+                        else
+                        {
+                            //Permission Denied :( :(
+                            //Disabling location functionality
+                            //var snack = Snackbar.Make(message, "No se puede Ubicar por los permisos negados...", Snackbar.LengthIndefinite);
+                            //snack.Show();
+                        }
+                    }
+                    break;
+            }
+        }
 
         public void GetLocation()
         {
@@ -77,9 +108,17 @@ namespace RescueMe.Droid.Activities
             _provider = locationManager.GetBestProvider(criteriaForLocationService, true);
 
             currentLocation = locationManager.GetLastKnownLocation(_provider);
-            locationManager.RequestLocationUpdates(_provider, 0, 0, this);
+            //locationManager.RequestLocationUpdates(_provider, 0, 0, this);
+            if (currentLocation == null)
+            {
+                //Santo Domingo by Default
+                currentLocation.Longitude = 18.5;
+                currentLocation.Latitude = -69.983333;
+            }
+
             SetUpMap();
         }
+
 
 
 
@@ -94,7 +133,7 @@ namespace RescueMe.Droid.Activities
         public void OnMapReady(GoogleMap googleMap)
         {
             mMap = googleMap;
-            LatLng latlng = new LatLng(0, 0);
+            LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
 
             CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
             MarkerOptions markerOptions = new MarkerOptions()
@@ -113,7 +152,7 @@ namespace RescueMe.Droid.Activities
         protected override void OnResume()
         {
             base.OnResume();
-            //locationManager.RequestLocationUpdates(_provider, 0, 0, this);
+            locationManager.RequestLocationUpdates(_provider, 0, 0, this);
         }
 
         //doesn't need location updates while its Activity is not on the screen
@@ -176,7 +215,7 @@ namespace RescueMe.Droid.Activities
             if (drawerLayout.IsDrawerOpen(GravityCompat.Start))
             {
                 drawerLayout.CloseDrawer(GravityCompat.Start);
-              
+
             }
             else
             {
@@ -234,3 +273,13 @@ namespace RescueMe.Droid.Activities
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
