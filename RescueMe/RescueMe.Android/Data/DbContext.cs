@@ -52,11 +52,13 @@ namespace RescueMe.Droid.Data
             {
                 var userSaved = _connection.Table<UserSaved>().CountAsync().Result;
                 var vehicleSaved = _connection.Table<Vehicle>().CountAsync().Result;
+                var SettingSaved = _connection.Table<Settings>().CountAsync().Result;
             }
             catch (Exception e)
             {
                 _connection.CreateTableAsync<UserSaved>().Wait();
                 _connection.CreateTableAsync<Vehicle>().Wait();
+                _connection.CreateTableAsync<Settings>().Wait();
             }
         }
 
@@ -84,6 +86,21 @@ namespace RescueMe.Droid.Data
                 CreateDatabase();
             }
             return null;
+        }
+
+        public Settings GetSettings()
+        {
+            Settings setting = null;
+            try
+            {
+                 setting = _connection.Table<Settings>().FirstOrDefaultAsync().Result;
+              
+            }
+            catch(Exception e)
+            {
+                CreateDatabase();
+            }
+            return setting;
         }
         public void Save<T>(T model)
         {

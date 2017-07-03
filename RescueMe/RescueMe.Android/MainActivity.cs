@@ -13,6 +13,7 @@ using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
 using System.Threading;
 using RescueMe.Droid.Data;
+using Android;
 
 namespace RescueMe.Droid
 {
@@ -34,22 +35,47 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
+            //StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
+          
             // SetContentView(Resource.Layout.Login);
-            //if (_context.GetUser() == null)
-            //{
-            //    SetContentView(Resource.Layout.Login);
-            //    //Controls
-            //    var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //    btnLogin.Click += BtnLogin_Click;
-            //}
-            //else
-            //{
-            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            //}
-
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                //Controls
+                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                btnLogin.Click += BtnLogin_Click;
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
+            SetUp();
         }
 
+        private void SetUp()
+        {
+            var permissitionStatus = ShouldShowRequestPermissionRationale(Manifest.Permission.AccessFineLocation);
+            var settings = _context.GetSettings();
+
+            string[] PermissionsLocation =
+            {
+                Manifest.Permission.AccessCoarseLocation,
+                Manifest.Permission.AccessFineLocation
+            };
+
+            if (settings != null)
+            {
+                RequestPermissions(PermissionsLocation, 0);
+                _context.Save(new Settings()
+                {
+                    LocationPermission = true
+                });
+            }else if (permissitionStatus)
+            {
+                RequestPermissions(PermissionsLocation, 0);
+            }
+
+        }
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             bool valid = true;

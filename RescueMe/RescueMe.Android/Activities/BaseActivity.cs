@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V7.App;
 using RescueMe.Droid.Data;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
@@ -41,6 +42,32 @@ namespace RescueMe.Droid.Activities
         protected void btnBack_click(object sender, EventArgs e)
         {
             this.Finish();
+        }
+
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            //switch (requestCode)
+            //{
+            //    case 0:
+            //        {
+            //            if (grantResults[0] == Permission.Granted)
+            //            {
+            //                //Permission granted
+            //                var snack = Snackbar.Make(message, "Location permission is available, getting lat/long.", Snackbar.LengthShort);
+            //                snack.Show();
+
+            //                //GetLocation();
+            //            }
+            //            else
+            //            {
+            //                //Permission Denied :(
+            //                //Disabling location functionality
+            //                var snack = Snackbar.Make(message, "Location permission is denied.", Snackbar.LengthShort);
+            //                snack.Show();
+            //            }
+            //        }
+            //        break;
+            //}
         }
     }
 }

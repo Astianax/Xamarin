@@ -31,9 +31,54 @@ namespace RescueMe.Droid.Activities
 
             menu.Click += menu_Click;
             navigationView.NavigationItemSelected += NavigationItemSelected;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void menu_Click(object sender, EventArgs e)
         {

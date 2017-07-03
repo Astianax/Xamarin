@@ -86,6 +86,7 @@
     <Compile Include="Activities\RescueActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Data\DbContext.cs" />
+    <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\UserSaved.cs" />
     <Compile Include="Data\Vehicle.cs" />
     <Compile Include="MainActivity.cs" />
