@@ -4,5 +4,7 @@
 	<string name="app_name">RescueMe.Android</string>
   <string name="required_error_message">Requerido</string>
   <string name="password_not_match">Contraseña Inválida</string>
+  <string name="GoogleKey">AIzaSyB-zofuZrnaB8Q0h692Qq3s3vfonmIrAbk</string>
+
 </resources>
 

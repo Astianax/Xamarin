@@ -12,6 +12,7 @@ using Android.Widget;
 using Android.Support.V7.App;
 using RescueMe.Droid.Data;
 using Android.Content.PM;
+using Android;
 
 namespace RescueMe.Droid.Activities
 {
@@ -42,6 +43,33 @@ namespace RescueMe.Droid.Activities
         protected void btnBack_click(object sender, EventArgs e)
         {
             this.Finish();
+        }
+
+        protected void SetUp()
+        {
+            var permissitionStatus = ShouldShowRequestPermissionRationale(Manifest.Permission.AccessFineLocation);
+            var settings = _context.GetSettings();
+
+            string[] PermissionsLocation =
+            {
+                Manifest.Permission.AccessCoarseLocation,
+                Manifest.Permission.AccessFineLocation
+            };
+
+            if (settings == null)
+            {
+
+                RequestPermissions(PermissionsLocation, 0);
+                _context.Save(new Settings()
+                {
+                    LocationPermission = true
+                });
+            }
+            else if (permissitionStatus)
+            {
+                RequestPermissions(PermissionsLocation, 0);
+            }
+
         }
 
         public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

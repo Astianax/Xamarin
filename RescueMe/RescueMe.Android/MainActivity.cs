@@ -14,6 +14,7 @@ using Android.Support.Design.Widget;
 using System.Threading;
 using RescueMe.Droid.Data;
 using Android;
+using Android.Support.V4.App;
 
 namespace RescueMe.Droid
 {
@@ -52,30 +53,7 @@ namespace RescueMe.Droid
             SetUp();
         }
 
-        private void SetUp()
-        {
-            var permissitionStatus = ShouldShowRequestPermissionRationale(Manifest.Permission.AccessFineLocation);
-            var settings = _context.GetSettings();
 
-            string[] PermissionsLocation =
-            {
-                Manifest.Permission.AccessCoarseLocation,
-                Manifest.Permission.AccessFineLocation
-            };
-
-            if (settings != null)
-            {
-                RequestPermissions(PermissionsLocation, 0);
-                _context.Save(new Settings()
-                {
-                    LocationPermission = true
-                });
-            }else if (permissitionStatus)
-            {
-                RequestPermissions(PermissionsLocation, 0);
-            }
-
-        }
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             bool valid = true;
