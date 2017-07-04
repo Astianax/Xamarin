@@ -40,28 +40,29 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            //StartActivity(new Intent(Application.Context, typeof(ProfileActivity)));
 
             //SetContentView(Resource.Layout.Profile);
             //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             //btnLogin.Click += BtnLogin_Click;
             //var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
             //linkRegister.Click += linkRegister_click;
-            //if (_context.GetUser() == null)
-            //{
-            //    SetContentView(Resource.Layout.Login);
-            //    //Controls
-            //    var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-            //    btnLogin.Click += BtnLogin_Click;
-            //    linkRegister.Click += linkRegister_click;
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                //Controls
+                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+                btnLogin.Click += BtnLogin_Click;
+                linkRegister.Click += linkRegister_click;
 
-            //    SetUp();
-            //}
-            //else
-            //{
-            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            //}
+                SetUp();
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
+
         }
 
 
@@ -93,7 +94,7 @@ namespace RescueMe.Droid
             }
             else
             {
-                if (!ValidEmail(txtEmail.Text))
+                if (!txtEmail.Text.IsValidEmail())
                 {
                     emailLayout.ErrorEnabled = true;
                     emailLayout.Error = GetString(Resource.String.invalid_email);

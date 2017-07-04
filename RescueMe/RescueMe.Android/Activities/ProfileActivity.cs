@@ -84,7 +84,7 @@ namespace RescueMe.Droid.Activities
 
             if (!string.IsNullOrWhiteSpace(txtCedula.Text))
             {
-                if (!Regex.Match(txtCedula.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success)
+                if (!txtCedula.Text.IsValidIdCard())
                 {
                     cedulaLayout.ErrorEnabled = true;
                     cedulaLayout.Error = GetString(Resource.String.invalid_idCard);
@@ -96,16 +96,21 @@ namespace RescueMe.Droid.Activities
                 }
              
             }
-            
 
+            if (!string.IsNullOrWhiteSpace(txTelefono.Text))
+            {
+                if (!txTelefono.Text.IsPhoneNumber())
+                {
+                    telefonoLayout.ErrorEnabled = true;
+                    telefonoLayout.Error = GetString(Resource.String.invalid_telephone);
+                    valid = false;
+                }
+                else
+                {
+                    telefonoLayout.ErrorEnabled = false;
+                }
 
-
-
-
-
-
-
-
+            }
 
 
 

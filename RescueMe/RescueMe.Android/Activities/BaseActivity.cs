@@ -104,19 +104,5 @@ namespace RescueMe.Droid.Activities
         //}
 
 
-
-        protected bool ValidEmail (string email)
-        {
-            return Regex.Match(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success;
-        }
-
-
-
-
-
-
-
-
-
     }
 }

@@ -67,6 +67,7 @@ namespace RescueMe.Droid.Activities
         {
             bool valid = true;
 
+            //Nombre
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
                 nameLayout.ErrorEnabled = true;
@@ -77,6 +78,8 @@ namespace RescueMe.Droid.Activities
             {
                 nameLayout.ErrorEnabled = false;
             }
+
+            //Email
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 emailLayout.ErrorEnabled = true;
@@ -85,8 +88,19 @@ namespace RescueMe.Droid.Activities
             }
             else
             {
-                emailLayout.ErrorEnabled = false;
+                if (!txtEmail.Text.IsValidEmail())
+                {
+                    emailLayout.ErrorEnabled = true;
+                    emailLayout.Error = GetString(Resource.String.invalid_email);
+                    valid = false;
+                }
+                else
+                {
+                    emailLayout.ErrorEnabled = false;
+                }
             }
+
+            //Password
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 passwordLayout.ErrorEnabled = true;
@@ -97,6 +111,8 @@ namespace RescueMe.Droid.Activities
             {
                 passwordLayout.ErrorEnabled = false;
             }
+
+            //password match
             if (string.IsNullOrWhiteSpace(txtPasswordConfirm.Text))
             {
                 passwordConfirmLayout.ErrorEnabled = true;
@@ -121,7 +137,7 @@ namespace RescueMe.Droid.Activities
             if (valid)
             {
                 UserProfile userProfile = new UserProfile();
-                User user =null;
+                User user = null;
                 bool userCreated;
 
                 userProfile.Name = txtName.Text;
@@ -135,8 +151,8 @@ namespace RescueMe.Droid.Activities
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
+                var message = "";
 
-                
 
 
 
@@ -151,8 +167,8 @@ namespace RescueMe.Droid.Activities
                     }
                     catch (Exception ex)
                     {
-
-                        throw new Exception(ex.Message);
+                        user = null;
+                        message = ex.Message;
                     }
 
 
@@ -173,19 +189,23 @@ namespace RescueMe.Droid.Activities
                     }
                     else
                     {
-                        Snackbar.Make(passwordLayout, "Usuario No logueado", Snackbar.LengthLong)
-                                .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
+                        Snackbar.Make(passwordLayout, message, Snackbar.LengthLong)
+                                .SetAction("OK", (v) => {
+                                    txtPassword.Text = String.Empty;
+                                    txtPasswordConfirm.Text = String.Empty;
+                                })
                                 .SetDuration(8000)
                                 .SetActionTextColor(Android.Graphics.Color.Orange)
                                 .Show();
                     }
                     //HIDE PROGRESS DIALOG
-                    RunOnUiThread(() => {
-                                    progressDialog.Hide();
-                        
+                    RunOnUiThread(() =>
+                    {
+                        progressDialog.Hide();
 
 
-                        });
+
+                    });
 
                 })).Start();
 

@@ -5,9 +5,8 @@
   <string name="required_error_message">Requerido</string>
   <string name="password_not_match">Contraseña Inválida</string>
   <string name="invalid_email">Email no válido</string>
-  <string name="invalid_idCard">Cédula Inválida</string>
-  <string name="invalid_telephone">Teléfono Inválido</string>
-  
+  <string name="invalid_idCard">Cédula Inválida Ej. ###-##########-#</string>
+  <string name="invalid_telephone">Teléfono Inválido Ej. ###-###-####</string> 
   
   
   <string name="GoogleKey">AIzaSyB-zofuZrnaB8Q0h692Qq3s3vfonmIrAbk</string>
