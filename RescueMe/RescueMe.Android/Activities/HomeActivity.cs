@@ -20,23 +20,52 @@ using Android.Util;
 using System.Threading.Tasks;
 using Android;
 using Android.Content.PM;
+using Android.Gms.Location;
+using Android.Gms.Common.Apis;
+using Android.Gms.Common;
 
 namespace RescueMe.Droid.Activities
 {
     [Activity(Label = "HomeActivity")]
-    public class HomeActivity : BaseActivity, IOnMapReadyCallback, ILocationListener
+    public class HomeActivity : BaseActivity, GoogleApiClient.IConnectionCallbacks,
+        GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener, IOnMapReadyCallback
+
+
     {
+        //UI MAp
         DrawerLayout drawerLayout;
         NavigationView navigationView;
-
         private GoogleMap mMap;
-        LocationManager locationManager;
-        string _provider;
-        Location currentLocation = new Location("gps");
 
-        protected override void OnCreate(Bundle bundle)
+        //GoogleApiClient apiClient;
+        //LocationRequest locRequest;
+
+
+        //
+        //Location currentLocation;
+        //LatLng latlng;
+
+        //Google Api Location
+        protected GoogleApiClient mGoogleApiClient;
+        protected LocationRequest mLocationRequest;
+        protected LocationSettingsRequest mLocationSettingsRequest;
+        protected Location mCurrentLocation;
+        
+        protected Boolean mRequestingLocationUpdates;
+
+        //Configuration Request
+        protected const string TAG = "location-settings";
+        protected const int REQUEST_CHECK_SETTINGS = 0x1;
+        public const long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+        public const long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+        protected const string KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
+        protected const string KEY_LOCATION = "location";
+
+
+
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Home);
             var menu = FindViewById(Resource.Id.menuIcon);
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -45,35 +74,251 @@ namespace RescueMe.Droid.Activities
             menu.Click += menu_Click;
             navigationView.NavigationItemSelected += NavigationItemSelected;
 
-            TryGetLocationAsync();
 
 
+
+            //Load values of last instance
+            UpdateValuesFromBundle(savedInstanceState);
+
+
+
+
+
+            //Settings for ApiClient G
+            BuildGoogleApiClient();
+            CreateLocationRequest();
+            BuildLocationSettingsRequest();
 
         }
+        
 
-
-
-        async Task TryGetLocationAsync()
+        void UpdateValuesFromBundle(Bundle savedInstanceState)
         {
-            if ((int)Build.VERSION.SdkInt < 23)
+            if (savedInstanceState != null)
             {
-                GetLocation();
-                return;
-            }
-            else
-            {
+                if (savedInstanceState.KeySet().Contains(KEY_REQUESTING_LOCATION_UPDATES))
+                {
+                    mRequestingLocationUpdates = savedInstanceState.GetBoolean(
+                        KEY_REQUESTING_LOCATION_UPDATES);
+                }
 
-                SetUp();
-                GetLocation();
+                if (savedInstanceState.KeySet().Contains(KEY_LOCATION))
+                {
+                    mCurrentLocation = (Location)savedInstanceState.GetParcelable(KEY_LOCATION);
+                }
+
+                UpdateLocationUI();
+            }
+        }
+
+        protected void BuildGoogleApiClient()
+        {
+            Log.Info(TAG, "Building GoogleApiClient");
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .AddConnectionCallbacks(this)
+                .AddOnConnectionFailedListener(this)
+                .AddApi(LocationServices.API)
+                .Build();
+        }
+
+        protected void CreateLocationRequest()
+        {
+            mLocationRequest = new LocationRequest();
+            mLocationRequest.SetInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+            mLocationRequest.SetFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+            mLocationRequest.SetPriority(LocationRequest.PriorityHighAccuracy);
+        }
+
+        protected void BuildLocationSettingsRequest()
+        {
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+            builder.AddLocationRequest(mLocationRequest);
+            mLocationSettingsRequest = builder.Build();
+        }
+
+        protected async Task CheckLocationSettings()
+        {
+            var result = await LocationServices.SettingsApi.CheckLocationSettingsAsync(
+                mGoogleApiClient, mLocationSettingsRequest);
+            await HandleResult(result);
+        }
+
+        void UpdateLocationUI()
+        {
+            if (mCurrentLocation != null && mMap != null)
+            {
+                mMap.Clear();
+
+                LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
+
+                CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
+                MarkerOptions markerOptions = new MarkerOptions()
+                                                     .SetPosition(latlng)
+                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
+                                                     .SetTitle("My Position");
+
+
+                mMap.AddMarker(markerOptions);
+
+
+                mMap.UiSettings.ZoomControlsEnabled = true;
+                mMap.UiSettings.CompassEnabled = true;
+                mMap.MoveCamera(camera);
+            }
+        }
+
+
+
+        public async Task HandleResult(LocationSettingsResult locationSettingsResult)
+        {
+            var status = locationSettingsResult.Status;
+            switch (status.StatusCode)
+            {
+                case CommonStatusCodes.Success:
+                    Log.Info(TAG, "All location settings are satisfied.");
+                    await StartLocationUpdates();
+                    break;
+                case CommonStatusCodes.ResolutionRequired:
+                    Log.Info(TAG, "Location settings are not satisfied. Show the user a dialog to" +
+                    "upgrade location settings ");
+
+                    try
+                    {
+                        status.StartResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                    }
+                    catch (IntentSender.SendIntentException)
+                    {
+                        Log.Info(TAG, "PendingIntent unable to execute request.");
+                    }
+                    break;
+                case LocationSettingsStatusCodes.SettingsChangeUnavailable:
+                    Log.Info(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
+                    "not created.");
+                    break;
+            }
+        }
+
+        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            switch (requestCode)
+            {
+                case REQUEST_CHECK_SETTINGS:
+                    switch (resultCode)
+                    {
+                        case Result.Ok:
+                            Log.Info(TAG, "User agreed to make required location settings changes.");
+                            await StartLocationUpdates();
+                            break;
+                        case Result.Canceled:
+                            Log.Info(TAG, "User chose not to make required location settings changes.");
+                            break;
+                    }
+                    break;
+            }
+        }
+
+
+        protected async Task StartLocationUpdates()
+        {
+            await LocationServices.FusedLocationApi.RequestLocationUpdates(
+                mGoogleApiClient,
+                mLocationRequest,
+                this
+            );
+
+            mRequestingLocationUpdates = true;
+        }
+
+
+        protected async Task StopLocationUpdates()
+        {
+            await LocationServices.FusedLocationApi.RemoveLocationUpdates(
+                    mGoogleApiClient,
+                    this
+                );
+
+            mRequestingLocationUpdates = false;
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            mGoogleApiClient.Connect();
+        }
+
+        protected override async void OnResume()
+        {
+            base.OnResume();
+            if (mGoogleApiClient.IsConnected)
+            {
+                await StartLocationUpdates();
+            }
+        }
+
+        protected override async void OnPause()
+        {
+            base.OnPause();
+            if (mGoogleApiClient.IsConnected)
+            {
+                await StopLocationUpdates();
+            }
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            mGoogleApiClient.Disconnect();
+        }
+
+        public void OnConnected(Bundle connectionHint)
+        {
+            Log.Info(TAG, "Connected to GoogleApiClient");
+            SetUp();
+
+            if (mCurrentLocation == null)
+            {
+                mCurrentLocation = LocationServices.FusedLocationApi.GetLastLocation(mGoogleApiClient);
+
+                SetUpMap();
+                if (_isAllowed)
+                {
+                    UpdateLocationUI();
+                }
+                    
 
             }
         }
+
+        public void OnConnectionSuspended(int cause)
+        {
+            Log.Info(TAG, "Connection suspended");
+        }
+
+        public void OnConnectionFailed(Android.Gms.Common.ConnectionResult result)
+        {
+            Log.Info(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.ErrorCode);
+        }
+
+        public void OnLocationChanged(Location location)
+        {
+            mCurrentLocation = location;
+            UpdateLocationUI();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutBoolean(KEY_REQUESTING_LOCATION_UPDATES, mRequestingLocationUpdates);
+            outState.PutParcelable(KEY_LOCATION, mCurrentLocation);
+            base.OnSaveInstanceState(outState);
+        }
+
+
 
 
         public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
 
-            //var message = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.message);
+            var message = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.message);
             switch (requestCode)
             {
                 case 0:
@@ -81,46 +326,23 @@ namespace RescueMe.Droid.Activities
                         if (grantResults[0] == Permission.Granted)
                         {
                             //Permission granted :)
-                            GetLocation();
+                            CheckLocationSettings();
+                            _isAllowed = true;
                         }
                         else
                         {
                             //Permission Denied :( :(
                             //Disabling location functionality
-                            //var snack = Snackbar.Make(message, "No se puede Ubicar por los permisos negados...", Snackbar.LengthIndefinite);
-                            //snack.Show();
+                            var snack = Snackbar.Make(message, "No se puede Ubicar por los permisos negados...", Snackbar.LengthIndefinite);
+                            snack.Show();
                         }
                     }
                     break;
             }
         }
 
-        public void GetLocation()
-        {
 
-
-            locationManager = (LocationManager)GetSystemService(LocationService);
-            Criteria criteriaForLocationService = new Criteria()
-            {
-                Accuracy = Accuracy.Fine,
-                PowerRequirement = Power.Medium
-            };
-            _provider = locationManager.GetBestProvider(criteriaForLocationService, true);
-
-            currentLocation = locationManager.GetLastKnownLocation(_provider);
-            //locationManager.RequestLocationUpdates(_provider, 0, 0, this);
-            if (currentLocation == null)
-            {
-                //Santo Domingo by Default
-                currentLocation.Longitude = 18.5;
-                currentLocation.Latitude = -69.983333;
-            }
-
-            SetUpMap();
-        }
-
-
-
+        
 
         private void SetUpMap()
         {
@@ -130,85 +352,13 @@ namespace RescueMe.Droid.Activities
             }
         }
 
+
         public void OnMapReady(GoogleMap googleMap)
         {
             mMap = googleMap;
-            LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
-
-            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
-            MarkerOptions markerOptions = new MarkerOptions()
-                                                 .SetPosition(latlng)
-                                                 .SetTitle("My Position");
-
-
-            mMap.AddMarker(markerOptions);
-            mMap.UiSettings.ZoomControlsEnabled = true;
-            mMap.UiSettings.CompassEnabled = true;
-            mMap.MoveCamera(camera);
-            //mMap.MoveCamera(CameraUpdateFactory.ZoomIn());
+            CheckLocationSettings();
         }
-
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            locationManager.RequestLocationUpdates(_provider, 0, 0, this);
-        }
-
-        //doesn't need location updates while its Activity is not on the screen
-        protected override void OnPause()
-        {
-            base.OnPause();
-            if (locationManager != null)
-            {
-                locationManager.RemoveUpdates(this);
-
-            }
-        }
-
-
-
-
-
-        // ILocationListener interface Implementation
-        public void OnLocationChanged(Location locationUpdated)
-        {
-            currentLocation.Latitude = locationUpdated.Latitude;
-            currentLocation.Longitude = locationUpdated.Longitude;
-        }
-
-        public void OnProviderDisabled(string provider)
-        {
-            Log.Info("", provider + " is not available. Does the device have location services enabled?");
-        }
-
-        public void OnProviderEnabled(string provider)
-        {
-
-        }
-
-        public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
         private void menu_Click(object sender, EventArgs e)
         {
@@ -273,13 +423,3 @@ namespace RescueMe.Droid.Activities
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

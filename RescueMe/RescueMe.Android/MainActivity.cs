@@ -45,12 +45,13 @@ namespace RescueMe.Droid
                 //Controls
                 var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
                 btnLogin.Click += BtnLogin_Click;
+
+                SetUp();
             }
             else
             {
                 StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
             }
-            SetUp();
         }
 
 

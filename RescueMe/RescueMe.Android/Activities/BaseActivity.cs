@@ -21,6 +21,7 @@ namespace RescueMe.Droid.Activities
     {
         protected RestClient _client;
         protected DbContext _context;
+        protected bool _isAllowed = true;
 
         public BaseActivity()
         {
@@ -64,38 +65,40 @@ namespace RescueMe.Droid.Activities
                 {
                     LocationPermission = true
                 });
+                _isAllowed = false;
             }
             else if (permissitionStatus)
             {
                 RequestPermissions(PermissionsLocation, 0);
+                _isAllowed = false;
             }
 
         }
 
-        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            //switch (requestCode)
-            //{
-            //    case 0:
-            //        {
-            //            if (grantResults[0] == Permission.Granted)
-            //            {
-            //                //Permission granted
-            //                var snack = Snackbar.Make(message, "Location permission is available, getting lat/long.", Snackbar.LengthShort);
-            //                snack.Show();
+        //public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        //{
+        //    //switch (requestCode)
+        //    //{
+        //    //    case 0:
+        //    //        {
+        //    //            if (grantResults[0] == Permission.Granted)
+        //    //            {
+        //    //                //Permission granted
+        //    //                var snack = Snackbar.Make(message, "Location permission is available, getting lat/long.", Snackbar.LengthShort);
+        //    //                snack.Show();
 
-            //                //GetLocation();
-            //            }
-            //            else
-            //            {
-            //                //Permission Denied :(
-            //                //Disabling location functionality
-            //                var snack = Snackbar.Make(message, "Location permission is denied.", Snackbar.LengthShort);
-            //                snack.Show();
-            //            }
-            //        }
-            //        break;
-            //}
-        }
+        //    //                //GetLocation();
+        //    //            }
+        //    //            else
+        //    //            {
+        //    //                //Permission Denied :(
+        //    //                //Disabling location functionality
+        //    //                var snack = Snackbar.Make(message, "Location permission is denied.", Snackbar.LengthShort);
+        //    //                snack.Show();
+        //    //            }
+        //    //        }
+        //    //        break;
+        //    //}
+        //}
     }
 }
