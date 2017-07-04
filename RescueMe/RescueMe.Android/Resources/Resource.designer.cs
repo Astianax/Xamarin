@@ -3149,8 +3149,8 @@ namespace RescueMe.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f06003d
-			public const int GoogleKey = 2131099709;
+			// aapt resource value: 0x7f06003f
+			public const int GoogleKey = 2131099711;
 			
 			// aapt resource value: 0x7f060014
 			public const int abc_action_bar_home_description = 2131099668;
@@ -3323,6 +3323,12 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f06003c
 			public const int invalid_email = 2131099708;
 			
+			// aapt resource value: 0x7f06003d
+			public const int invalid_idCard = 2131099709;
+			
+			// aapt resource value: 0x7f06003e
+			public const int invalid_telephone = 2131099710;
+			
 			// aapt resource value: 0x7f06003b
 			public const int password_not_match = 2131099707;
 			
@@ -3334,6 +3340,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f060028
 			public const int status_bar_notification_info_overflow = 2131099688;
+			
+			// aapt resource value: 0x7f060040
+			public const int style_json = 2131099712;
 			
 			static String()
 			{

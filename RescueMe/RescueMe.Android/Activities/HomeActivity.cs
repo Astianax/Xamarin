@@ -357,7 +357,23 @@ namespace RescueMe.Droid.Activities
         public void OnMapReady(GoogleMap googleMap)
         {
             mMap = googleMap;
-            CheckLocationSettings();
+            //Resource _resources;
+
+
+            bool success = mMap.SetMapStyle(new MapStyleOptions(GetString(Resource.String.style_json)));
+            //bool success = googleMap.SetMapStyle(
+            //    MapStyleOptions.LoadRawResourceStyle(
+            //            this, Resource.Raw.style_json));
+
+            if (!success)
+            {
+                Log.Info(TAG, "Style parsing failed.");
+            }
+            else
+            {
+                CheckLocationSettings();
+            }
+
         }
         
 

@@ -40,11 +40,11 @@ namespace RescueMe.Droid
             //    .Build());
 
             // Set our view from the "main" layout resource
-            //StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
+            StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
 
-            SetContentView(Resource.Layout.Login);
-            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += BtnLogin_Click;
+            //SetContentView(Resource.Layout.Profile);
+            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //btnLogin.Click += BtnLogin_Click;
             //var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
             //linkRegister.Click += linkRegister_click;
             //if (_context.GetUser() == null)

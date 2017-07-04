@@ -13,6 +13,7 @@ using Android.Support.Design.Widget;
 using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace RescueMe.Droid.Activities
 {
@@ -27,6 +28,8 @@ namespace RescueMe.Droid.Activities
 
         Android.Support.Design.Widget.TextInputLayout nameLayout;
         Android.Support.Design.Widget.TextInputLayout passwordLayout;
+        Android.Support.Design.Widget.TextInputLayout cedulaLayout;
+        Android.Support.Design.Widget.TextInputLayout telefonoLayout;
 
 
 
@@ -50,6 +53,8 @@ namespace RescueMe.Droid.Activities
 
             nameLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.nameLayout);
             passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
+            cedulaLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.cedulaLayout);
+            telefonoLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.telefonoLayout);
 
             //Settings Data Profile
             load_userInformation();
@@ -76,6 +81,33 @@ namespace RescueMe.Droid.Activities
             {
                 nameLayout.ErrorEnabled = false;
             }
+
+            if (!string.IsNullOrWhiteSpace(txtCedula.Text))
+            {
+                if (!Regex.Match(txtCedula.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success)
+                {
+                    cedulaLayout.ErrorEnabled = true;
+                    cedulaLayout.Error = GetString(Resource.String.invalid_idCard);
+                    valid = false;
+                }
+                else
+                {
+                    cedulaLayout.ErrorEnabled = false;
+                }
+             
+            }
+            
+
+
+
+
+
+
+
+
+
+
+
 
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
