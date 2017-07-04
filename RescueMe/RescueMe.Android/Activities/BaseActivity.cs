@@ -13,10 +13,12 @@ using Android.Support.V7.App;
 using RescueMe.Droid.Data;
 using Android.Content.PM;
 using Android;
+using System.Text.RegularExpressions;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "BaseActivity")]
+    [Activity(Label = "BaseActivity",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class BaseActivity : AppCompatActivity
     {
         protected RestClient _client;
@@ -100,5 +102,21 @@ namespace RescueMe.Droid.Activities
         //    //        break;
         //    //}
         //}
+
+
+
+        protected bool ValidEmail (string email)
+        {
+            return Regex.Match(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success;
+        }
+
+
+
+
+
+
+
+
+
     }
 }

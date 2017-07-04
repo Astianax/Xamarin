@@ -18,6 +18,7 @@ namespace RescueMe
             }catch(Exception e)
             {
                 deserializeModel = null;
+                throw new Exception(model.ToString());
             }
             return deserializeModel;
         }

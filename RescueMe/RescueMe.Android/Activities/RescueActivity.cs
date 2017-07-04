@@ -9,10 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "RescueActivity")]
+    [Activity(Label = "RescueActivity",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class RescueActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

@@ -2500,6 +2500,9 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090046
 			public const int @fixed = 2131296326;
 			
+			// aapt resource value: 0x7f090094
+			public const int forgotPassword = 2131296404;
+			
 			// aapt resource value: 0x7f090089
 			public const int framelay = 2131296393;
 			
@@ -2553,6 +2556,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f0900aa
 			public const int line3 = 2131296426;
+			
+			// aapt resource value: 0x7f090096
+			public const int linkRegister = 2131296406;
 			
 			// aapt resource value: 0x7f090019
 			public const int listMode = 2131296281;
@@ -2785,14 +2791,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09005b
 			public const int textSpacerNoButtons = 2131296347;
 			
-			// aapt resource value: 0x7f090094
-			public const int textView1 = 2131296404;
-			
 			// aapt resource value: 0x7f090095
 			public const int textView2 = 2131296405;
-			
-			// aapt resource value: 0x7f090096
-			public const int textView3 = 2131296406;
 			
 			// aapt resource value: 0x7f090081
 			public const int text_input_password_toggle = 2131296385;
@@ -3149,8 +3149,8 @@ namespace RescueMe.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f06003c
-			public const int GoogleKey = 2131099708;
+			// aapt resource value: 0x7f06003d
+			public const int GoogleKey = 2131099709;
 			
 			// aapt resource value: 0x7f060014
 			public const int abc_action_bar_home_description = 2131099668;
@@ -3319,6 +3319,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f060038
 			public const int hello = 2131099704;
+			
+			// aapt resource value: 0x7f06003c
+			public const int invalid_email = 2131099708;
 			
 			// aapt resource value: 0x7f06003b
 			public const int password_not_match = 2131099707;

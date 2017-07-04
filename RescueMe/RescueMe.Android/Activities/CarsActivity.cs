@@ -12,10 +12,12 @@ using Android.Widget;
 using Android.Support.Design.Widget;
 using RescueMe.Domain;
 using System.Threading;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "CarsActivity")]
+    [Activity(Label = "CarsActivity",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class CarsActivity : BaseActivity
     {
 
@@ -77,7 +79,8 @@ namespace RescueMe.Droid.Activities
 
             if (valid)
             {
-         
+                UserProfile user = new UserProfile();
+                //user.User.
 
             }
 

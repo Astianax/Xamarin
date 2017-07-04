@@ -11,10 +11,12 @@ using Android.Views;
 using Android.Widget;
 using Android.Util;
 using System.Threading.Tasks;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "SplashActivity", NoHistory = true)]
+    [Activity(Label = "SplashActivity", NoHistory = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : BaseActivity
     {
         static readonly string TAG = "X:" + typeof(SplashActivity).Name;

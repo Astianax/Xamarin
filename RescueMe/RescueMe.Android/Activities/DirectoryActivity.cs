@@ -9,10 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "DirectoryActivity", NoHistory = true)]
+    [Activity(Label = "DirectoryActivity", NoHistory = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class DirectoryActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

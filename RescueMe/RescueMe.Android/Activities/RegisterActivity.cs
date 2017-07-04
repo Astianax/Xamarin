@@ -13,10 +13,12 @@ using System.Threading;
 using Android.Support.Design.Widget;
 using RescueMe.Domain;
 using RescueMe.Droid.Data;
+using Android.Content.PM;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "RegisterActivity")]
+    [Activity(Label = "RegisterActivity",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class RegisterActivity : BaseActivity
     {
 
@@ -134,7 +136,7 @@ namespace RescueMe.Droid.Activities
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
 
-
+                
 
 
 

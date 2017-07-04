@@ -26,7 +26,8 @@ using Android.Gms.Common;
 
 namespace RescueMe.Droid.Activities
 {
-    [Activity(Label = "HomeActivity")]
+    [Activity(Label = "HomeActivity",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class HomeActivity : BaseActivity, GoogleApiClient.IConnectionCallbacks,
         GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener, IOnMapReadyCallback
 

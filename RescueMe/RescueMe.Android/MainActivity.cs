@@ -15,10 +15,14 @@ using System.Threading;
 using RescueMe.Droid.Data;
 using Android;
 using Android.Support.V4.App;
+using Android.Content.PM;
+using Android.Content.Res;
+using System.Text.RegularExpressions;
 
 namespace RescueMe.Droid
 {
-    [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true)]
+    [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     //[Activity(Label = "Leftdrawerlayout", Theme = "@style/Theme.DesignDemo", MainLauncher = true, Icon = "@drawable/icon")]
 
     public class MainActivity : BaseActivity
@@ -37,23 +41,34 @@ namespace RescueMe.Droid
 
             // Set our view from the "main" layout resource
             //StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
-          
-            // SetContentView(Resource.Layout.Login);
-            if (_context.GetUser() == null)
-            {
-                SetContentView(Resource.Layout.Login);
-                //Controls
-                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-                btnLogin.Click += BtnLogin_Click;
 
-                SetUp();
-            }
-            else
-            {
-                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            }
+            SetContentView(Resource.Layout.Login);
+            var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            btnLogin.Click += BtnLogin_Click;
+            //var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+            //linkRegister.Click += linkRegister_click;
+            //if (_context.GetUser() == null)
+            //{
+            //    SetContentView(Resource.Layout.Login);
+            //    //Controls
+            //    var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+            //    btnLogin.Click += BtnLogin_Click;
+            //    linkRegister.Click += linkRegister_click;
+
+            //    SetUp();
+            //}
+            //else
+            //{
+            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            //}
         }
 
+
+        private void linkRegister_click(object sender, EventArgs e)
+        {
+            StartActivity(new Intent(Application.Context, typeof(RegisterActivity)));
+        }
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
@@ -78,7 +93,16 @@ namespace RescueMe.Droid
             }
             else
             {
-                emailLayout.ErrorEnabled = false;
+                if (!ValidEmail(txtEmail.Text))
+                {
+                    emailLayout.ErrorEnabled = true;
+                    emailLayout.Error = GetString(Resource.String.invalid_email);
+                    valid = false;
+                }
+                else
+                {
+                    emailLayout.ErrorEnabled = false;
+                }
             }
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
@@ -90,6 +114,9 @@ namespace RescueMe.Droid
             {
                 passwordLayout.ErrorEnabled = false;
             }
+
+
+
 
             if (valid)
             {
