@@ -1,70 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:card_view="http://schemas.android.com/apk/res-auto"
-      android:gravity="center"
-      card_view:cardUseCompatPadding="true"
-      card_view:cardElevation="2dp"
-      card_view:cardCornerRadius="4dp"
-      card_view:contentPadding="10dp"
-      android:layout_width="match_parent"
-      android:layout_height="100dp"
-                                    >
-
-  <FrameLayout
-      android:background="@color/main_color"
-      android:layout_width="3dp"
-      android:layout_height="match_parent"/>
-
-  <LinearLayout
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:padding="16dp"
-      android:orientation="vertical">
-
-    <TextView        
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Title" 
-        android:id="@+id/info_text"/>
-
-    <!--<TextView
-        style="@style/Base.TextAppearance.AppCompat.Body1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Content here"
-        />--> 
-
-  </LinearLayout>
-
-</android.support.v7.widget.CardView>
-
-<!--<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="2dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:contentPadding="10dp"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-     android:background="@drawable/box_card"
-    android:orientation="vertical">-->
-<!--<android.support.v7.widget.CardView  xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:card_view="http://schemas.android.com/apk/res-auto"
-      android:gravity="center"
-      card_view:cardUseCompatPadding="true"
-      card_view:cardElevation="4dp"
-      card_view:cardCornerRadius="4dp"
-      card_view:contentPadding="10dp"
-      android:layout_width="match_parent"
-      android:layout_height="100dp">
-    <TextView
-        android:text="Hello World"
-        android:id="@+id/info_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    --><!--<Button
-      android:text="Dale un Boton"
-      android:id="@+id/btnBoton"
-      android:gravity="right"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content" />-->
-<!--</android.support.v7.widget.CardView>-->
+    android:layout_height="100dp">
+    <FrameLayout
+        android:background="@color/main_color"
+        android:layout_width="3dp"
+        android:id="@+id/frame"
+        android:layout_height="match_parent" />
+<!--<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:padding="16dp"
+        android:id="@+id/layoutLine"
+        android:orientation="vertical">-->
+    <ImageView
+        android:src="@drawable/ic_rescue"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/carIcon" />
 <!--</LinearLayout>-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:padding="16dp"
+        android:id="@+id/layoutLine"
+        android:orientation="vertical">
+    <!--<ImageView
+        android:src="@drawable/ic_rescue"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/carIcon" />-->
+    <!--<ImageView
+        android:src="@drawable/ic_rescue"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/carIcon" />-->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="type"
+            android:id="@+id/type"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/marque"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Marque"
+            android:textSize="14dp" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

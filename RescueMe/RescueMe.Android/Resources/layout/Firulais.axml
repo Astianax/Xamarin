@@ -4,28 +4,28 @@
     android:layout_height="match_parent"
     android:minHeight="25dp"
     android:minWidth="25dp">
-  <!--Por alguna Razon que no entiendo esta vista no puede llamarse About ya que explota porqué explota osea no hubo forma de hacer un include en una vista llamada About-->
-  <include
-      layout="@layout/ToolBar" />
-  <TextView
-      android:id="@+id/titleText"
-      android:text="Acerca De"
-      android:layout_width="0dp"
-      android:layout_height="0dp" />
-  <RelativeLayout
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_below="@id/titleText">
+<!--Por alguna Razon que no entiendo esta vista no puede llamarse About ya que explota porqué explota osea no hubo forma de hacer un include en una vista llamada About-->
+    <include
+        layout="@layout/ToolBar" />
     <TextView
-        android:text="Esta es la aplicación demo de Asistencia Vial, desarrollada con el objetivo de constribuir con el programa de Seguridad Val y el Plan Nacional de Seguridad Ciudadana."
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/abouttxt"
+        android:id="@+id/titleText"
+        android:text="Acerca De"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:gravity="bottom|start"
-        android:layout_height="258.0dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="10dp"
-        android:textSize="16dp"
-        android:textStyle="normal" />
-  </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/titleText">
+        <TextView
+            android:text="Esta es la aplicación demo de Asistencia Vial, desarrollada con el objetivo de constribuir con el programa de Seguridad Val y el Plan Nacional de Seguridad Ciudadana."
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/abouttxt"
+            android:layout_width="wrap_content"
+            android:gravity="bottom|start"
+            android:layout_height="258.0dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+    </RelativeLayout>
 </RelativeLayout>

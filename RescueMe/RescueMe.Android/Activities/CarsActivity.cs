@@ -76,8 +76,6 @@ namespace RescueMe.Droid.Activities
             {
                 UserID = context.Id
             };
-            //return await Task.Factory.StartNew(() =>
-            //{
             try
             {
                 vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
@@ -87,9 +85,7 @@ namespace RescueMe.Droid.Activities
                 vehicles = null;
                 message = ex.Message;
             }
-
-            //HIDE PROGRESS DIALOG           
-
+            
             return vehicles;
         }
 

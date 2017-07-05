@@ -24,7 +24,7 @@ namespace RescueMe.Droid.Adapters
         {
 
             //Setup your layout here
-            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.CardView, parent, false);
+            View itemView =  LayoutInflater.From(parent.Context).Inflate(Resource.Layout.CardView, parent, false);
             //var id = Resource.Layout.__YOUR_ITEM_HERE;
             //itemView = LayoutInflater.From(parent.Context).
             //       Inflate(id, parent, false);
@@ -42,7 +42,8 @@ namespace RescueMe.Droid.Adapters
             var holder = viewHolder as AdapterVehicleViewHolder;
 
 
-            holder.info_text.Text= items[position].Marque;
+            holder.Type.Text= items[position].Type;
+            holder.Marque.Text = items[position].Marque;
             //holder.TextView.Text = items[position];
         }
 
@@ -57,18 +58,20 @@ namespace RescueMe.Droid.Adapters
     {
 
 
-        public TextView info_text { get; set; }
+        public TextView Type { get; set; }
+        public TextView Marque { get; set; }
 
 
 
 
-        
+
         //public TextView TextView { get; set; }
         public AdapterVehicleViewHolder(View itemView, Action<AdapterVehicleClickEventArgs> clickListener,
                             Action<AdapterVehicleClickEventArgs> longClickListener) : base(itemView)
         {
             //TextView = v;
-            info_text = itemView.FindViewById<TextView>(Resource.Id.info_text);
+            Type = itemView.FindViewById<TextView>(Resource.Id.type);
+            Marque = itemView.FindViewById<TextView>(Resource.Id.marque);
 
             itemView.Click += (sender, e) => clickListener(new AdapterVehicleClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new AdapterVehicleClickEventArgs { View = itemView, Position = AdapterPosition });
