@@ -88,19 +88,15 @@
         android:layout_marginLeft="25dp"
         android:textStyle="bold"
         android:textSize="16dp" />
-    <TableLayout
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="346.5dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lblcars"
-        android:id="@+id/tableLayout1"
-        android:layout_marginLeft="15dp">
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_marginTop="10dp"
-            android:layout_width="350.5dp"
-            android:layout_marginLeft="10dp">
-        </TableRow>
-    </TableLayout>
+  
+  
+ <!-- Recycle View-->
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/my_recycler_view"
+      android:scrollbars="vertical"
+      android:layout_below="@id/lblcars"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+  
+  
 </RelativeLayout>

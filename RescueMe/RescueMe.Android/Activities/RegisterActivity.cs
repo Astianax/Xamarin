@@ -138,7 +138,6 @@ namespace RescueMe.Droid.Activities
             {
                 UserProfile userProfile = new UserProfile();
                 User user = null;
-                bool userCreated;
 
                 userProfile.Name = txtName.Text;
                 userProfile.Email = txtEmail.Text;
