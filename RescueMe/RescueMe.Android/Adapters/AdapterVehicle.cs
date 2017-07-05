@@ -3,6 +3,8 @@
 using Android.Views;
 using Android.Widget;
 using Android.Support.V7.Widget;
+using RescueMe.Domain;
+using System.Collections.Generic;
 
 namespace RescueMe.Droid.Adapters
 {
@@ -10,11 +12,11 @@ namespace RescueMe.Droid.Adapters
     {
         public event EventHandler<AdapterVehicleClickEventArgs> ItemClick;
         public event EventHandler<AdapterVehicleClickEventArgs> ItemLongClick;
-        string[] items;
+        List<Vehicle> items;
 
-        public AdapterVehicle(string[] data)
+        public AdapterVehicle(List<Vehicle> data)
         {
-            items = data;
+            items = data;            
         }
 
         // Create new views (invoked by the layout manager)
@@ -22,8 +24,7 @@ namespace RescueMe.Droid.Adapters
         {
 
             //Setup your layout here
-            View itemView = LayoutInflater.From(parent.Context).
-                       Inflate(Resource.Layout.CardView, parent, false);
+            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.CardView, parent, false);
             //var id = Resource.Layout.__YOUR_ITEM_HERE;
             //itemView = LayoutInflater.From(parent.Context).
             //       Inflate(id, parent, false);
@@ -41,11 +42,11 @@ namespace RescueMe.Droid.Adapters
             var holder = viewHolder as AdapterVehicleViewHolder;
 
 
-            holder.info_text.Text= items[position];
+            holder.info_text.Text= items[position].Marque;
             //holder.TextView.Text = items[position];
         }
 
-        public override int ItemCount => items.Length;
+        public override int ItemCount => items.Count;
 
         void OnClick(AdapterVehicleClickEventArgs args) => ItemClick?.Invoke(this, args);
         void OnLongClick(AdapterVehicleClickEventArgs args) => ItemLongClick?.Invoke(this, args);

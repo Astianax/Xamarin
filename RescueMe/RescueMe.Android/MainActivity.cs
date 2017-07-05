@@ -38,30 +38,28 @@ namespace RescueMe.Droid
             //    .SetDefaultFontPath("fonts/OpenSans-Bold.ttf")
             //    .SetFontAttrId(Resource.Attribute.fontPath)
             //    .Build());
-
+            //SetContentView(Resource.Layout.Login);
             // Set our view from the "main" layout resource
-            StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
-
             //SetContentView(Resource.Layout.Profile);
             //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             //btnLogin.Click += BtnLogin_Click;
             //var linkRegister = FindViewById<TextView>(Resource.Id.card_v);
             //linkRegister.Click += linkRegister_click;
-            //if (_context.GetUser() == null)
-            //{
-            //    SetContentView(Resource.Layout.Login);
-            //    //Controls
-            //    var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-            //    btnLogin.Click += BtnLogin_Click;
-            //    linkRegister.Click += linkRegister_click;
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                //Controls
+                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+                btnLogin.Click += BtnLogin_Click;
+                linkRegister.Click += linkRegister_click;
 
-            //    SetUp();
-            //}
-            //else
-            //{
-            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            //}
+                SetUp();
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
 
         }
 

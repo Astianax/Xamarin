@@ -7,7 +7,9 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Net.Http.Headers;
-
+using Newtonsoft.Json.Serialization;
+using System.Reflection;
+using System.Linq;
 namespace RescueMe
 {
     public class RestClient
@@ -21,10 +23,39 @@ namespace RescueMe
                    .Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<object> Get(string endpoint, object model)
+        private StringContent GetPayload(object parameters)
         {
-             //_httpClient = new HttpClient();
-            var response = _httpClient.GetAsync(endpoint).Result;
+            var json = JsonConvert.SerializeObject(parameters);
+            JObject jsonObject = JObject.FromObject(parameters);
+
+
+            return new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private string GetQueryString(object model)
+        {
+            if (model == null)
+            {
+                return "";
+            }
+            else
+            {
+                var queryString = "&" +
+                    string.Join("&", model.GetType().GetRuntimeProperties().Select(p => p.Name + "=" + p.GetValue(model, null).ToString()));
+
+                return queryString;
+            }
+        }
+
+        public async Task<object> Get(string endpoint, object parameters)
+        {
+            var queryString = GetQueryString(parameters);
+            var response =  _httpClient.GetAsync(endpoint + "?" + queryString).Result;
             var content = response.Content.ReadAsStringAsync().Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -33,14 +64,7 @@ namespace RescueMe
 
             return content;
         }
-        private StringContent GetPayload(object parameters)
-        {
-            var json = JsonConvert.SerializeObject(parameters);
-            JObject jsonObject = JObject.FromObject(parameters);
-           
 
-            return new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-        }
         public async Task<object> Post(string endpoint, object parameters)
         {
             var body = GetPayload(parameters);

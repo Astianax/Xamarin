@@ -50,7 +50,7 @@ namespace RescueMe.Droid.Activities
             txtPasswordConfirm = FindViewById<TextInputEditText>(Resource.Id.txtPasswordConfirm);
 
 
-            emailLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.emailLayout);
+            emailLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.emailALayout);
             nameLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.nameLayout);
             passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
             passwordConfirmLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordConfirmLayout);

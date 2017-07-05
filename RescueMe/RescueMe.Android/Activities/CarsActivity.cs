@@ -15,6 +15,7 @@ using System.Threading;
 using Android.Content.PM;
 using Android.Support.V7.Widget;
 using RescueMe.Droid.Adapters;
+using System.Threading.Tasks;
 
 namespace RescueMe.Droid.Activities
 {
@@ -29,32 +30,70 @@ namespace RescueMe.Droid.Activities
         Android.Support.Design.Widget.TextInputLayout typeLayout;
         Android.Support.Design.Widget.TextInputLayout marqueLayout;
 
-         RecyclerView mRecyclerView;
-         RecyclerView.Adapter mAdapter;
-         RecyclerView.LayoutManager mLayoutManager;
-
-        protected override void OnCreate(Bundle savedInstanceState)
+        RecyclerView mRecyclerView;
+        RecyclerView.Adapter mAdapter;
+        RecyclerView.LayoutManager mLayoutManager;
+        string[] cardViewDataset;
+        UserProfile context;
+        string message = "";
+        ProgressDialog progressDialog;
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.MyCars);
             SetTools();
 
-            SetRecyclerView();
+            context = _context.GetUser();
+
+
+
+
+            List<Vehicle> listVehicles = await getVehicles();
+            SetRecyclerView(listVehicles);
+
             //Controls
-            //var btnAddCars = FindViewById<Button>(Resource.Id.btnAddCars);
+            var btnAddCars = FindViewById<Button>(Resource.Id.btnAddCars);
 
-            //txType = FindViewById<TextInputEditText>(Resource.Id.txType);
-            //txtMarque = FindViewById<TextInputEditText>(Resource.Id.txtMarque);
+            txType = FindViewById<TextInputEditText>(Resource.Id.txType);
+            txtMarque = FindViewById<TextInputEditText>(Resource.Id.txtMarque);
 
 
-            //typeLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.typeLayout);
-            //marqueLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.marqueLayout);
+            typeLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.typeLayout);
+            marqueLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.marqueLayout);
 
-            //btnAddCars.Click += btnAddCars_click;
+            btnAddCars.Click += btnAddCars_click;
 
 
 
         }
+
+
+        public async Task<List<Vehicle>> getVehicles()
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+
+            var userID = new
+            {
+                UserID = context.Id
+            };
+            //return await Task.Factory.StartNew(() =>
+            //{
+            try
+            {
+                vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+            }
+            catch (Exception ex)
+            {
+                vehicles = null;
+                message = ex.Message;
+            }
+
+            //HIDE PROGRESS DIALOG           
+
+            return vehicles;
+        }
+
+
 
         private void btnAddCars_click(object sender, EventArgs e)
         {
@@ -89,14 +128,16 @@ namespace RescueMe.Droid.Activities
 
                 vehicle.Marque = txtMarque.Text;
                 vehicle.Type = txType.Text;
-                
-
+                vehicle.UserID = context.Id;
+                var userID = new
+                {
+                    UserID = context.Id
+                };
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
-                var message = "";
-
+                List<Vehicle> vehicles = null;
 
                 new Thread(new ThreadStart(delegate
                 {
@@ -105,6 +146,7 @@ namespace RescueMe.Droid.Activities
                     try
                     {
                         vehicle = _client.Post("Vehicle/create", vehicle).Result.JsonToObject<Vehicle>();
+
                     }
                     catch (Exception ex)
                     {
@@ -112,14 +154,16 @@ namespace RescueMe.Droid.Activities
                         message = ex.Message;
                     }
 
-                    if (vehicle != null )
+                    if (vehicle != null)
                     {
-                            // Agregarlo a la lista
+                        vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
                     }
                     else
                     {
                         Snackbar.Make(marqueLayout, message, Snackbar.LengthLong)
-                                .SetAction("OK", (v) => { txType.Text = String.Empty;
+                                .SetAction("OK", (v) =>
+                                {
+                                    txType.Text = String.Empty;
                                     txtMarque.Text = String.Empty;
                                 })
                                 .SetDuration(8000)
@@ -129,7 +173,10 @@ namespace RescueMe.Droid.Activities
                     //HIDE PROGRESS DIALOG
                     RunOnUiThread(() =>
                     {
-                        progressDialog.Hide();
+                       progressDialog.Hide();
+                       SetRecyclerView(vehicles);
+                       txtMarque.Text = String.Empty;
+                       txType.Text = String.Empty;
 
                     });
 
@@ -140,9 +187,9 @@ namespace RescueMe.Droid.Activities
         }
 
 
-        private void SetRecyclerView()
+        private void SetRecyclerView(List<Vehicle> dataset)
         {
-
+            //List<Vehicle> dataset2 = (List<Vehicle>)dataset;
             mRecyclerView = (RecyclerView)FindViewById(Resource.Id.my_recycler_view);
 
             // use this setting to improve performance if you know that changes
@@ -153,9 +200,8 @@ namespace RescueMe.Droid.Activities
             mLayoutManager = new LinearLayoutManager(this);
             mRecyclerView.SetLayoutManager(mLayoutManager);
 
-            // specify an adapter (see also next example)
-            string[] myDataset= new string[] {"hjalsjdalksjd","Astiuaosjda", "hjalsjdalksjd", "Astiuaosjda", "hjalsjdalksjd", "Astiuaosjda", "hjalsjdalksjd", "Astiuaosjda", "hjalsjdalksjd", "Astiuaosjda", "hjalsjdalksjd", "Astiuaosjda" };
-            mAdapter = new AdapterVehicle(myDataset);
+            // specify an adapter (see also next example)           
+            mAdapter = new AdapterVehicle(dataset);
             mRecyclerView.SetAdapter(mAdapter);
         }
 

@@ -9,34 +9,46 @@ namespace RescueMe
 {
     public static class Extensions
     {
-        public static T JsonToObject<T>(this object model) where T : class
+        public static TModel JsonToObject<TModel>(this object model) where TModel : class
         {
-            T deserializeModel = null;
-            
-            var exception = JsonConvert.DeserializeObject<RescueException>(model.ToString());
+            TModel deserializeModel = null;
+            RescueException exception = null;
 
-            if (exception.message == null)
-            {               
+            try
+            {
+                //Case 1: Exception = null
+                //Case 2: Exception != null && Message == null
+                exception = JsonConvert.DeserializeObject<RescueException>(model.ToString());
+                deserializeModel = TryToDeserialize<TModel>(exception, model);
+            }
+            catch (Exception)
+            {
+                deserializeModel = TryToDeserialize<TModel>(exception, model);
+            }
+            
+            return deserializeModel;
+        }
+
+
+        private static TModel TryToDeserialize<TModel>(RescueException exception, object model)
+        {
+            TModel tModel = Activator.CreateInstance<TModel>(); 
+            if (exception == null || exception.message == null)
+            {
                 try
                 {
-                    deserializeModel = JsonConvert.DeserializeObject<T>(model.ToString());
+                    tModel = JsonConvert.DeserializeObject<TModel>(model.ToString());
                 }
                 catch (Exception e)
                 {
-                    deserializeModel = null;
+                  //  tModel = Activator.CreateInstance<TModel>();
                     throw new Exception(e.Message);
                 }
 
             }
-            else
-            {
-                throw new Exception(((string)exception.message));
 
-            }
-
-        
-
-            return deserializeModel;
+            return tModel;
         }
+        
     }
 }

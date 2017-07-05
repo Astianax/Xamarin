@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:minHeight="25dp"
     android:minWidth="25dp">
-  <!--Por alguna Razon que no entiendo esta vista no puede llamarse About ya que explota porque explota osea no hubo forma de hacer un include en una vista llamada About-->
+  <!--Por alguna Razon que no entiendo esta vista no puede llamarse About ya que explota porqué explota osea no hubo forma de hacer un include en una vista llamada About-->
   <include
       layout="@layout/ToolBar" />
   <TextView

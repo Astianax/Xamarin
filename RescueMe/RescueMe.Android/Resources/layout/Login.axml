@@ -46,16 +46,6 @@
             android:id="@+id/txtPassword"
             android:hint="Contraseña" />
     </android.support.design.widget.TextInputLayout>
-<!--<CheckBox
-        android:id="@+id/chkRememberMe"
-        android:layout_width="162.0dp"
-        android:layout_height="wrap_content"
-        android:text="Recuerdame"
-        android:layout_marginLeft="110dp"
-        android:layout_marginRight="90dp"
-        android:layout_marginTop="280dp"
-        android:textColor="@android:color/background_light"
-        android:backgroundTint="#ff00ffff" />-->
     <Button
         android:text="Ingresar"
         android:layout_width="202dp"
