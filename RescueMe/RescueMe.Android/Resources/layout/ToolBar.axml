@@ -27,5 +27,15 @@
             android:textStyle="normal"
             android:textColor="@android:color/background_light"
             android:textSize="20dp" />
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/save"
+            android:layout_gravity="right"
+            android:visibility="invisible"
+            android:layout_marginRight="10dp"
+            android:id="@+id/btnAddCars"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
     </Toolbar>
 </RelativeLayout>

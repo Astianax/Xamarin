@@ -45,9 +45,6 @@ namespace RescueMe.Droid.Activities
 
             context = _context.GetUser();
 
-
-
-
             List<Vehicle> listVehicles = await getVehicles();
             SetRecyclerView(listVehicles);
 
@@ -63,6 +60,7 @@ namespace RescueMe.Droid.Activities
 
             btnAddCars.Click += btnAddCars_click;
 
+            btnAddCars.Visibility = ViewStates.Visible;
 
 
         }
