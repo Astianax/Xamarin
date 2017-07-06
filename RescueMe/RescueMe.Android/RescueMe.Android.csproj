@@ -320,6 +320,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\box_card.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\save.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\RescueMe\RescueMe.csproj">
       <Project>{67612f4f-95be-4ca8-a802-a26389a9008a}</Project>
       <Name>RescueMe</Name>

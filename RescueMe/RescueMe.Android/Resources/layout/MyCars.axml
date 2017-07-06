@@ -53,7 +53,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#ff00ffff" />-->
-    <Button
+    <!--<Button
         android:text="Agregar"
         android:layout_height="40dp"
         android:id="@+id/btnAddCars"
@@ -68,12 +68,12 @@
         android:background="@color/main_color"
         android:textColor="@android:color/background_light"
         android:layout_marginBottom="15dp"
-        android:textSize="16dp" />
-    <ImageView
+        android:textSize="16dp" />-->
+    <!--<ImageView
         android:src="@drawable/line"
         android:layout_width="match_parent"
         android:layout_height="26.0dp"
-        android:layout_below="@id/btnAddCars"
+        android:layout_below="@id/marqueLayout"
         android:id="@+id/line2"
         android:layout_marginBottom="0.0dp"
         android:layout_marginRight="13.5dp"
@@ -87,15 +87,15 @@
         android:text="Mi Lista"
         android:layout_marginLeft="25dp"
         android:textStyle="bold"
-        android:textSize="16dp" />
+        android:textSize="16dp" />-->
   
   
  <!-- Recycle View-->
   <android.support.v7.widget.RecyclerView
       android:id="@+id/my_recycler_view"
       android:scrollbars="vertical"
-      android:layout_below="@id/lblcars"
-      android:layout_marginTop="10dp"
+      android:layout_below="@id/marqueLayout"
+      android:layout_marginTop="30dp"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
   
