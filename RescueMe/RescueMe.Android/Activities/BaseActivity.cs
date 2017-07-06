@@ -63,7 +63,7 @@ namespace RescueMe.Droid.Activities
             {
 
                 RequestPermissions(PermissionsLocation, 0);
-                _context.Save(new Settings()
+                _context.SaveSetting(new Settings()
                 {
                     LocationPermission = true
                 });

@@ -183,7 +183,7 @@ namespace RescueMe.Droid.Activities
                         //});
                         //Set User generated
                         userProfile.User = user;
-                        _context.Save(userProfile);
+                        _context.UpdateUser(userProfile);
                         //Save Vehicles
 
                         Intent intent = new Intent(this, typeof(HomeActivity));

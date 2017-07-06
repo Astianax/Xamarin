@@ -18,6 +18,8 @@ using Android.Support.V4.App;
 using Android.Content.PM;
 using Android.Content.Res;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace RescueMe.Droid
 {
@@ -69,7 +71,7 @@ namespace RescueMe.Droid
             StartActivity(new Intent(Application.Context, typeof(RegisterActivity)));
         }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
+        private async void BtnLogin_Click(object sender, EventArgs e)
         {
             bool valid = true;
             var txtEmail = FindViewById<TextInputEditText>(Resource.Id.txtEmail);
@@ -129,7 +131,7 @@ namespace RescueMe.Droid
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
 
-
+              
                 new Thread(new ThreadStart(delegate
                 {
                     //LOAD METHOD TO GET ACCOUNT INFO
@@ -145,9 +147,10 @@ namespace RescueMe.Droid
                         //    FullName = user.Name,
                         //    Password = user.User.PassworDigest
                         //});
-                        _context.Save(user);
+                     
                         //Save Vehicles
-
+                        var vehicles = GetVehicles(user.Id);
+                        _context.LogIn(user, vehicles);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }
@@ -166,6 +169,25 @@ namespace RescueMe.Droid
 
             }
 
+        }
+        public List<Vehicle> GetVehicles(int userID)
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+
+            var user = new
+            {
+                UserID = userID
+            };
+            try
+            {
+                vehicles =  _client.Get("Vehicle/vehicles", user).Result.JsonToObject<List<Vehicle>>();
+            }
+            catch (Exception ex)
+            {
+                vehicles = null;
+            }
+
+            return vehicles;
         }
     }
 }

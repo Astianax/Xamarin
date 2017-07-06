@@ -12,9 +12,10 @@ using Android.Widget;
 
 namespace RescueMe.Droid.Data
 {
-    public class Vehicle
+    public class VehicleSaved
     {
+        public int Id { get; set; }
+        public string Marque { get; set; }
         public string Type { get; set; }
-        public string Name { get; set; }
     }
 }

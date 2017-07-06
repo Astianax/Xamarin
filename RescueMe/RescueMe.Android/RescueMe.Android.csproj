@@ -138,13 +138,14 @@
     <Compile Include="Activities\HomeActivity.cs" />
     <Compile Include="Activities\ProfileActivity.cs" />
     <Compile Include="Activities\RegisterActivity.cs" />
+    <Compile Include="Activities\RequestActivity.cs" />
     <Compile Include="Activities\RescueActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Adapters\AdapterVehicle.cs" />
     <Compile Include="Data\DbContext.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\UserSaved.cs" />
-    <Compile Include="Data\Vehicle.cs" />
+    <Compile Include="Data\VehicleSaved.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
