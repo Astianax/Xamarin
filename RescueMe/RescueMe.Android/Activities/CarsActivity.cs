@@ -84,7 +84,7 @@ namespace RescueMe.Droid.Activities
                 vehicles = null;
                 message = ex.Message;
             }
-            
+
             return vehicles;
         }
 
@@ -152,6 +152,7 @@ namespace RescueMe.Droid.Activities
                     if (vehicle != null)
                     {
                         listVehicles.Add(vehicle);
+                        listVehicles= listVehicles.OrderByDescending(i => i.Id).ToList();
                     }
                     else
                     {
@@ -168,12 +169,14 @@ namespace RescueMe.Droid.Activities
                     //HIDE PROGRESS DIALOG
                     RunOnUiThread(() =>
                     {
-                        mAdapter.NotifyItemInserted(listVehicles.Count);
-                        mRecyclerView.ScrollToPosition(listVehicles.Count);
+                        //mAdapter.NotifyItemInserted(listVehicles.Count);
+                        //mRecyclerView.ScrollToPosition(listVehicles.Count);
+
+                        SetRecyclerView(listVehicles);
 
                         progressDialog.Hide();
-                       txtMarque.Text = String.Empty;
-                       txType.Text = String.Empty;
+                        txtMarque.Text = String.Empty;
+                        txType.Text = String.Empty;
 
                     });
 
