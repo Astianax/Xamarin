@@ -37,6 +37,7 @@ namespace RescueMe.Droid.Activities
         UserProfile context;
         string message = "";
         ProgressDialog progressDialog;
+        List<Vehicle> listVehicles;
         protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -45,7 +46,7 @@ namespace RescueMe.Droid.Activities
 
             context = _context.GetUser();
 
-            List<Vehicle> listVehicles = await getVehicles();
+            listVehicles = await getVehicles();
             SetRecyclerView(listVehicles);
 
             //Controls
@@ -150,7 +151,7 @@ namespace RescueMe.Droid.Activities
 
                     if (vehicle != null)
                     {
-                        vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+                        listVehicles.Add(vehicle);
                     }
                     else
                     {
@@ -167,8 +168,10 @@ namespace RescueMe.Droid.Activities
                     //HIDE PROGRESS DIALOG
                     RunOnUiThread(() =>
                     {
-                       progressDialog.Hide();
-                       SetRecyclerView(vehicles);
+                        mAdapter.NotifyItemInserted(listVehicles.Count);
+                        mRecyclerView.ScrollToPosition(listVehicles.Count);
+
+                        progressDialog.Hide();
                        txtMarque.Text = String.Empty;
                        txType.Text = String.Empty;
 

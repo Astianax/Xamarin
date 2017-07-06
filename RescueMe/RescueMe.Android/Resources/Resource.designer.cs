@@ -2503,9 +2503,6 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09004e
 			public const int default_activity_button = 2131296334;
 			
-			// aapt resource value: 0x7f09007d
-			public const int deleteCar = 2131296381;
-			
 			// aapt resource value: 0x7f09007f
 			public const int design_bottom_sheet = 2131296383;
 			
@@ -2736,6 +2733,9 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f090062
 			public const int radio = 2131296354;
+			
+			// aapt resource value: 0x7f09007d
+			public const int removeCar = 2131296381;
 			
 			// aapt resource value: 0x7f09003c
 			public const int right = 2131296316;

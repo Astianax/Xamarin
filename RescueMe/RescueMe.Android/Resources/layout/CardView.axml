@@ -49,7 +49,7 @@
             android:textSize="14dp"
             android:text="marque" />
         <ImageView
-            android:id="@+id/deleteCar"
+            android:id="@+id/removeCar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"

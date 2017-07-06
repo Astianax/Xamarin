@@ -42,9 +42,22 @@ namespace RescueMe.Droid.Adapters
             var holder = viewHolder as AdapterVehicleViewHolder;
 
 
-            holder.Type.Text= items[position].Type;
+            holder.Type.Text = items[position].Type;
             holder.Marque.Text = items[position].Marque;
-            //holder.TextView.Text = items[position];
+
+
+
+            holder.RemoveCar.Click += delegate
+            {
+                string vehicle = items[position].Marque;
+                items.RemoveAt(position);
+
+
+                NotifyItemRemoved(position);
+                NotifyItemRangeChanged(position, items.Count);
+
+            };
+
         }
 
         public override int ItemCount => items.Count;
@@ -60,7 +73,7 @@ namespace RescueMe.Droid.Adapters
 
         public TextView Type { get; set; }
         public TextView Marque { get; set; }
-
+        public ImageView RemoveCar { get; set; }
 
 
 
@@ -72,6 +85,7 @@ namespace RescueMe.Droid.Adapters
             //TextView = v;
             Type = itemView.FindViewById<TextView>(Resource.Id.type);
             Marque = itemView.FindViewById<TextView>(Resource.Id.marque);
+            RemoveCar = itemView.FindViewById<ImageView>(Resource.Id.removeCar);
 
             itemView.Click += (sender, e) => clickListener(new AdapterVehicleClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new AdapterVehicleClickEventArgs { View = itemView, Position = AdapterPosition });
