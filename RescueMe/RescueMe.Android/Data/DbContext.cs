@@ -50,13 +50,13 @@ namespace RescueMe.Droid.Data
         {
             try
             {
-                var userSaved = _connection.Table<UserSaved>().CountAsync().Result;
+                var userSaved = _connection.Table<UserProfile>().CountAsync().Result;
                 var vehicleSaved = _connection.Table<Vehicle>().CountAsync().Result;
                 var SettingSaved = _connection.Table<Settings>().CountAsync().Result;
             }
             catch (Exception e)
             {
-                _connection.CreateTableAsync<UserSaved>().Wait();
+                _connection.CreateTableAsync<UserProfile>().Wait();
                 _connection.CreateTableAsync<Vehicle>().Wait();
                 _connection.CreateTableAsync<Settings>().Wait();
             }
@@ -66,19 +66,20 @@ namespace RescueMe.Droid.Data
         {
             try
             {
-                var user = _connection.Table<UserSaved>().FirstOrDefaultAsync().Result;
+                var user = _connection.Table<UserProfile>().FirstOrDefaultAsync().Result;
                 if (user != null)
                 {
-                    return new UserProfile()
-                    {
-                        Email = user.Email,
-                        Name = user.FullName,
-                        User = new User()
-                        {
-                            PassworDigest = user.Password
-                        },
-                        Id = user.Id
-                    };
+                    //return new UserProfile()
+                    //{
+                    //    Email = user.Email,
+                    //    Name = user.FullName,
+                    //    User = new User()
+                    //    {
+                    //        PassworDigest = user.Password
+                    //    },
+                    //    Id = user.Id
+                    //};
+                    return user;
                 }
             }
             catch (Exception)

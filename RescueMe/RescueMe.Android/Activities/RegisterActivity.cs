@@ -174,13 +174,16 @@ namespace RescueMe.Droid.Activities
                     if (user != null)
                     {
                         //Save Database
-                        _context.Save<UserSaved>(new UserSaved()
-                        {
-                            Email = userProfile.Email,
-                            Id = user.Id,
-                            FullName = userProfile.Name,
-                            Password = userProfile.User.PassworDigest
-                        });
+                        //_context.Save<UserSaved>(new UserSaved()
+                        //{
+                        //    Email = userProfile.Email,
+                        //    Id = user.Id,
+                        //    FullName = userProfile.Name,
+                        //    Password = userProfile.User.PassworDigest
+                        //});
+                        //Set User generated
+                        userProfile.User = user;
+                        _context.Save(userProfile);
                         //Save Vehicles
 
                         Intent intent = new Intent(this, typeof(HomeActivity));
