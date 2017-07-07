@@ -47,21 +47,24 @@ namespace RescueMe.Droid
             //btnLogin.Click += BtnLogin_Click;
             //var linkRegister = FindViewById<TextView>(Resource.Id.card_v);
             //linkRegister.Click += linkRegister_click;
-            if (_context.GetUser() == null)
-            {
-                SetContentView(Resource.Layout.Login);
-                //Controls
-                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-                var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-                btnLogin.Click += BtnLogin_Click;
-                linkRegister.Click += linkRegister_click;
+            ActiveInternetConnectivity();
+            IsNetworkConnected();
 
-                SetUp();
-            }
-            else
-            {
-                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            }
+            //if (_context.GetUser() == null)
+            //{
+            //    SetContentView(Resource.Layout.Login);
+            //    //Controls
+            //    var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+            //    btnLogin.Click += BtnLogin_Click;
+            //    linkRegister.Click += linkRegister_click;
+
+            //    SetUp();
+            //}
+            //else
+            //{
+            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            //}
 
         }
 

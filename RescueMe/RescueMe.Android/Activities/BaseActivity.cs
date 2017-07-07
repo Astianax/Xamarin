@@ -14,6 +14,10 @@ using RescueMe.Droid.Data;
 using Android.Content.PM;
 using Android;
 using System.Text.RegularExpressions;
+using Android.Net;
+using Android.Telephony;
+using Java.Net;
+using System.Net;
 
 namespace RescueMe.Droid.Activities
 {
@@ -24,6 +28,7 @@ namespace RescueMe.Droid.Activities
         protected RestClient _client;
         protected DbContext _context;
         protected bool _isAllowed = true;
+        ConnectivityManager connectivityManager;
 
         public BaseActivity()
         {
@@ -77,32 +82,45 @@ namespace RescueMe.Droid.Activities
 
         }
 
-        //public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        //{
-        //    //switch (requestCode)
-        //    //{
-        //    //    case 0:
-        //    //        {
-        //    //            if (grantResults[0] == Permission.Granted)
-        //    //            {
-        //    //                //Permission granted
-        //    //                var snack = Snackbar.Make(message, "Location permission is available, getting lat/long.", Snackbar.LengthShort);
-        //    //                snack.Show();
+        protected bool IsNetworkConnected()
+        {
+            connectivityManager = (ConnectivityManager)GetSystemService(ConnectivityService);
+            NetworkInfo networkInfo = connectivityManager.ActiveNetworkInfo;
+            bool isOnline = false;
 
-        //    //                //GetLocation();
-        //    //            }
-        //    //            else
-        //    //            {
-        //    //                //Permission Denied :(
-        //    //                //Disabling location functionality
-        //    //                var snack = Snackbar.Make(message, "Location permission is denied.", Snackbar.LengthShort);
-        //    //                snack.Show();
-        //    //            }
-        //    //        }
-        //    //        break;
-        //    //}
-        //}
+            if (networkInfo != null)
+            {
+                if (networkInfo.Type == ConnectivityType.Wifi && networkInfo.IsConnected || (networkInfo.Type == ConnectivityType.Mobile && networkInfo.IsConnected))
+                {
+                    isOnline = ActiveInternetConnectivity();
+                }
+            }
 
+            return isOnline;
+        }
+
+
+
+        public bool ActiveInternetConnectivity()
+        {
+            string CheckUrl = "http://google.com";
+
+            try
+            {
+                HttpWebRequest iNetRequest = (HttpWebRequest)WebRequest.Create(CheckUrl);
+
+                iNetRequest.Timeout = 5000;
+                WebResponse iNetResponse = iNetRequest.GetResponse();
+                iNetResponse.Close();
+
+                return true;
+
+            }
+            catch (WebException ex)
+            {
+                return false;
+            }
+        }
 
     }
 }
