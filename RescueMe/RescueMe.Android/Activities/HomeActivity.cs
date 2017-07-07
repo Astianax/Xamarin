@@ -23,6 +23,7 @@ using Android.Content.PM;
 using Android.Gms.Location;
 using Android.Gms.Common.Apis;
 using Android.Gms.Common;
+using static Android.Gms.Maps.GoogleMap;
 
 namespace RescueMe.Droid.Activities
 {
@@ -51,13 +52,13 @@ namespace RescueMe.Droid.Activities
         protected LocationRequest mLocationRequest;
         protected LocationSettingsRequest mLocationSettingsRequest;
         protected Location mCurrentLocation;
-        
+        private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
 
         //Configuration Request
         protected const string TAG = "location-settings";
         protected const int REQUEST_CHECK_SETTINGS = 0x1;
-        public const long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+        public const long UPDATE_INTERVAL_IN_MILLISECONDS = 20000;
         public const long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
         protected const string KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
         protected const string KEY_LOCATION = "location";
@@ -71,7 +72,7 @@ namespace RescueMe.Droid.Activities
             var menu = FindViewById(Resource.Id.menuIcon);
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-
+            mGeocoder = new Geocoder(this);
             menu.Click += menu_Click;
             navigationView.NavigationItemSelected += NavigationItemSelected;
 
@@ -149,7 +150,6 @@ namespace RescueMe.Droid.Activities
             if (mCurrentLocation != null && mMap != null)
             {
                 mMap.Clear();
-
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
 
                 CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
@@ -160,14 +160,10 @@ namespace RescueMe.Droid.Activities
 
 
                 mMap.AddMarker(markerOptions);
-
-
-                mMap.UiSettings.ZoomControlsEnabled = true;
-                mMap.UiSettings.CompassEnabled = true;
+                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation));               
                 mMap.MoveCamera(camera);
             }
         }
-
 
 
         public async Task HandleResult(LocationSettingsResult locationSettingsResult)
@@ -281,6 +277,7 @@ namespace RescueMe.Droid.Activities
                 mCurrentLocation = LocationServices.FusedLocationApi.GetLastLocation(mGoogleApiClient);
 
                 SetUpMap();
+
                 if (_isAllowed)
                 {
                     UpdateLocationUI();
@@ -358,13 +355,14 @@ namespace RescueMe.Droid.Activities
         {
             mMap = googleMap;
             //Resource _resources;
-
+            mMap.UiSettings.ZoomControlsEnabled = true;
+            mMap.UiSettings.ZoomGesturesEnabled = true;
+            mMap.SetMaxZoomPreference(17);
+            mMap.SetMinZoomPreference(14);
+            mMap.UiSettings.CompassEnabled = false;
+            mMap.UiSettings.MyLocationButtonEnabled = true;
 
             bool success = mMap.SetMapStyle(new MapStyleOptions(GetString(Resource.String.style_json)));
-            //bool success = googleMap.SetMapStyle(
-            //    MapStyleOptions.LoadRawResourceStyle(
-            //            this, Resource.Raw.style_json));
-
             if (!success)
             {
                 Log.Info(TAG, "Style parsing failed.");
@@ -372,6 +370,7 @@ namespace RescueMe.Droid.Activities
             else
             {
                 CheckLocationSettings();
+              
             }
 
         }
@@ -438,5 +437,41 @@ namespace RescueMe.Droid.Activities
             var name = FindViewById<TextView>(Resource.Id.userName);
             name.Text = _context.GetUser().Name;
         }
+
+        //public View GetInfoContents(Marker marker)
+        //{
+        //    return null;
+        ////}
+
+        //public View GetInfoWindow(Marker marker)
+        //{
+        //    View view = LayoutInflater.Inflate(Resource.Layout.info_window,null, false);           
+        //    Geocoder geocoder = new Geocoder(this);
+
+        //    //The Geocoder class retrieves a list of address from Google over the internet  
+        //    IList<Address> addressList = geocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
+        //    Address addressCurrent = addressList.FirstOrDefault();
+
+        //    if (addressCurrent != null)
+        //    {
+        //        StringBuilder deviceAddress = new StringBuilder();
+
+        //        for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+        //            deviceAddress.Append(addressCurrent.GetAddressLine(i))
+        //                .AppendLine(",");
+
+        //        mAddress = deviceAddress.ToString();
+        //    }
+        //    else  
+        //    {
+
+        //        mAddress = "Unable to determine the address.";
+        //    }
+
+
+        //    view.FindViewById<TextView>(Resource.Id.txtAddress).Text = mAddress;
+
+        //    return view;
+        //}
     }
 }
