@@ -10,7 +10,17 @@
   
   
   <string name="GoogleKey">AIzaSyB-zofuZrnaB8Q0h692Qq3s3vfonmIrAbk</string>
-  
 
+  <string name="planet_prompt">Choose a planet</string>
+  <string-array name="planets_array">
+    <item>Mercury</item>
+    <item>Venus</item>
+    <item>Earth</item>
+    <item>Mars</item>
+    <item>Jupiter</item>
+    <item>Saturn</item>
+    <item>Uranus</item>
+    <item>Neptune</item>
+  </string-array>
 </resources>
 

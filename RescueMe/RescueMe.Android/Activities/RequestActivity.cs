@@ -15,18 +15,21 @@ namespace RescueMe.Droid.Activities
     [Activity(Label = "Request")]
     public class RequestActivity : BaseActivity
     {
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
+           
             base.OnCreate(savedInstanceState);
 
             // Create your application here
             //Get Location information
-            var latitud = savedInstanceState.GetBundle("Latitud");
-            var longitude = savedInstanceState.GetBundle("Longitude");
-
+            var location = Intent.GetBundleExtra("location");
+            var latitud = location.GetDouble("Latitude");
+            var longitude = location.GetDouble("Longitude");
+            
             var user = _context.GetUser();
             var vehicles = _context.GetVehicles();
-            if (user.IdentificationCard == "" || user.TelephoneNumber == "")
+            if (String.IsNullOrEmpty(user.IdentificationCard) || String.IsNullOrEmpty(user.TelephoneNumber))
             {
                 // If User don't have user information
                 StartActivity(typeof(ProfileActivity));
@@ -38,8 +41,22 @@ namespace RescueMe.Droid.Activities
             }
             else
             {
+                SetContentView(Resource.Layout.RequestRescue);
 
+                Spinner spinner = FindViewById<Spinner>(Resource.Id.Reasons);
+
+                //spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+                var adapter = ArrayAdapter.CreateFromResource(
+                        this, Resource.Array.planets_array, Android.Resource.Layout.SimpleSpinnerItem);
+
+                adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                spinner.Adapter = adapter;
             }
+
+        }
+
+        public void SendRequest_Click(EventArgs e, object sender)
+        {
 
         }
     }

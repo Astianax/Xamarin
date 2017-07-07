@@ -69,12 +69,15 @@ namespace RescueMe.Droid.Activities
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Home);
             var menu = FindViewById(Resource.Id.menuIcon);
+            var call = FindViewById<ImageButton>(Resource.Id.btnCall);
+            var request = FindViewById<ImageButton>(Resource.Id.btnRescue);
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
             menu.Click += menu_Click;
             navigationView.NavigationItemSelected += NavigationItemSelected;
-
+            call.Click += Call_Click;
+            request.Click += Request_Click;
 
 
 
@@ -91,7 +94,18 @@ namespace RescueMe.Droid.Activities
             BuildLocationSettingsRequest();
 
         }
-        
+
+        private void Request_Click(object sender, EventArgs e)
+        {
+            var bundle = new Bundle();
+            bundle.PutDouble("Latitude", mCurrentLocation.Latitude);
+            bundle.PutDouble("Longitude", mCurrentLocation.Longitude);
+
+            var intent = new Intent(this, typeof(RequestActivity));
+            intent.PutExtra("location", bundle);
+            StartActivity(intent);
+           
+        }
 
         void UpdateValuesFromBundle(Bundle savedInstanceState)
         {
@@ -437,6 +451,14 @@ namespace RescueMe.Droid.Activities
         {
             var name = FindViewById<TextView>(Resource.Id.userName);
             name.Text = _context.GetUser().Name;
+        }
+
+        private void Call_Click(object sender, EventArgs e)
+        {
+            Intent callIntent = new Intent(Intent.ActionDial);
+            //Uri.
+            //callIntent.SetData()
+            StartActivity(callIntent);
         }
     }
 }
