@@ -142,6 +142,7 @@
     <Compile Include="Activities\RescueActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Adapters\AdapterVehicle.cs" />
+    <Compile Include="Adapters\MarkerInfoAdapter.cs" />
     <Compile Include="Data\DbContext.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\UserSaved.cs" />
@@ -203,6 +204,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Firulais.axml" />
     <AndroidResource Include="Resources\layout\CardView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\info_window.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\RequestRescue.axml">
