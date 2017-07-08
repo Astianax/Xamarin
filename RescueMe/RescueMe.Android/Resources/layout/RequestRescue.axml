@@ -68,7 +68,7 @@
     <Button
         android:text="Solicitar Rescate"
         android:layout_height="40dp"
-        android:id="@+id/btnRequestRescue"
+        android:id="@+id/RequestRescue"
         android:layout_marginRight="100dp"
         android:layout_below="@id/txtComment"
         android:capitalize="words"

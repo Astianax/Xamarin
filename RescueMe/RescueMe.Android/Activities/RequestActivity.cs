@@ -64,7 +64,7 @@ namespace RescueMe.Droid.Activities
                 _spVehicles =
                         FindViewById<Spinner>(Resource.Id.ddVehicles);
                 _comment = FindViewById<EditText>(Resource.Id.txtComment);
-                var btnRequestRescue = FindViewById<Button>(Resource.Id.btnRequestRescue);
+                var btnRequestRescue = FindViewById<Button>(Resource.Id.RequestRescue);
             
                 SetTools();
 
@@ -90,9 +90,66 @@ namespace RescueMe.Droid.Activities
                 _comment.Text = GetAddress(_latitude, _longitude);
 
                 //Set Event's
-                btnRequestRescue.Click += SendRequest_Click;
+                btnRequestRescue.Click += BtnRequestRescue_Click;       
             }
 
+        }
+
+        private void BtnRequestRescue_Click(object sender, EventArgs e)
+        {
+            var request = new Request();
+            var vehicle = _vehicles[_spVehicles.SelectedItemPosition];
+            var reason = _reasons[_spReasons.SelectedItemPosition];
+
+            request.Latitude = decimal.Parse(_latitude.ToString());
+            request.Longitude = decimal.Parse(_longitude.ToString());
+            request.UserID = _context.GetUser().UserID;
+            request.ReasonID = reason.Id;
+            request.VehicleID = vehicle.Id;
+            request.Comments = _comment.Text;
+
+            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
+            progressDialog.Indeterminate = true;
+            progressDialog.SetCancelable(false);
+
+            new Thread(new ThreadStart(delegate
+            {
+                //LOAD METHOD TO GET ACCOUNT INFO
+                try
+                {
+                    request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
+
+                }
+                catch (Exception ex)
+                {
+                    request = null;
+                    // request = ex.Message;
+                }
+
+                if (request != null)
+                {
+
+                }
+                else
+                {
+                    //Snackbar.Make(marqueLayout, message, Snackbar.LengthLong)
+                    //        .SetAction("OK", (v) =>
+                    //        {
+                    //            txType.Text = String.Empty;
+                    //            txtMarque.Text = String.Empty;
+                    //        })
+                    //        .SetDuration(8000)
+                    //        .SetActionTextColor(Android.Graphics.Color.Orange)
+                    //        .Show();
+                }
+                //HIDE PROGRESS DIALOG
+                RunOnUiThread(() =>
+                {
+                    progressDialog.Hide();
+
+                });
+
+            })).Start();
         }
 
         public void SendRequest_Click(object sender, EventArgs e)
