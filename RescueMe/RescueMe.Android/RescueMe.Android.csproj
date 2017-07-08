@@ -63,7 +63,7 @@
       <HintPath>..\..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="RescueMe.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RescueMe.Domain.1.0.0-release-21\lib\netstandard1.4\RescueMe.Domain.dll</HintPath>
+      <HintPath>..\..\packages\RescueMe.Domain.1.0.0-release-22\lib\netstandard1.4\RescueMe.Domain.dll</HintPath>
     </Reference>
     <Reference Include="SQLite-net, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\sqlite-net-pcl.1.0.11\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SQLite-net.dll</HintPath>
@@ -144,7 +144,9 @@
     <Compile Include="Adapters\AdapterVehicle.cs" />
     <Compile Include="Adapters\MarkerInfoAdapter.cs" />
     <Compile Include="Data\DbContext.cs" />
+    <Compile Include="Adapters\SpinnerAdapter.cs" />
     <Compile Include="Data\Settings.cs" />
+    <Compile Include="Data\SpinnerItem.cs" />
     <Compile Include="Data\UserSaved.cs" />
     <Compile Include="Data\VehicleSaved.cs" />
     <Compile Include="MainActivity.cs" />

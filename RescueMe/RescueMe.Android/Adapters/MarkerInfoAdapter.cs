@@ -28,8 +28,6 @@ namespace RescueMe.Droid.Adapters
             mGeocoder = geocoder;
         }
 
-
-
         public View GetInfoContents(Marker marker)
         {
             return null;

@@ -104,6 +104,7 @@ namespace RescueMe.Droid.Activities
 
             var intent = new Intent(this, typeof(RequestActivity));
             intent.PutExtra("location", bundle);
+
             StartActivity(intent);
            
         }
