@@ -24,6 +24,7 @@ using Android.Gms.Location;
 using Android.Gms.Common.Apis;
 using Android.Gms.Common;
 using static Android.Gms.Maps.GoogleMap;
+using Android.Graphics;
 
 namespace RescueMe.Droid.Activities
 {
@@ -94,7 +95,14 @@ namespace RescueMe.Droid.Activities
             CreateLocationRequest();
             BuildLocationSettingsRequest();
 
+
+            // Load map from a portal item
+
+
         }
+
+
+        private GroundOverlay cobjGroundOverlay = null;
 
         private void Request_Click(object sender, EventArgs e)
         {
@@ -105,8 +113,9 @@ namespace RescueMe.Droid.Activities
             var intent = new Intent(this, typeof(RequestActivity));
             intent.PutExtra("location", bundle);
             StartActivity(intent);
-           
+
         }
+
 
         void UpdateValuesFromBundle(Bundle savedInstanceState)
         {
@@ -166,6 +175,22 @@ namespace RescueMe.Droid.Activities
                 mMap.Clear();
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
 
+                int intWidth = 100;
+                int intHeight = 100;
+
+                // To use the map or image of the map in the offline (not internet) mode.
+                using (Bitmap objBitmap = GenerateMyCustomDrawnOverlay(intWidth, intHeight))
+                {
+                    using (Android.Gms.Maps.Model.BitmapDescriptor objBitmapDescriptor = Android.Gms.Maps.Model.BitmapDescriptorFactory.FromBitmap(objBitmap))
+                    {
+                        GroundOverlayOptions objGroundOverlayOptions = new GroundOverlayOptions()
+                            .Position(latlng, intWidth, intHeight)
+                            .InvokeImage(objBitmapDescriptor);
+                        //
+                        cobjGroundOverlay = mMap.AddGroundOverlay(objGroundOverlayOptions);
+                    }
+                }
+
                 CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
                 MarkerOptions markerOptions = new MarkerOptions()
                                                      .SetPosition(latlng)
@@ -174,8 +199,9 @@ namespace RescueMe.Droid.Activities
 
 
                 mMap.AddMarker(markerOptions);
-                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation));               
+                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation));
                 mMap.MoveCamera(camera);
+                //AddMyCustomDrawnOverlayToMap();
             }
         }
 
@@ -296,7 +322,7 @@ namespace RescueMe.Droid.Activities
                 {
                     UpdateLocationUI();
                 }
-                    
+
 
             }
         }
@@ -354,7 +380,7 @@ namespace RescueMe.Droid.Activities
         }
 
 
-        
+
 
         private void SetUpMap()
         {
@@ -363,7 +389,6 @@ namespace RescueMe.Droid.Activities
                 FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
             }
         }
-
 
         public void OnMapReady(GoogleMap googleMap)
         {
@@ -384,11 +409,18 @@ namespace RescueMe.Droid.Activities
             else
             {
                 CheckLocationSettings();
-              
+
             }
 
         }
-        
+
+        private Bitmap GenerateMyCustomDrawnOverlay(int pintWidth, int pintHeight)
+        {
+            Bitmap objBitmap = Bitmap.CreateBitmap(pintWidth, pintHeight, Bitmap.Config.Argb8888);
+            return objBitmap;
+        }
+
+
 
         private void menu_Click(object sender, EventArgs e)
         {

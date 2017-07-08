@@ -98,9 +98,7 @@ namespace RescueMe.Droid.Activities
 
             return isOnline;
         }
-
-
-
+        
         public bool ActiveInternetConnectivity()
         {
             string CheckUrl = "http://google.com";
