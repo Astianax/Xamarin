@@ -155,6 +155,11 @@ namespace RescueMe.Droid.Data
             await _connection.InsertAllAsync(vehicleSaved);
         }
 
+        public void SaveRequest(Request request)
+        {
+            //throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Return All Vehicles
         /// </summary>
