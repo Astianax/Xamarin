@@ -15,6 +15,8 @@ using RescueMe.Domain;
 using Android.Locations;
 using System.Threading;
 using Android.Support.Design.Widget;
+using System.Drawing;
+using Android.Views.Animations;
 
 namespace RescueMe.Droid.Activities
 {
@@ -32,9 +34,13 @@ namespace RescueMe.Droid.Activities
         //Information
         private Double _latitude;
         private Double _longitude;
+
+
+        Android.Support.V7.Widget.Toolbar reasonsLayout;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
-           
+
             base.OnCreate(savedInstanceState);
 
             // Create your application here
@@ -42,10 +48,16 @@ namespace RescueMe.Droid.Activities
             var location = Intent.GetBundleExtra("location");
             _latitude = location.GetDouble("Latitude");
             _longitude = location.GetDouble("Longitude");
-            
+
             var user = _context.GetUser();
             _vehicles = _context.GetVehicles();
             _reasons = _context.GetReasons();
+
+
+            reasonsLayout = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.spinerReasonsLayout);
+
+
+
             if (String.IsNullOrEmpty(user.IdentificationCard) || String.IsNullOrEmpty(user.TelephoneNumber))
             {
                 // If User don't have user information
@@ -89,101 +101,130 @@ namespace RescueMe.Droid.Activities
                 _spVehicles.Adapter = vehicleAdapter;
                 _spReasons.Adapter = reasonsAdapter;
                 _comment.Text = GetAddress(_latitude, _longitude);
-
+                _comment.SetSelection(_comment.Text.Length);
                 //Set Event's
-                btnRequestRescue.Click += BtnRequestRescue_Click;       
-            }
+                btnRequestRescue.Click += BtnRequestRescue_Click;
+                //Button fadein = FindViewById<Button>(Resource.Id.fadein);
+                //fadein.Click += Btn_Click;
 
-        }
+
+
+
+                //btnRequestRescue.Click += async (sender, eventargs) =>
+                //{
+
+                //    Animation shake = AnimationUtils.LoadAnimation(this, Resource.Animation.outToBottom);
+                //    relativeLayout.StartAnimation(shake);
+                //    shake.FillAfter = true;
+                //    shake.FillEnabled = true;
+
+                //    shake.AnimationEnd += delegate
+                //    {
+                //        StartActivity(typeof(editProfileActivity));
+                //        OverridePendingTransition(Resource.Animation.inFromRight, Resource.Animation.outToLeft);
+                //    };
+                //};
+
+
+            }
+    }
+        //public void Btn_Click(object sender, EventArgs e)
+        //{
+        //    var txtMessage = FindViewById<TextView>(Resource.Id.txtMessage);
+        //    Button b = sender as Button;
+        //    Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
+        //                   Resource.Animation.fade_in);
+        //    txtMessage.StartAnimation(anim);
+        //}
 
         private void BtnRequestRescue_Click(object sender, EventArgs e)
+    {
+        var request = new Request();
+        string message = "";
+        RelativeLayout requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
+        var vehicle = _vehicles[_spVehicles.SelectedItemPosition];
+        var reason = _reasons[_spReasons.SelectedItemPosition];
+
+        request.Latitude = decimal.Parse(_latitude.ToString());
+        request.Longitude = decimal.Parse(_longitude.ToString());
+        request.UserID = _context.GetUser().UserID;
+        request.ReasonID = reason.Id;
+        request.VehicleID = vehicle.Id;
+        request.Comments = _comment.Text;
+
+        var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
+        progressDialog.Indeterminate = true;
+        progressDialog.SetCancelable(false);
+
+
+        new Thread(new ThreadStart(delegate
         {
-            var request = new Request();
-            string message = "";
-            RelativeLayout requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
-            var vehicle = _vehicles[_spVehicles.SelectedItemPosition];
-            var reason = _reasons[_spReasons.SelectedItemPosition];
 
-            request.Latitude = decimal.Parse(_latitude.ToString());
-            request.Longitude = decimal.Parse(_longitude.ToString());
-            request.UserID = _context.GetUser().UserID;
-            request.ReasonID = reason.Id;
-            request.VehicleID = vehicle.Id;
-            request.Comments = _comment.Text;
-
-            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
-            progressDialog.Indeterminate = true;
-            progressDialog.SetCancelable(false);
-
-            
-                new Thread(new ThreadStart(delegate
+            try
+            {
+                if (IsNetworkConnected())
                 {
-
-                    try
-                    {
-                        if (IsNetworkConnected())
-                        {
-                            request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
-                            message = "Se ha enviado su solicitud";
-                        }
-                        else
-                        {
-                            //SMS
-                            message = "No tiene conexion se enviara por SMS";
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        request = null;
-                        message = ex.Message;
-                    }
-
-
-                    //HIDE PROGRESS DIALOG
-                    RunOnUiThread(() =>
-                    {
-                        progressDialog.Hide();
-                        _context.SaveRequest(request);
-                        Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
-                              .SetAction("OK", (v) =>
-                              {
-                                  this.Finish();
-                              })
-                              //.SetDuration(8000)
-                              .SetActionTextColor(Android.Graphics.Color.Orange)
-                              .Show();
-                    });
-
+                    request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
+                    message = "Se ha enviado su solicitud";
                 }
-                
-                )).Start();
-          
-        }
+                else
+                {
+                        //SMS
+                        message = "No tiene conexion se enviara por SMS";
+                }
 
-        private string GetAddress(Double latitude, Double longitude)
+            }
+            catch (Exception ex)
+            {
+                request = null;
+                message = ex.Message;
+            }
+
+
+                //HIDE PROGRESS DIALOG
+                RunOnUiThread(() =>
         {
-            var geocoder = new Geocoder(this);
-            IList<Address> addressList =
-                geocoder.GetFromLocation(latitude, longitude, 10);
-            Address addressCurrent = addressList.FirstOrDefault();
-            string mAddress;
-            if (addressCurrent != null)
-            {
-                StringBuilder deviceAddress = new StringBuilder();
+            progressDialog.Hide();
+            _context.SaveRequest(request);
+            Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
+                  .SetAction("OK", (v) =>
+                  {
+                      this.Finish();
+                  })
+                  //.SetDuration(8000)
+                  .SetActionTextColor(Android.Graphics.Color.Orange)
+                  .Show();
+        });
 
-                for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
-                    deviceAddress.Append(addressCurrent.GetAddressLine(i))
-                        .AppendLine(",");
-
-                mAddress = deviceAddress.ToString();
-            }
-            else
-            {
-
-                mAddress = "Unable to determine the address.";
-            }
-            return mAddress;
         }
+
+        )).Start();
+
     }
+        //Verificar con sin conexion a internet
+    private string GetAddress(Double latitude, Double longitude)
+    {
+        var geocoder = new Geocoder(this);
+        IList<Address> addressList =
+            geocoder.GetFromLocation(latitude, longitude, 10);
+        Address addressCurrent = addressList.FirstOrDefault();
+        string mAddress;
+        if (addressCurrent != null)
+        {
+            StringBuilder deviceAddress = new StringBuilder();
+
+            for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+                deviceAddress.Append(addressCurrent.GetAddressLine(i))
+                    .AppendLine(",");
+
+            mAddress = deviceAddress.ToString();
+        }
+        else
+        {
+
+            mAddress = "Unable to determine the address.";
+        }
+        return mAddress;
+    }
+}
 }

@@ -20,6 +20,7 @@ using Android.Content.Res;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Android.Views.Animations;
 
 namespace RescueMe.Droid
 {
@@ -30,7 +31,7 @@ namespace RescueMe.Droid
     public class MainActivity : BaseActivity
     {
 
-
+        Button btnLogin;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -52,7 +53,7 @@ namespace RescueMe.Droid
             {
                 SetContentView(Resource.Layout.Login);
                 //Controls
-                var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
                 var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
                 btnLogin.Click += BtnLogin_Click;
                 linkRegister.Click += linkRegister_click;

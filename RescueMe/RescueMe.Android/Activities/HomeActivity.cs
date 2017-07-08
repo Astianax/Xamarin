@@ -25,6 +25,8 @@ using Android.Gms.Common.Apis;
 using Android.Gms.Common;
 using static Android.Gms.Maps.GoogleMap;
 using Android.Graphics;
+using Android.Views.Animations;
+using Android.Animation;
 
 namespace RescueMe.Droid.Activities
 {
@@ -64,7 +66,7 @@ namespace RescueMe.Droid.Activities
         protected const string KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
         protected const string KEY_LOCATION = "location";
 
-
+        ImageButton request;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -72,7 +74,7 @@ namespace RescueMe.Droid.Activities
             SetContentView(Resource.Layout.Home);
             var menu = FindViewById(Resource.Id.menuIcon);
             var call = FindViewById<ImageButton>(Resource.Id.btnCall);
-            var request = FindViewById<ImageButton>(Resource.Id.btnRescue);
+             request = FindViewById<ImageButton>(Resource.Id.btnRescue);
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
@@ -112,6 +114,10 @@ namespace RescueMe.Droid.Activities
 
             var intent = new Intent(this, typeof(RequestActivity));
             intent.PutExtra("location", bundle);
+            
+            //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
+            //               Resource.Animation.fade_in);
+            //request.StartAnimation(anim);
 
             StartActivity(intent);
 
@@ -196,10 +202,17 @@ namespace RescueMe.Droid.Activities
                 MarkerOptions markerOptions = new MarkerOptions()
                                                      .SetPosition(latlng)
                                                       .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
-                                                     .SetTitle("My Position");
+                                                     .SetTitle("My Position")
+                                                     ;
+
+         
+
+            //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
+            //Resource.Animation.jump);
+            //markerOptions.StartAnimation(anim);
 
 
-                mMap.AddMarker(markerOptions);
+            mMap.AddMarker(markerOptions);
                 mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation));
                 mMap.MoveCamera(camera);
                 //AddMyCustomDrawnOverlayToMap();

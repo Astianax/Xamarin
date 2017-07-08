@@ -64,14 +64,14 @@ namespace RescueMe.Droid.Adapters
             View layout = LayoutInflater.From(context).Inflate(Resource.Drawable.custom_spinner, parent, false);// inflater.inflate(R.layout.custom, parent, false);
 
             // Declaring and Typecasting the textview in the inflated layout
-            TextView tvLanguage = (TextView)layout
-            .FindViewById(Resource.Id.tvLanguage);
+            TextView txtSpinner = (TextView)layout
+            .FindViewById(Resource.Id.txtSpinner);
 
             // Setting the text using the array
-            tvLanguage.Text = values[position].Description;
+            txtSpinner.Text = values[position].Description;
 
             // Setting the color of the text
-            tvLanguage.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
+            txtSpinner.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
 
             // Declaring and Typecasting the imageView in the inflated layout
             //ImageView img = (ImageView)layout.FindViewById(Resource.Id.imgLanguage);
@@ -85,9 +85,9 @@ namespace RescueMe.Droid.Adapters
                 // Removing the image view
                 //img.setVisibility(View.GONE);
                 // Setting the size of the text
-                tvLanguage.TextSize = 20f;
+                txtSpinner.TextSize = 20f;
                 // Setting the text Color
-                tvLanguage.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
+                txtSpinner.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
 
             }
 
@@ -111,14 +111,14 @@ namespace RescueMe.Droid.Adapters
             View layout = LayoutInflater.From(context).Inflate(Resource.Drawable.custom_spinner, parent, false);// inflater.inflate(R.layout.custom, parent, false);
 
             // Declaring and Typecasting the textview in the inflated layout
-            TextView tvLanguage = (TextView)layout
-            .FindViewById(Resource.Id.tvLanguage);
+            TextView txtSpinner = (TextView)layout
+            .FindViewById(Resource.Id.txtSpinner);
 
             // Setting the text using the array
-            tvLanguage.Text = values[position].Description;
+            txtSpinner.Text = values[position].Description;
 
             // Setting the color of the text
-            tvLanguage.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
+            txtSpinner.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
 
             // Declaring and Typecasting the imageView in the inflated layout
             //ImageView img = (ImageView)layout.FindViewById(Resource.Id.imgLanguage);
@@ -132,9 +132,9 @@ namespace RescueMe.Droid.Adapters
                 // Removing the image view
                 //img.setVisibility(View.GONE);
                 // Setting the size of the text
-                tvLanguage.TextSize = 16f;
+                txtSpinner.TextSize = 16f;
                 // Setting the text Color
-                tvLanguage.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
+                txtSpinner.SetTextColor(parent.Resources.GetColor(Resource.Color.menu_text_color));
 
             }
 
