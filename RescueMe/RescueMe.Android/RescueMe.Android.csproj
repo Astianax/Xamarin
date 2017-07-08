@@ -167,6 +167,7 @@
     <Compile Include="Adapters\MarkerInfoAdapter.cs" />
     <Compile Include="Data\DbContext.cs" />
     <Compile Include="Adapters\SpinnerAdapter.cs" />
+    <Compile Include="Data\RequestSaved.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\SpinnerItem.cs" />
     <Compile Include="Data\UserSaved.cs" />

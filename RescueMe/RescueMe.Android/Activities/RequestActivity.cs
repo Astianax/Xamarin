@@ -194,7 +194,7 @@ namespace RescueMe.Droid.Activities
                     RunOnUiThread(() =>
                         {
                             progressDialog.Hide();
-                            _context.SaveRequest(request);
+                            _context.InsertRequest(request);
                             Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
                                 .SetAction("OK", (v) =>
                                 {

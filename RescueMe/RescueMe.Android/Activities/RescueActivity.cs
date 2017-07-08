@@ -37,31 +37,31 @@ namespace RescueMe.Droid.Activities
         }
         public async Task<List<Request>> GetRequests()
         {
-            var rquests = new List<Request>();
-            try
-            {
-                if (IsNetworkConnected())
-                {
-                    rquests = _client.Get("Request/requests", new
-                                                            {
-                                                                UserId = _context.GetUser().UserID,
-                                                                platform = "mobile"
-                                                            }
-                        ).Result.JsonToObject<List<Request>>(); 
-                }
-                else
-                {
-                    //Offline
-                    //vehicles = _context.GetVehicles();
-                }
-            }
-            catch (Exception ex)
-            {
-                rquests = null;
-                //message = ex.Message;
-            }
-
-            return rquests;
+            var requests = new List<Request>();
+            //try
+            //{
+            //    if (IsNetworkConnected())
+            //    {
+            //        requests = _client.Get("Request/requests", new
+            //                                                {
+            //                                                    UserId = _context.GetUser().UserID,
+            //                                                    platform = "mobile"
+            //                                                }
+            //            ).Result.JsonToObject<List<Request>>(); 
+            //    }
+            //    else
+            //    {
+            //        //Offline
+            //        requests = _context.GetRequest();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    requests = null;
+            //    //message = ex.Message;
+            //}
+            requests = _context.GetRequest();
+            return requests;
         }
         private void SetRecyclerView(List<Request> dataset)
         {
@@ -78,7 +78,7 @@ namespace RescueMe.Droid.Activities
             mRecyclerView.SetLayoutManager(mLayoutManager);
 
             // specify an adapter (see also next example)           
-            mAdapter = new AdapterRescues(dataset);
+            mAdapter = new AdapterRescues(dataset, _context);
             mAdapter.IsNetworkConnected = IsNetworkConnected();
             mRecyclerView.SetAdapter(mAdapter);
         }

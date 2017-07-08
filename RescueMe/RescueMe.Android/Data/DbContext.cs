@@ -12,6 +12,9 @@ using Android.Widget;
 using SQLite;
 using System.IO;
 using RescueMe.Domain;
+using Android.Graphics;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace RescueMe.Droid.Data
 {
@@ -19,12 +22,12 @@ namespace RescueMe.Droid.Data
     {
         private static DbContext _instance;
         private SQLiteAsyncConnection _connection;
-
+        public  bool IsNetworkConnected { get; set; }
         private DbContext()
         {
             //_
             string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            _connection = new SQLiteAsyncConnection(Path.Combine(path, "db.db3"));
+            _connection = new SQLiteAsyncConnection(System.IO.Path.Combine(path, "db.db3"));
             CreateDatabase();
         }
         public static DbContext Instance
@@ -54,6 +57,7 @@ namespace RescueMe.Droid.Data
                 var vehicleSaved = _connection.Table<VehicleSaved>().CountAsync().Result;
                 var SettingSaved = _connection.Table<Settings>().CountAsync().Result;
                 var reasonsSaved = _connection.Table<ReasonRequest>().CountAsync().Result;
+                var requestSaved = _connection.Table<RequestSaved>().CountAsync().Result;
             }
             catch (Exception e)
             {
@@ -63,8 +67,9 @@ namespace RescueMe.Droid.Data
                     _connection.CreateTableAsync<VehicleSaved>().Wait();
                     _connection.CreateTableAsync<Settings>().Wait();
                     _connection.CreateTableAsync<ReasonRequest>().Wait();
+                    _connection.CreateTableAsync<RequestSaved>().Wait();
                 }
-                catch(Exception m)
+                catch (Exception m)
                 {
                     var a = 1;
                 }
@@ -89,7 +94,9 @@ namespace RescueMe.Droid.Data
         /// </summary>
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
-        public void LogIn(UserProfile user, List<Vehicle> vehicles, List<ReasonRequest> reasons)
+        public void LogIn(UserProfile user, List<Vehicle> vehicles,
+                                List<ReasonRequest> reasons,
+                                List<Request> requests = null)
         {
             UpdateUser(user);
             if (vehicles != null)
@@ -99,6 +106,10 @@ namespace RescueMe.Droid.Data
             if (reasons != null)
             {
                 UpdateReasons(reasons);
+            }
+            if (requests != null)
+            {
+                UpdateRequests(requests);
             }
         }
 
@@ -119,7 +130,7 @@ namespace RescueMe.Droid.Data
                 UserID = user.UserID,
                 LastLogged = DateTime.Now
             };
-            var isSaved =_connection.InsertAsync(userSaved).Result > 0;
+            var isSaved = _connection.InsertAsync(userSaved).Result > 0;
             return isSaved;
         }
 
@@ -155,9 +166,108 @@ namespace RescueMe.Droid.Data
             await _connection.InsertAllAsync(vehicleSaved);
         }
 
-        public void SaveRequest(Request request)
+        public async void InsertRequest(Request request)
         {
-            //throw new NotImplementedException();
+            var requestSaved = new RequestSaved()
+            {
+                Id = request.Id,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                StatusID = request.StatusID,
+                Comments = request.Comments,
+                VehicleID = request.VehicleID,
+                ReasonID = request.ReasonID
+            };
+
+            await _connection.InsertAsync(requestSaved);
+        }
+        public async void UpdateRequests(List<Request> requests)
+        {
+            await _connection.DropTableAsync<RequestSaved>();
+            await _connection.CreateTableAsync<RequestSaved>();
+            var requestsSaved = requests.Select(r => new RequestSaved()
+            {
+                Id = r.Id,
+                Latitude = r.Latitude,
+                Longitude = r.Longitude,
+                StatusID = r.StatusID,
+                Comments = r.Comments,
+                VehicleID = r.VehicleID,
+                ReasonID = r.ReasonID,
+                Status = r.Status.Name
+            }).ToList();
+
+            await _connection.InsertAllAsync(requestsSaved);
+            //Download all image's
+            foreach(var request in requests)
+            {
+                await GetImageBitmapFromRequest(request);
+            }
+        }
+        /// <summary>
+        /// Save image request
+        /// </summary>
+        /// <param name="request"></param>
+        private async Task GetImageBitmapFromUrl(Request request)
+        {
+            using (var webClient = new WebClient())
+            {
+                //Save Local
+                webClient.DownloadDataCompleted += (s, e) => {
+                    var bytes = e.Result; // get the downloaded data
+                    string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                    string localFilename = $"{request.Id}_{GetUser().UserID}.png";
+                    string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+                    File.WriteAllBytes(localPath, bytes); // writes to local storage
+                };
+                 webClient.DownloadDataAsync(new Uri($"http://rescueme-api.azurewebsites.net/api/Map?" +
+                                        $"requestID={request.Id}&UserID={GetUser().UserID}"));
+
+              
+            }
+           
+        }
+        public async Task<Bitmap> GetImageBitmapFromRequest(Request request)
+        {
+            Stream fileImage;
+            Bitmap imageBitmap = null;
+            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            string localFilename = $"{request.Id}_{GetUser().UserID}.png";
+            string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+            //Return Local image or 
+            if (System.IO.File.Exists(localPath))
+            {
+                fileImage = System.IO.File.OpenRead(localPath);
+                imageBitmap = BitmapFactory.DecodeStream(fileImage);
+            }
+            else if(IsNetworkConnected)
+            {
+                await GetImageBitmapFromUrl(request);
+            }          
+            return imageBitmap;
+        }
+        public List<Request> GetRequest()
+        {
+            var requests = _connection.Table<RequestSaved>().ToListAsync()
+                                      .Result.Select(r => new Request()
+                                      {
+                                          Id = r.Id,
+                                          Latitude = r.Latitude,
+                                          Longitude = r.Longitude,
+                                          StatusID = r.StatusID,
+                                          Comments = r.Comments,
+                                          VehicleID = r.VehicleID,
+                                          ReasonID =r.ReasonID,
+                                          ReasonRequest = GetReasons().FirstOrDefault(l=>l.Id == r.ReasonID),
+                                          Vehicle = GetVehicles().FirstOrDefault(v=>v.Id ==r.VehicleID),
+                                          User = GetUser().User,
+                                          Status = new Status()
+                                          {
+                                              Name = r.Status
+                                          }
+                                      }).ToList();
+
+            return requests;
         }
 
         /// <summary>

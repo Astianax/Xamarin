@@ -153,7 +153,8 @@ namespace RescueMe.Droid
                         //Save Vehicles
                         var vehicles = GetVehicles(user.Id);
                         var reasons = GetReasons();
-                        _context.LogIn(user, vehicles, reasons);
+                        var rescues = GetRescues(user);
+                        _context.LogIn(user, vehicles, reasons, rescues);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }
@@ -191,6 +192,26 @@ namespace RescueMe.Droid
             }
 
             return vehicles;
+        }
+
+        public List<Request> GetRescues(UserProfile user)
+        {
+            List<Request> requests;
+            try
+            {
+                requests = _client.Get("Request/requests", new
+                {
+                    UserId = user.UserID,
+                    platform = "mobile"
+                }
+                        ).Result.JsonToObject<List<Request>>();
+            }
+            catch (Exception ex)
+            {
+                requests = null;
+            }
+
+            return requests;
         }
         public List<ReasonRequest> GetReasons()
         {

@@ -34,6 +34,7 @@ namespace RescueMe.Droid.Activities
         {
             _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
             _context = DbContext.Instance;
+            _context.IsNetworkConnected = true;
         }
 
         protected void SetTools()
@@ -45,6 +46,7 @@ namespace RescueMe.Droid.Activities
             title.Text = titleText.Text;
 
             btnBack.Click += BtnBack_click;
+            _context.IsNetworkConnected = IsNetworkConnected();
         }
 
 

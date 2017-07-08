@@ -18,13 +18,12 @@ namespace RescueMe.Droid.Adapters
         public event EventHandler<AdapterRescuesClickEventArgs> ItemLongClick;
         List<Request> items;
         DbContext _context;
-        UserProfile _user;
-        private RestClient _client;
         public bool IsNetworkConnected { get; set; }
         TextInputLayout _marqueLayout;
-        public AdapterRescues(List<Request> data)
+        public AdapterRescues(List<Request> data, DbContext context)
         {
             items = data;
+            _context = context;
         }
 
         // Create new views (invoked by the layout manager)
@@ -54,8 +53,8 @@ namespace RescueMe.Droid.Adapters
             holder.Type.Text = request.Vehicle.Type;
             holder.Marque.Text = request.Vehicle.Marque;
             holder.Status.Text = request.Status.Name;
-            var imageBitmap = GetImageBitmapFromUrl($"http://rescueme-api.azurewebsites.net/api/Map?" +
-                $"requestID={request.Id}&UserID={request.UserID}");
+            //Get and validate if image exist 
+            var imageBitmap = _context.GetImageBitmapFromRequest(request).Result;
             holder.Map.SetImageBitmap(imageBitmap);
            
 
