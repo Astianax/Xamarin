@@ -4,18 +4,18 @@
     android:padding="3dip" >
 
   <!--<ImageView
-      android:id="@+id/imgLanguage"
+      android:id="@+id/setError"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:src="@drawable/Icon" >
+      android:gravity="right"
+      android:visibility="invisible"
+      android:src="@drawable/ic_delete" >
   </ImageView>-->
-
   <TextView
        android:id="@+id/txtSpinner"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:padding="10dp"
-       android:background="@layout/spinner_item_divider">
-  </TextView>
-
+       android:background="@layout/spinner_item_divider" />
+ 
 </LinearLayout>

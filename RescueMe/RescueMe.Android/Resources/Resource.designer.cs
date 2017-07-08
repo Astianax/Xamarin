@@ -63,31 +63,37 @@ namespace RescueMe.Droid
 			public const int abc_slide_out_top = 2130968585;
 			
 			// aapt resource value: 0x7f04000a
-			public const int design_appbar_state_list_animator = 2130968586;
+			public const int cycle_7 = 2130968586;
 			
 			// aapt resource value: 0x7f04000b
-			public const int design_bottom_sheet_slide_in = 2130968587;
+			public const int design_appbar_state_list_animator = 2130968587;
 			
 			// aapt resource value: 0x7f04000c
-			public const int design_bottom_sheet_slide_out = 2130968588;
+			public const int design_bottom_sheet_slide_in = 2130968588;
 			
 			// aapt resource value: 0x7f04000d
-			public const int design_fab_in = 2130968589;
+			public const int design_bottom_sheet_slide_out = 2130968589;
 			
 			// aapt resource value: 0x7f04000e
-			public const int design_fab_out = 2130968590;
+			public const int design_fab_in = 2130968590;
 			
 			// aapt resource value: 0x7f04000f
-			public const int design_snackbar_in = 2130968591;
+			public const int design_fab_out = 2130968591;
 			
 			// aapt resource value: 0x7f040010
-			public const int design_snackbar_out = 2130968592;
+			public const int design_snackbar_in = 2130968592;
 			
 			// aapt resource value: 0x7f040011
-			public const int fade_in = 2130968593;
+			public const int design_snackbar_out = 2130968593;
 			
 			// aapt resource value: 0x7f040012
-			public const int jump = 2130968594;
+			public const int fade_in = 2130968594;
+			
+			// aapt resource value: 0x7f040013
+			public const int jump = 2130968595;
+			
+			// aapt resource value: 0x7f040014
+			public const int shake = 2130968596;
 			
 			static Animation()
 			{

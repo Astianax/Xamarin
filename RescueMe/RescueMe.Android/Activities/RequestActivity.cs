@@ -17,6 +17,7 @@ using System.Threading;
 using Android.Support.Design.Widget;
 using System.Drawing;
 using Android.Views.Animations;
+using Android.Support.V4.Content;
 
 namespace RescueMe.Droid.Activities
 {
@@ -144,76 +145,86 @@ namespace RescueMe.Droid.Activities
             RelativeLayout requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
             var selectedVehicle = _spVehicles.SelectedItemPosition;
             var selectedReason = _spReasons.SelectedItemPosition;
-
+            if (selectedReason == 0)
+            {
+                SetSpinnerError(_spReasons, "Debe seleccionar una razon");
+            }
+            else
             if (selectedVehicle == 0)
             {
-                SetSpinnerError()
+                SetSpinnerError(_spVehicles, "Debe seleccionar un vehicle");
             }
-            var vehicle = _vehicles[selectedVehicle];
-            var reason = _reasons[selectedReason];
-
-            request.Latitude = decimal.Parse(_latitude.ToString());
-            request.Longitude = decimal.Parse(_longitude.ToString());
-            request.UserID = _context.GetUser().UserID;
-            request.ReasonID = reason.Id;
-            request.VehicleID = vehicle.Id;
-            request.Comments = _comment.Text;
-
-            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
-            progressDialog.Indeterminate = true;
-            progressDialog.SetCancelable(false);
-
-
-            new Thread(new ThreadStart(delegate
+            else
             {
+                var vehicle = _vehicles[selectedVehicle];
+                var reason = _reasons[selectedReason];
 
-                try
+                request.Latitude = decimal.Parse(_latitude.ToString());
+                request.Longitude = decimal.Parse(_longitude.ToString());
+                request.UserID = _context.GetUser().UserID;
+                request.ReasonID = reason.Id;
+                request.VehicleID = vehicle.Id;
+                request.Comments = _comment.Text;
+
+                var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
+                progressDialog.Indeterminate = true;
+                progressDialog.SetCancelable(false);
+
+                new Thread(new ThreadStart(delegate
                 {
-                    if (IsNetworkConnected())
+                    try
                     {
-                        request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
-                        message = "Se ha enviado su solicitud";
+                        if (IsNetworkConnected())
+                        {
+                            request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
+                            message = "Se ha enviado su solicitud";
+                        }
+                        else
+                        {
+                            //SMS
+                            message = "No tiene conexion se enviara por SMS";
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                    //SMS
-                    message = "No tiene conexion se enviara por SMS";
+                        request = null;
+                        message = ex.Message;
                     }
-
+                    //HIDE PROGRESS DIALOG
+                    RunOnUiThread(() =>
+                        {
+                            progressDialog.Hide();
+                            _context.SaveRequest(request);
+                            Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
+                                .SetAction("OK", (v) =>
+                                {
+                                    this.Finish();
+                                })
+                                //.SetDuration(8000)
+                                .SetActionTextColor(Android.Graphics.Color.Orange)
+                                .Show();
+                        });
                 }
-                catch (Exception ex)
-                {
-                    request = null;
-                    message = ex.Message;
-                }
 
-
-            //HIDE PROGRESS DIALOG
-            RunOnUiThread(() =>
-    {
-                progressDialog.Hide();
-                _context.SaveRequest(request);
-                Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
-                      .SetAction("OK", (v) =>
-                      {
-                          this.Finish();
-                      })
-                      //.SetDuration(8000)
-                      .SetActionTextColor(Android.Graphics.Color.Orange)
-                      .Show();
-            });
-
+                )).Start();
             }
-
-            )).Start();
-
         }
 
-        private void SetSpinnerError(Spinner element)
+        private void SetSpinnerError(Spinner element, string message)
         {
-            //View view = element.SelectedView;
+            View view = element.SelectedView;
             //ImageView image = view.FindViewById<ImageView>(Resource.Id.setError);
-            //image.Visibility = ViewStates.Visible;
+            TextView error = view.FindViewById<TextView>(Resource.Id.txtSpinner);
+            error.Text = message;
+            //error.SetBackgroundColor(Android.Graphics.Color.Red);
+            //error.
+            error.SetTextColor(Android.Graphics.Color.Red);
+            //error.SetTextColor(ContextCompat.GetColor(this, Resource.Color.my_purple));
+            //error.SetError(message, Resources.GetDrawable(Resource.Drawable.ic_delete));
+            error.RequestFocus();
+            Animation shake = AnimationUtils.LoadAnimation(this, Resource.Animation.shake);
+            element.StartAnimation(shake);
+
         }
         //Verificar con sin conexion a internet
         private string GetAddress(Double latitude, Double longitude)
