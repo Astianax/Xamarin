@@ -48,12 +48,4 @@
 
 
 
-  <!--<style name="spinner" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
-    <item name="background">?android:selectableItemBackground</item>
-    <item name="android:popupBackground">@color/my_purple</item>
-    <item name="android:dropDownSelector">?android:selectableItemBackground</item>
-    <item name="android:divider">@color/my_purple</item>
-    <item name="android:overlapAnchor">true</item>
-  </style>-->
-
 </resources>

@@ -20,11 +20,12 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/titleText"
+      android:padding="10dp"
       android:layout_marginTop="60dp">
     <Spinner
         android:id="@+id/ddReasons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="right"
         android:isScrollContainer="true"
         android:spinnerMode="dropdown" />
