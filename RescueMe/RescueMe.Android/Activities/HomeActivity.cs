@@ -74,7 +74,7 @@ namespace RescueMe.Droid.Activities
             SetContentView(Resource.Layout.Home);
             var menu = FindViewById(Resource.Id.menuIcon);
             var call = FindViewById<ImageButton>(Resource.Id.btnCall);
-             request = FindViewById<ImageButton>(Resource.Id.btnRescue);
+            request = FindViewById<ImageButton>(Resource.Id.btnRescue);
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
@@ -114,7 +114,7 @@ namespace RescueMe.Droid.Activities
 
             var intent = new Intent(this, typeof(RequestActivity));
             intent.PutExtra("location", bundle);
-            
+
             //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
             //               Resource.Animation.fade_in);
             //request.StartAnimation(anim);
@@ -205,15 +205,19 @@ namespace RescueMe.Droid.Activities
                                                      .SetTitle("My Position")
                                                      ;
 
-         
-
-            //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
-            //Resource.Animation.jump);
-            //markerOptions.StartAnimation(anim);
 
 
-            mMap.AddMarker(markerOptions);
-                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation));
+                //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
+                //Resource.Animation.jump);
+                //markerOptions.StartAnimation(anim);
+
+
+                mMap.AddMarker(markerOptions);
+                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
+                {
+                    IsNetworkConnected = IsNetworkConnected()
+                });
+
                 mMap.MoveCamera(camera);
                 //AddMyCustomDrawnOverlayToMap();
             }

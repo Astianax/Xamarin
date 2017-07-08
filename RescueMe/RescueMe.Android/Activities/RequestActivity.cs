@@ -101,8 +101,21 @@ namespace RescueMe.Droid.Activities
                 //adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
                 _spVehicles.Adapter = vehicleAdapter;
                 _spReasons.Adapter = reasonsAdapter;
-                _comment.Text = GetAddress(_latitude, _longitude);
-                _comment.SetSelection(_comment.Text.Length);
+
+
+                if (IsNetworkConnected())
+                {
+                    _comment.Text = GetAddress(_latitude, _longitude);
+                    _comment.SetSelection(_comment.Text.Length);
+                }
+                else
+                {
+                    _comment.Text = String.Empty;
+                }
+
+
+
+
                 //Set Event's
                 btnRequestRescue.Click += BtnRequestRescue_Click;
                 //Button fadein = FindViewById<Button>(Resource.Id.fadein);

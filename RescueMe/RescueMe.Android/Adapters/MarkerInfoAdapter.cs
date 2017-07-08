@@ -19,7 +19,8 @@ namespace RescueMe.Droid.Adapters
         private LayoutInflater _layoutInflater = null;
         private Location mCurrentLocation;
         private Geocoder mGeocoder;
-       
+        public bool IsNetworkConnected { get; set; }
+
         public MarkerInfoAdapter(LayoutInflater inflater, Geocoder geocoder, Location location)
         {
             //This constructor does hit a breakpoint and executes
@@ -36,31 +37,37 @@ namespace RescueMe.Droid.Adapters
         public View GetInfoWindow(Marker marker)
         {
             View view = _layoutInflater.Inflate(Resource.Layout.info_window, null, false);
-
-
-            //The Geocoder class retrieves a list of address from Google over the internet  
-            IList<Address> addressList = mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
-            Address addressCurrent = addressList.FirstOrDefault();
             string mAddress;
-            if (addressCurrent != null)
+
+            if (IsNetworkConnected == true)
             {
-                StringBuilder deviceAddress = new StringBuilder();
 
-                for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
-                    deviceAddress.Append(addressCurrent.GetAddressLine(i))
-                        .AppendLine(",");
+                //The Geocoder class retrieves a list of address from Google over the internet  
+                IList<Address> addressList = mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
+                Address addressCurrent = addressList.FirstOrDefault();
 
-                mAddress = deviceAddress.ToString();
+                if (addressCurrent != null)
+                {
+                    StringBuilder deviceAddress = new StringBuilder();
+
+                    for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+                        deviceAddress.Append(addressCurrent.GetAddressLine(i))
+                            .AppendLine(",");
+
+                    mAddress = deviceAddress.ToString();
+                }
+                else
+                {
+
+                    mAddress = "Unable to determine the address.";
+                }
             }
             else
             {
-
-                mAddress = "Unable to determine the address.";
+                mAddress = "No Disponible";
             }
 
-
             view.FindViewById<TextView>(Resource.Id.txtAddress).Text = mAddress;
-
             return view;
         }
     }
