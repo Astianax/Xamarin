@@ -77,7 +77,14 @@ namespace RescueMe.Droid.Activities
             };
             try
             {
-                vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+                if (IsNetworkConnected())
+                {
+                    vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+                }
+                else
+                {
+                    vehicles = _context.GetVehicles();
+                }
             }
             catch (Exception ex)
             {
@@ -140,7 +147,14 @@ namespace RescueMe.Droid.Activities
 
                     try
                     {
-                        vehicle = _client.Post("Vehicle/create", vehicle).Result.JsonToObject<Vehicle>();
+                        if (IsNetworkConnected())
+                        {
+                            vehicle = _client.Post("Vehicle/create", vehicle).Result.JsonToObject<Vehicle>();
+                        }
+                        else
+                        {
+                            //Magia de jesus.....
+                        }
 
                     }
                     catch (Exception ex)
@@ -152,7 +166,7 @@ namespace RescueMe.Droid.Activities
                     if (vehicle != null)
                     {
                         listVehicles.Add(vehicle);
-                        listVehicles= listVehicles.OrderByDescending(i => i.Id).ToList();
+                        listVehicles = listVehicles.OrderByDescending(i => i.Id).ToList();
                     }
                     else
                     {

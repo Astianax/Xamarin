@@ -161,8 +161,14 @@ namespace RescueMe.Droid.Activities
 
                     try
                     {
-
-                        user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<User>();
+                        if (IsNetworkConnected())
+                        {
+                            user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<User>();
+                        }
+                        else
+                        {
+                            message = "No tiene conexión a Internet";
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -173,17 +179,9 @@ namespace RescueMe.Droid.Activities
 
                     if (user != null)
                     {
-                        //Save Database
-                        //_context.Save<UserSaved>(new UserSaved()
-                        //{
-                        //    Email = userProfile.Email,
-                        //    Id = user.Id,
-                        //    FullName = userProfile.Name,
-                        //    Password = userProfile.User.PassworDigest
-                        //});
                         //Set User generated
                         userProfile.User = user;
-                        _context.UpdateUser(userProfile);
+                        _context.LogIn(userProfile, null); //UpdateUser(userProfile);
                         //Save Vehicles
 
                         Intent intent = new Intent(this, typeof(HomeActivity));
@@ -192,7 +190,8 @@ namespace RescueMe.Droid.Activities
                     else
                     {
                         Snackbar.Make(passwordLayout, message, Snackbar.LengthLong)
-                                .SetAction("OK", (v) => {
+                                .SetAction("OK", (v) =>
+                                {
                                     txtPassword.Text = String.Empty;
                                     txtPasswordConfirm.Text = String.Empty;
                                 })
@@ -204,9 +203,6 @@ namespace RescueMe.Droid.Activities
                     RunOnUiThread(() =>
                     {
                         progressDialog.Hide();
-
-
-
                     });
 
                 })).Start();
