@@ -13,46 +13,72 @@
         android:layout_width="0dp"
         android:layout_height="0dp" />
 <!--<android.support.design.widget.TextInputLayout
-      android:id="@+id/typeLayout"
-      android:layout_height="wrap_content"
-      android:layout_width="278.0dp"
-      android:layout_below="@id/logo"
-      android:layout_marginRight="30dp"
-      android:layout_marginLeft="30dp"
-      android:layout_gravity="bottom|start"
-      android:layout_marginTop="60dp">-->
+        android:id="@+id/typeVehicle"
+        android:layout_height="wrap_content"
+        android:layout_width="278.0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginTop="60dp">-->
     <Spinner
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
-        android:id="@+id/dpVehicles" />
-<!--<android.support.design.widget.TextInputEditText
-        android:inputType="text"
-        android:layout_height="wrap_content"
-        android:layout_width="278.0dp"
-        android:id="@+id/txType"
-        android:hint="Tipo" />
-  </android.support.design.widget.TextInputLayout>-->
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp"
+        android:id="@+id/ddVehicles" />
+<!--</android.support.design.widget.TextInputLayout>-->
 <!--<android.support.design.widget.TextInputLayout
-      android:id="@+id/marqueLayout"
-      android:layout_height="wrap_content"
-      android:layout_width="278.0dp"
-      android:layout_below="@id/typeLayout"
-      android:layout_marginRight="30dp"
-      android:layout_marginLeft="30dp"
-      android:layout_marginTop="20dp">-->
-<!--<android.support.design.widget.TextInputEditText
-        android:inputType="text"
+        android:id="@+id/reasonLayout"
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
-        android:id="@+id/txtMarque"
-        android:hint="Marca" />-->
+        android:layout_below="@id/typeVehicle"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp">-->
     <Spinner
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
-        android:layout_below="@id/dpVehicles"
+        android:layout_below="@id/ddVehicles"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
-        android:id="@+id/Reasons" />
+        android:id="@+id/ddReasons" />
 <!--</android.support.design.widget.TextInputLayout>-->
+<!--<android.support.design.widget.TextInputLayout
+        android:id="@+id/commentLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="280.0dp"
+        android:layout_below="@id/reasonLayout"
+        android:layout_marginRight="32.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp">-->
+    <EditText
+        android:id="@+id/txtComment"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:minLines="6"
+        android:gravity="top|left"
+        android:maxLines="15"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:layout_below="@id/ddReasons" />
+<!--</android.support.design.widget.TextInputLayout>-->
+    <Button
+        android:text="Solicitar Rescate"
+        android:layout_height="40dp"
+        android:id="@+id/RequestRescue"
+        android:layout_marginRight="100dp"
+        android:layout_below="@id/txtComment"
+        android:capitalize="words"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:layout_marginTop="50dp"
+        android:layout_width="300dp"
+        android:layout_marginLeft="50dp"
+        android:background="@color/main_color"
+        android:textColor="@android:color/background_light"
+        android:layout_marginBottom="15dp"
+        android:textSize="16dp" />
 </RelativeLayout>

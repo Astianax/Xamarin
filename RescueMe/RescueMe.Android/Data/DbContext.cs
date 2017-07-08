@@ -53,6 +53,7 @@ namespace RescueMe.Droid.Data
                 var userProfileSaved = _connection.Table<UserSaved>().CountAsync().Result;
                 var vehicleSaved = _connection.Table<VehicleSaved>().CountAsync().Result;
                 var SettingSaved = _connection.Table<Settings>().CountAsync().Result;
+                var reasonsSaved = _connection.Table<ReasonRequest>().CountAsync().Result;
             }
             catch (Exception e)
             {
@@ -61,7 +62,9 @@ namespace RescueMe.Droid.Data
                     _connection.CreateTableAsync<UserSaved>().Wait();
                     _connection.CreateTableAsync<VehicleSaved>().Wait();
                     _connection.CreateTableAsync<Settings>().Wait();
-                }catch(Exception m)
+                    _connection.CreateTableAsync<ReasonRequest>().Wait();
+                }
+                catch(Exception m)
                 {
                     var a = 1;
                 }
@@ -78,6 +81,7 @@ namespace RescueMe.Droid.Data
             _connection.DropTableAsync<UserSaved>().Wait();
             _connection.DropTableAsync<Settings>().Wait();
             _connection.DropTableAsync<VehicleSaved>().Wait();
+            _connection.DropTableAsync<ReasonRequest>().Wait();
         }
 
         /// <summary>
@@ -85,13 +89,20 @@ namespace RescueMe.Droid.Data
         /// </summary>
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
-        public void LogIn(UserProfile user, 
-                                List<Vehicle> vehicles)
+        public void LogIn(UserProfile user, List<Vehicle> vehicles, List<ReasonRequest> reasons)
         {
             UpdateUser(user);
-            UpdateVehicles(vehicles);
+            if (vehicles != null)
+            {
+                UpdateVehicles(vehicles);
+            }
+            if (reasons != null)
+            {
+                UpdateReasons(reasons);
+            }
         }
-        public void UpdateUser(UserProfile user)
+
+        public bool UpdateUser(UserProfile user)
         {
             _connection.DropTableAsync<UserSaved>().Wait();
             _connection.CreateTableAsync<UserSaved>().Wait();
@@ -108,20 +119,42 @@ namespace RescueMe.Droid.Data
                 UserID = user.UserID,
                 LastLogged = DateTime.Now
             };
-            _connection.InsertAsync(userSaved);
+            var isSaved =_connection.InsertAsync(userSaved).Result > 0;
+            return isSaved;
         }
-        public void UpdateVehicles(List<Vehicle> vehicles)
+
+        /// <summary>
+        /// Update Vehicle List
+        /// </summary>
+        /// <param name="vehicles"></param>
+        public async void InsertVehicle(Vehicle vehicle)
         {
-            _connection.DropTableAsync<VehicleSaved>().Wait();
-            _connection.CreateTableAsync<VehicleSaved>().Wait();
+            var vehicleSaved = new VehicleSaved()
+            {
+                Id = vehicle.Id,
+                Marque = vehicle.Marque,
+                Type = vehicle.Type
+            };
+
+            await _connection.InsertAsync(vehicleSaved);
+        }
+        /// <summary>
+        /// Update Vehicle List
+        /// </summary>
+        /// <param name="vehicles"></param>
+        public async void UpdateVehicles(List<Vehicle> vehicles)
+        {
+            await _connection.DropTableAsync<VehicleSaved>();
+            await _connection.CreateTableAsync<VehicleSaved>();
             var vehicleSaved = vehicles.Select(v => new VehicleSaved() {
                 Id = v.Id,
                 Marque = v.Marque,
                 Type = v.Type
             }).ToList();
 
-            _connection.InsertAllAsync(vehicleSaved);
+            await _connection.InsertAllAsync(vehicleSaved);
         }
+
         /// <summary>
         /// Return All Vehicles
         /// </summary>
@@ -207,6 +240,25 @@ namespace RescueMe.Droid.Data
             _connection.CreateTableAsync<Settings>().Wait();
             _connection.InsertAsync(setting);
         }
+
+        //Get Reasons
+        public List<ReasonRequest> GetReasons()
+        {
+            var reasons = _connection.Table<ReasonRequest>().ToListAsync().Result;
+            return reasons;
+        }
+        /// <summary>
+        /// Update all Reasons
+        /// </summary>
+        /// <param name="reasons"></param>
+        public async void UpdateReasons(List<ReasonRequest> reasons)
+        {
+           await _connection.DropTableAsync<VehicleSaved>();
+           await _connection.CreateTableAsync<VehicleSaved>();
+         
+           await _connection.InsertAllAsync(reasons);
+        }
+
 
     }
 }
