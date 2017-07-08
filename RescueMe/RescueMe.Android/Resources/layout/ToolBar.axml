@@ -30,7 +30,7 @@
         <Button
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/save"
+            android:background="@drawable/save_car"
             android:layout_gravity="right"
             android:visibility="invisible"
             android:layout_marginRight="10dp"

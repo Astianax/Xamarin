@@ -4,12 +4,16 @@
     android:layout_height="match_parent"
     android:minHeight="25dp"
     android:minWidth="25dp"
-    android:id="@+id/layoutRequest"
-                >
+    android:id="@+id/layoutRequest">
     <include
         layout="@layout/ToolBar"
         android:id="@+id/toolbar" />
     <TextView
+        android:id="@+id/titleText"
+        android:text="Solicitud"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+<!--<TextView
         android:id="@+id/titleText"
         android:text="Solicitar Asistencia"
         android:layout_width="0dp"
@@ -18,47 +22,112 @@
         android:id="@+id/lblVehicles"
         android:text="Vehiculos"
         android:layout_width="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_height="wrap_content" />
-    <Spinner
+        android:layout_below="@id/titleText"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content" />-->
+<!--<Spinner
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="278.0dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="60dp"
-        android:layout_below="@id/lblVehicles"
-        android:id="@+id/ddVehicles" />
-    <TextView
-        android:id="@+id/lblReason"
-        android:text="Razones"
+        android:id="@+id/ddVehicles"
+        style="@style/DropDownSpinner.My"
+        android:minHeight="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />-->
+<!--<Spinner
+          android:id="@+id/ddVehicles"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:minWidth="80dp"
+          android:spinnerMode="dropdown"
+          android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+          android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+          android:visibility="gone" />-->
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_height="wrap_content" />
-    <Spinner
         android:layout_height="wrap_content"
-        android:layout_width="278.0dp"
-        android:layout_below="@id/lblReason"
-        android:layout_marginRight="30dp"
+        android:layout_below="@id/titleText"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp">
+        <Spinner
+            android:id="@+id/ddReasons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:spinnerMode="dropdown" />
+    </RelativeLayout>
+<!--<Spinner
+        android:layout_width="fill_parent"
+        android:minHeight="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="40dp"
+        android:spinnerMode="dropdown"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:ellipsize="marquee"
+        android:textColor="#aa66cc"
+        android:layout_below="@id/titleText"
+        android:id="@+id/ddVehicles" />-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ddReasons"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="40dp">
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:id="@+id/ddVehicles" />
+    </RelativeLayout>
+<!--<Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RequestRescue" />-->
+  <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="2dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:contentPadding="10dp"
+    android:layout_width="fill_parent"
+    android:layout_below="@id/ddVehicles"
+    android:layout_height="200dp"
+    android:id="@+id/cardComment"
+        android:layout_marginTop="200dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/ddReasons" />
+        android:layout_marginRight="30dp"
+                                      >
+    <FrameLayout
+        android:background="@color/main_color"
+        android:layout_width="3dp"
+        android:id="@+id/frame"
+        android:layout_height="match_parent" />
     <EditText
         android:id="@+id/txtComment"
         android:inputType="textMultiLine"
         android:lines="8"
         android:minLines="6"
-        android:gravity="top|left"
         android:maxLines="15"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:hint="Comentarios"
+        android:layout_width="fill_parent"
         android:scrollbars="vertical"
-        android:layout_below="@id/ddReasons" />
-<Button
+
+       />
+  </android.support.v7.widget.CardView>
+    <Button
         android:text="Solicitar Rescate"
         android:layout_height="40dp"
         android:id="@+id/RequestRescue"
         android:layout_marginRight="100dp"
-        android:layout_below="@id/txtComment"
+        android:layout_below="@id/cardComment"
         android:capitalize="words"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
@@ -69,9 +138,4 @@
         android:textColor="@android:color/background_light"
         android:layout_marginBottom="15dp"
         android:textSize="16dp" />
-    <!--<Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/RequestRescue" />-->
 </RelativeLayout>

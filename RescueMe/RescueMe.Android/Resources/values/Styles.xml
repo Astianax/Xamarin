@@ -34,10 +34,26 @@
     <item name="android:textColorHint">@color/menu_text_color</item>
 
     <!-- END TextLabel -->
-    
-    
+    <!-- mySpinnerStyle -->
+    <!--<item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>-->
+
   </style>
+  <style name="mySpinnerStyle" parent="android:Widget.ListView.DropDown">
+    <item name="android:divider">#00ff00</item>
+    <item name="android:dividerHeight">1dp</item>
+  </style>
+  <!--<style name="DropDownSpinner.My" parent="@android:style/Widget.Holo.Light.Spinner">
+    <item name="android:popupBackground">@drawable/menu_dropdown_panel_spinner</item>
+  </style>-->
 
 
+
+  <!--<style name="spinner" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+    <item name="background">?android:selectableItemBackground</item>
+    <item name="android:popupBackground">@color/my_purple</item>
+    <item name="android:dropDownSelector">?android:selectableItemBackground</item>
+    <item name="android:divider">@color/my_purple</item>
+    <item name="android:overlapAnchor">true</item>
+  </style>-->
 
 </resources>
