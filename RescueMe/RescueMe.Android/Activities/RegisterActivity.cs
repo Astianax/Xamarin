@@ -164,6 +164,7 @@ namespace RescueMe.Droid.Activities
                         if (IsNetworkConnected())
                         {
                             user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<User>();
+                            message = "Iniciando sesión";
                         }
                         else
                         {

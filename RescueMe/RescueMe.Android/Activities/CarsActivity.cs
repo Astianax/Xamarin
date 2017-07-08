@@ -38,7 +38,7 @@ namespace RescueMe.Droid.Activities
         string message = "";
         ProgressDialog progressDialog;
         List<Vehicle> listVehicles;
-        
+
         protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -144,17 +144,13 @@ namespace RescueMe.Droid.Activities
 
                 new Thread(new ThreadStart(delegate
                 {
-                    //LOAD METHOD TO GET ACCOUNT INFO
+                    _context.InsertVehicle(vehicle);
 
                     try
                     {
                         if (IsNetworkConnected())
                         {
                             vehicle = _client.Post("Vehicle/create", vehicle).Result.JsonToObject<Vehicle>();
-                        }
-                        else
-                        {
-                            //Magia de jesus.....
                         }
 
                     }
@@ -202,7 +198,7 @@ namespace RescueMe.Droid.Activities
         {
             //List<Vehicle> dataset2 = (List<Vehicle>)dataset;
             mRecyclerView = (RecyclerView)FindViewById(Resource.Id.my_recycler_view);
-             
+
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -213,7 +209,7 @@ namespace RescueMe.Droid.Activities
             mRecyclerView.SetLayoutManager(mLayoutManager);
 
             // specify an adapter (see also next example)           
-            mAdapter = new AdapterVehicle(dataset,_context, marqueLayout);
+            mAdapter = new AdapterVehicle(dataset, _context, marqueLayout);
             mAdapter.IsNetworkConnected = IsNetworkConnected();
             mRecyclerView.SetAdapter(mAdapter);
         }
