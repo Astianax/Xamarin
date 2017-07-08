@@ -57,17 +57,17 @@ namespace RescueMe.Droid.Activities
             telefonoLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.telefonoLayout);
 
             //Settings Data Profile
-            load_userInformation();
+            Load_userInformation();
 
-            btnCars.Click += btnCars_click;
-            btnSave.Click += btnSave_click;
+            btnCars.Click += BtnCars_click;
+            btnSave.Click += BtnSave_click;
         }
 
 
 
 
 
-        private void btnSave_click(object sender, EventArgs e)
+        private void BtnSave_click(object sender, EventArgs e)
         {
             bool valid = true;
 
@@ -94,7 +94,7 @@ namespace RescueMe.Droid.Activities
                 {
                     cedulaLayout.ErrorEnabled = false;
                 }
-             
+
             }
 
             if (!string.IsNullOrWhiteSpace(txTelefono.Text))
@@ -149,49 +149,59 @@ namespace RescueMe.Droid.Activities
                 progressDialog.SetCancelable(false);
 
 
-                new Thread(new ThreadStart(delegate
+
+                _context.UpdateUser(userProfile); //Validation
+
+
+                if (IsNetworkConnected())
                 {
-                    //LOAD METHOD TO GET ACCOUNT INFO
+                    new Thread(new ThreadStart(delegate
+                      {
+                          //LOAD METHOD TO GET ACCOUNT INFO
 
-                    
-                    updatedProfile = bool.Parse(_client.Post("Authentication/Update", userProfile).Result.ToString());
+                          updatedProfile = bool.Parse(_client.Post("Authentication/Update", userProfile).Result.ToString());
+                  
 
-                    if (updatedProfile != false)
-                    {
-                        Snackbar.Make(passwordLayout, "Perfil Actualizado", Snackbar.LengthLong)
-                              .SetAction("OK", (v) => { this.Finish();
-                              })
-                              .SetDuration(4000)
-                              .SetActionTextColor(Android.Graphics.Color.Orange)
-                              .Show();
-                    }
-                    else
-                    {
-                        Snackbar.Make(passwordLayout, "Usuario No logueado", Snackbar.LengthLong)
-                                .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
-                                .SetDuration(8000)
-                                .SetActionTextColor(Android.Graphics.Color.Orange)
-                                .Show();
-                    }
-                    //HIDE PROGRESS DIALOG
-                    RunOnUiThread(() => {
-                        progressDialog.Hide();
+                          if (updatedProfile != false)
+                          {
+                              Snackbar.Make(passwordLayout, "Perfil Actualizado", Snackbar.LengthLong)
+                                    .SetAction("OK", (v) =>
+                                    {
+                                        this.Finish();
+                                    })
+                                    .SetDuration(4000)
+                                    .SetActionTextColor(Android.Graphics.Color.Orange)
+                                    .Show();
+                          }
+                          else
+                          {
+                              Snackbar.Make(passwordLayout, "Usuario No logueado", Snackbar.LengthLong)
+                                      .SetAction("OK", (v) => { })
+                                      .SetDuration(8000)
+                                      .SetActionTextColor(Android.Graphics.Color.Orange)
+                                      .Show();
+                          }
+                          //HIDE PROGRESS DIALOG
+                          RunOnUiThread(() =>
+                          {
+                              progressDialog.Hide();
 
-                    });
+                          });
 
-                })).Start();
+                      })).Start();
+                }
 
             }
 
         }
 
-        private void btnCars_click(object sender, EventArgs e)
+        private void BtnCars_click(object sender, EventArgs e)
         {
 
             StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
         }
 
-        public void load_userInformation()
+        public void Load_userInformation()
         {
 
             UserProfile profile = _context.GetUser();
@@ -207,26 +217,37 @@ namespace RescueMe.Droid.Activities
             progressDialog.SetCancelable(false);
 
 
-
-            new Thread(new ThreadStart(delegate
+            if (IsNetworkConnected())
             {
-                //LOAD METHOD TO GET ACCOUNT INFO
-                profile = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
-
-
-
-                //    //HIDE PROGRESS DIALOG
-                RunOnUiThread(() =>
+                new Thread(new ThreadStart(delegate
                 {
+                    //LOAD METHOD TO GET ACCOUNT INFO
 
-                    progressDialog.Hide();
+                    profile = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
+                    //    //HIDE PROGRESS DIALOG
+                    RunOnUiThread(() =>
+                    {
+
+                        progressDialog.Hide();
+                        txtName.Text = profile.Name;
+                        txtCedula.Text = profile.IdentificationCard;
+                        txTelefono.Text = profile.TelephoneNumber;
+                        txtPassword.Text = profile.User.PassworDigest;
+                    });
+
+                })).Start();
+            }
+            else
+            {
+                if (_context.GetUser() != null)
+                {
                     txtName.Text = profile.Name;
                     txtCedula.Text = profile.IdentificationCard;
                     txTelefono.Text = profile.TelephoneNumber;
                     txtPassword.Text = profile.User.PassworDigest;
-                });
 
-            })).Start();
+                }
+            }
 
         }
     }

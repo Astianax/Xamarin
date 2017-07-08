@@ -46,7 +46,7 @@ namespace RescueMe.Droid.Activities
 
             context = _context.GetUser();
 
-            listVehicles = await getVehicles();
+            listVehicles = await GetVehicles();
             SetRecyclerView(listVehicles);
 
             //Controls
@@ -59,7 +59,7 @@ namespace RescueMe.Droid.Activities
             typeLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.typeLayout);
             marqueLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.marqueLayout);
 
-            btnAddCars.Click += btnAddCars_click;
+            btnAddCars.Click += BtnAddCars_click;
 
             btnAddCars.Visibility = ViewStates.Visible;
 
@@ -67,7 +67,7 @@ namespace RescueMe.Droid.Activities
         }
 
 
-        public async Task<List<Vehicle>> getVehicles()
+        public async Task<List<Vehicle>> GetVehicles()
         {
             List<Vehicle> vehicles = new List<Vehicle>();
 
@@ -77,7 +77,14 @@ namespace RescueMe.Droid.Activities
             };
             try
             {
-                vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+                if (IsNetworkConnected())
+                {
+                    vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+                }
+                else
+                {
+                    vehicles = _context.GetVehicles();
+                }
             }
             catch (Exception ex)
             {
@@ -90,7 +97,7 @@ namespace RescueMe.Droid.Activities
 
 
 
-        private void btnAddCars_click(object sender, EventArgs e)
+        private void BtnAddCars_click(object sender, EventArgs e)
         {
             bool valid = true;
 
@@ -140,7 +147,14 @@ namespace RescueMe.Droid.Activities
 
                     try
                     {
-                        vehicle = _client.Post("Vehicle/create", vehicle).Result.JsonToObject<Vehicle>();
+                        if (IsNetworkConnected())
+                        {
+                            vehicle = _client.Post("Vehicle/create", vehicle).Result.JsonToObject<Vehicle>();
+                        }
+                        else
+                        {
+                            //Magia de jesus.....
+                        }
 
                     }
                     catch (Exception ex)
@@ -152,7 +166,7 @@ namespace RescueMe.Droid.Activities
                     if (vehicle != null)
                     {
                         listVehicles.Add(vehicle);
-                        listVehicles= listVehicles.OrderByDescending(i => i.Id).ToList();
+                        listVehicles = listVehicles.OrderByDescending(i => i.Id).ToList();
                     }
                     else
                     {

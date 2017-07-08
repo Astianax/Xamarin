@@ -25,16 +25,20 @@
         <ImageButton
             android:background="@drawable/ic_rescue"
             android:id="@+id/btnRescue"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="bottom|center"
-            android:layout_margin="@dimen/fab_margin" />
+            android:layout_marginBottom="100dp"
+            />
         <ImageButton
             android:background="@drawable/ic_directory"
             android:id="@+id/btnCall"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_gravity="bottom|center"
-            android:layout_marginLeft="20dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:layout_gravity="top|right"
+             />
     </fragment>
 </FrameLayout>
