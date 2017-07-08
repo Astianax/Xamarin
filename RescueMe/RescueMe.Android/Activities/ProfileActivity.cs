@@ -57,17 +57,17 @@ namespace RescueMe.Droid.Activities
             telefonoLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.telefonoLayout);
 
             //Settings Data Profile
-            load_userInformation();
+            Load_userInformation();
 
-            btnCars.Click += btnCars_click;
-            btnSave.Click += btnSave_click;
+            btnCars.Click += BtnCars_click;
+            btnSave.Click += BtnSave_click;
         }
 
 
 
 
 
-        private void btnSave_click(object sender, EventArgs e)
+        private void BtnSave_click(object sender, EventArgs e)
         {
             bool valid = true;
 
@@ -195,13 +195,13 @@ namespace RescueMe.Droid.Activities
 
         }
 
-        private void btnCars_click(object sender, EventArgs e)
+        private void BtnCars_click(object sender, EventArgs e)
         {
 
             StartActivity(new Intent(Application.Context, typeof(CarsActivity)));
         }
 
-        public void load_userInformation()
+        public void Load_userInformation()
         {
 
             UserProfile profile = _context.GetUser();

@@ -44,11 +44,11 @@ namespace RescueMe.Droid.Activities
 
             title.Text = titleText.Text;
 
-            btnBack.Click += btnBack_click;
+            btnBack.Click += BtnBack_click;
         }
 
 
-        protected void btnBack_click(object sender, EventArgs e)
+        protected void BtnBack_click(object sender, EventArgs e)
         {
             this.Finish();
         }

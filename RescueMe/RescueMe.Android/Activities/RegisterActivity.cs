@@ -55,7 +55,7 @@ namespace RescueMe.Droid.Activities
             passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
             passwordConfirmLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordConfirmLayout);
 
-            btnRegister.Click += btnRegister_click;
+            btnRegister.Click += BtnRegister_click;
         }
 
 
@@ -63,7 +63,7 @@ namespace RescueMe.Droid.Activities
 
 
 
-        private void btnRegister_click(object sender, EventArgs e)
+        private void BtnRegister_click(object sender, EventArgs e)
         {
             bool valid = true;
 

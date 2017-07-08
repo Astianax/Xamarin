@@ -46,7 +46,7 @@ namespace RescueMe.Droid.Activities
 
             context = _context.GetUser();
 
-            listVehicles = await getVehicles();
+            listVehicles = await GetVehicles();
             SetRecyclerView(listVehicles);
 
             //Controls
@@ -59,7 +59,7 @@ namespace RescueMe.Droid.Activities
             typeLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.typeLayout);
             marqueLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.marqueLayout);
 
-            btnAddCars.Click += btnAddCars_click;
+            btnAddCars.Click += BtnAddCars_click;
 
             btnAddCars.Visibility = ViewStates.Visible;
 
@@ -67,7 +67,7 @@ namespace RescueMe.Droid.Activities
         }
 
 
-        public async Task<List<Vehicle>> getVehicles()
+        public async Task<List<Vehicle>> GetVehicles()
         {
             List<Vehicle> vehicles = new List<Vehicle>();
 
@@ -97,7 +97,7 @@ namespace RescueMe.Droid.Activities
 
 
 
-        private void btnAddCars_click(object sender, EventArgs e)
+        private void BtnAddCars_click(object sender, EventArgs e)
         {
             bool valid = true;
 
