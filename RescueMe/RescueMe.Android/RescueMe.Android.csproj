@@ -162,6 +162,7 @@
     <Compile Include="Activities\RequestActivity.cs" />
     <Compile Include="Activities\RescueActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
+    <Compile Include="Adapters\AdapterRescues.cs" />
     <Compile Include="Adapters\AdapterVehicle.cs" />
     <Compile Include="Adapters\MarkerInfoAdapter.cs" />
     <Compile Include="Data\DbContext.cs" />
@@ -234,6 +235,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\RequestRescue.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\RescuesCardView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

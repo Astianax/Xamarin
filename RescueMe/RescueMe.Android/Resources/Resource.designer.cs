@@ -2459,8 +2459,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090016
 			public const int auto = 2131296278;
 			
-			// aapt resource value: 0x7f0900ca
-			public const int back = 2131296458;
+			// aapt resource value: 0x7f0900cb
+			public const int back = 2131296459;
 			
 			// aapt resource value: 0x7f090028
 			public const int beginning = 2131296296;
@@ -2468,8 +2468,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090030
 			public const int bottom = 2131296304;
 			
-			// aapt resource value: 0x7f0900cc
-			public const int btnAddCars = 2131296460;
+			// aapt resource value: 0x7f0900cd
+			public const int btnAddCars = 2131296461;
 			
 			// aapt resource value: 0x7f090094
 			public const int btnCall = 2131296404;
@@ -2627,11 +2627,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09008f
 			public const int framelay = 2131296399;
 			
-			// aapt resource value: 0x7f0900ce
-			public const int group_feature = 2131296462;
+			// aapt resource value: 0x7f0900cf
+			public const int group_feature = 2131296463;
 			
-			// aapt resource value: 0x7f0900d2
-			public const int group_settings = 2131296466;
+			// aapt resource value: 0x7f0900d3
+			public const int group_settings = 2131296467;
 			
 			// aapt resource value: 0x7f090005
 			public const int home = 2131296261;
@@ -2729,20 +2729,20 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900b5
 			public const int nameLayout = 2131296437;
 			
-			// aapt resource value: 0x7f0900d3
-			public const int nav_about = 2131296467;
-			
-			// aapt resource value: 0x7f0900d1
-			public const int nav_directory = 2131296465;
-			
 			// aapt resource value: 0x7f0900d4
-			public const int nav_logOut = 2131296468;
+			public const int nav_about = 2131296468;
 			
-			// aapt resource value: 0x7f0900cf
-			public const int nav_profile = 2131296463;
+			// aapt resource value: 0x7f0900d2
+			public const int nav_directory = 2131296466;
+			
+			// aapt resource value: 0x7f0900d5
+			public const int nav_logOut = 2131296469;
 			
 			// aapt resource value: 0x7f0900d0
-			public const int nav_rescue = 2131296464;
+			public const int nav_profile = 2131296464;
+			
+			// aapt resource value: 0x7f0900d1
+			public const int nav_rescue = 2131296465;
 			
 			// aapt resource value: 0x7f09008e
 			public const int nav_view = 2131296398;
@@ -2897,6 +2897,9 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09003d
 			public const int start = 2131296317;
 			
+			// aapt resource value: 0x7f0900ca
+			public const int status = 2131296458;
+			
 			// aapt resource value: 0x7f0900a9
 			public const int status_bar_latest_event_content = 2131296425;
 			
@@ -2936,8 +2939,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090051
 			public const int title = 2131296337;
 			
-			// aapt resource value: 0x7f0900cb
-			public const int titleID = 2131296459;
+			// aapt resource value: 0x7f0900cc
+			public const int titleID = 2131296460;
 			
 			// aapt resource value: 0x7f090088
 			public const int titleText = 2131296392;
@@ -2987,8 +2990,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900c0
 			public const int txtPasswordConfirm = 2131296448;
 			
-			// aapt resource value: 0x7f0900cd
-			public const int txtSpinner = 2131296461;
+			// aapt resource value: 0x7f0900ce
+			public const int txtSpinner = 2131296462;
 			
 			// aapt resource value: 0x7f09007b
 			public const int type = 2131296379;
@@ -3254,25 +3257,28 @@ namespace RescueMe.Droid
 			public const int RequestRescue = 2130903100;
 			
 			// aapt resource value: 0x7f03003d
-			public const int select_dialog_item_material = 2130903101;
+			public const int RescuesCardView = 2130903101;
 			
 			// aapt resource value: 0x7f03003e
-			public const int select_dialog_multichoice_material = 2130903102;
+			public const int select_dialog_item_material = 2130903102;
 			
 			// aapt resource value: 0x7f03003f
-			public const int select_dialog_singlechoice_material = 2130903103;
+			public const int select_dialog_multichoice_material = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int spinner_item_divider = 2130903104;
+			public const int select_dialog_singlechoice_material = 2130903104;
 			
 			// aapt resource value: 0x7f030041
-			public const int Splash = 2130903105;
+			public const int spinner_item_divider = 2130903105;
 			
 			// aapt resource value: 0x7f030042
-			public const int support_simple_spinner_dropdown_item = 2130903106;
+			public const int Splash = 2130903106;
 			
 			// aapt resource value: 0x7f030043
-			public const int ToolBar = 2130903107;
+			public const int support_simple_spinner_dropdown_item = 2130903107;
+			
+			// aapt resource value: 0x7f030044
+			public const int ToolBar = 2130903108;
 			
 			static Layout()
 			{
