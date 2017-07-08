@@ -5,18 +5,26 @@ using Android.Widget;
 using Android.Support.V7.Widget;
 using RescueMe.Domain;
 using System.Collections.Generic;
+using RescueMe.Droid.Data;
+using Android.Support.Design.Widget;
 
 namespace RescueMe.Droid.Adapters
 {
-    class AdapterVehicle : RecyclerView.Adapter
+    public class AdapterVehicle : RecyclerView.Adapter
     {
         public event EventHandler<AdapterVehicleClickEventArgs> ItemClick;
         public event EventHandler<AdapterVehicleClickEventArgs> ItemLongClick;
         List<Vehicle> items;
-
-        public AdapterVehicle(List<Vehicle> data)
+        DbContext _context;
+        UserProfile _user;
+        private RestClient _client;
+        public bool IsNetworkConnected { get; set; }
+        TextInputLayout _marqueLayout;
+        public AdapterVehicle(List<Vehicle> data, DbContext context, TextInputLayout marqueLayout)
         {
-            items = data;            
+            items = data;
+            _context = context;
+            _marqueLayout = marqueLayout;
         }
 
         // Create new views (invoked by the layout manager)
@@ -24,7 +32,7 @@ namespace RescueMe.Droid.Adapters
         {
 
             //Setup your layout here
-            View itemView =  LayoutInflater.From(parent.Context).Inflate(Resource.Layout.CardView, parent, false);
+            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.CardView, parent, false);
             //var id = Resource.Layout.__YOUR_ITEM_HERE;
             //itemView = LayoutInflater.From(parent.Context).
             //       Inflate(id, parent, false);
@@ -37,7 +45,10 @@ namespace RescueMe.Droid.Adapters
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
             var item = items[position];
-
+            Vehicle vehicle = item;
+            bool removed = false;
+            _user = _context.GetUser();
+            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
             // Replace the contents of the view with that element
             var holder = viewHolder as AdapterVehicleViewHolder;
 
@@ -49,14 +60,37 @@ namespace RescueMe.Droid.Adapters
 
             holder.RemoveCar.Click += delegate
             {
-                string vehicle = items[position].Marque;
+                string marque = items[position].Marque;
                 items.RemoveAt(position);
 
 
                 NotifyItemRemoved(position);
                 NotifyItemRangeChanged(position, items.Count);
+                _context.UpdateVehicles(items);
+
+
+                try
+                {
+                    if (IsNetworkConnected == true)
+                    {
+                        removed = bool.Parse(_client.Post("Vehicle/remove", vehicle).Result.ToString());
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
+                if (removed)
+                {
+                    Snackbar.Make(_marqueLayout, "Vehículo "+ marque+" ha sido eliminado", Snackbar.LengthLong)
+                        .SetAction("OK", (v) => {})
+                        .SetDuration(4000)
+                        .SetActionTextColor(Android.Graphics.Color.Orange)
+                        .Show();
+                }
 
             };
+
 
         }
 

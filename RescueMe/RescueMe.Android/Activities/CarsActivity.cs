@@ -31,13 +31,14 @@ namespace RescueMe.Droid.Activities
         Android.Support.Design.Widget.TextInputLayout marqueLayout;
 
         RecyclerView mRecyclerView;
-        RecyclerView.Adapter mAdapter;
+        AdapterVehicle mAdapter;
         RecyclerView.LayoutManager mLayoutManager;
         string[] cardViewDataset;
         UserProfile context;
         string message = "";
         ProgressDialog progressDialog;
         List<Vehicle> listVehicles;
+        
         protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -183,11 +184,7 @@ namespace RescueMe.Droid.Activities
                     //HIDE PROGRESS DIALOG
                     RunOnUiThread(() =>
                     {
-                        //mAdapter.NotifyItemInserted(listVehicles.Count);
-                        //mRecyclerView.ScrollToPosition(listVehicles.Count);
-
                         SetRecyclerView(listVehicles);
-
                         progressDialog.Hide();
                         txtMarque.Text = String.Empty;
                         txType.Text = String.Empty;
@@ -205,6 +202,7 @@ namespace RescueMe.Droid.Activities
         {
             //List<Vehicle> dataset2 = (List<Vehicle>)dataset;
             mRecyclerView = (RecyclerView)FindViewById(Resource.Id.my_recycler_view);
+             
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -215,7 +213,8 @@ namespace RescueMe.Droid.Activities
             mRecyclerView.SetLayoutManager(mLayoutManager);
 
             // specify an adapter (see also next example)           
-            mAdapter = new AdapterVehicle(dataset);
+            mAdapter = new AdapterVehicle(dataset,_context, marqueLayout);
+            mAdapter.IsNetworkConnected = IsNetworkConnected();
             mRecyclerView.SetAdapter(mAdapter);
         }
 
