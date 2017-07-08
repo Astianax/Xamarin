@@ -3,7 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:minHeight="25dp"
-    android:minWidth="25dp">
+    android:minWidth="25dp"
+    android:id="@+id/layoutRequest"
+                >
     <include
         layout="@layout/ToolBar"
         android:id="@+id/toolbar" />
@@ -12,47 +14,34 @@
         android:text="Solicitar Asistencia"
         android:layout_width="0dp"
         android:layout_height="0dp" />
-<!--<android.support.design.widget.TextInputLayout
-        android:id="@+id/typeVehicle"
-        android:layout_height="wrap_content"
-        android:layout_width="278.0dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_gravity="bottom|start"
-        android:layout_marginTop="60dp">-->
+    <TextView
+        android:id="@+id/lblVehicles"
+        android:text="Vehiculos"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content" />
     <Spinner
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="60dp"
+        android:layout_below="@id/lblVehicles"
         android:id="@+id/ddVehicles" />
-<!--</android.support.design.widget.TextInputLayout>-->
-<!--<android.support.design.widget.TextInputLayout
-        android:id="@+id/reasonLayout"
-        android:layout_height="wrap_content"
-        android:layout_width="278.0dp"
-        android:layout_below="@id/typeVehicle"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp">-->
+    <TextView
+        android:id="@+id/lblReason"
+        android:text="Razones"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content" />
     <Spinner
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
-        android:layout_below="@id/ddVehicles"
+        android:layout_below="@id/lblReason"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:id="@+id/ddReasons" />
-<!--</android.support.design.widget.TextInputLayout>-->
-<!--<android.support.design.widget.TextInputLayout
-        android:id="@+id/commentLayout"
-        android:layout_height="wrap_content"
-        android:layout_width="280.0dp"
-        android:layout_below="@id/reasonLayout"
-        android:layout_marginRight="32.5dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp">-->
     <EditText
         android:id="@+id/txtComment"
         android:inputType="textMultiLine"
@@ -64,8 +53,7 @@
         android:layout_width="match_parent"
         android:scrollbars="vertical"
         android:layout_below="@id/ddReasons" />
-<!--</android.support.design.widget.TextInputLayout>-->
-    <Button
+<Button
         android:text="Solicitar Rescate"
         android:layout_height="40dp"
         android:id="@+id/RequestRescue"
@@ -81,4 +69,9 @@
         android:textColor="@android:color/background_light"
         android:layout_marginBottom="15dp"
         android:textSize="16dp" />
+    <!--<Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RequestRescue" />-->
 </RelativeLayout>

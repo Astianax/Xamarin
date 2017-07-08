@@ -14,6 +14,7 @@ using RescueMe.Droid.Data;
 using RescueMe.Domain;
 using Android.Locations;
 using System.Threading;
+using Android.Support.Design.Widget;
 
 namespace RescueMe.Droid.Activities
 {
@@ -65,7 +66,7 @@ namespace RescueMe.Droid.Activities
                         FindViewById<Spinner>(Resource.Id.ddVehicles);
                 _comment = FindViewById<EditText>(Resource.Id.txtComment);
                 var btnRequestRescue = FindViewById<Button>(Resource.Id.RequestRescue);
-            
+
                 SetTools();
 
                 //spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
@@ -77,11 +78,11 @@ namespace RescueMe.Droid.Activities
                 }).ToArray();
                 var reasonsList = _reasons.Select(v => new SpinnerItem
                 {
-                    Description =v.Name,
+                    Description = v.Name,
                     Id = v.Id
                 }).ToArray();
                 //var reasons = reas
-               
+
                 var reasonsAdapter = new SpinnerAdapter(this, Resource.String.select_spinner, reasonsList);
                 var vehicleAdapter = new SpinnerAdapter(this, Resource.String.select_vehicle, vehicleList);
                 //adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
@@ -98,6 +99,8 @@ namespace RescueMe.Droid.Activities
         private void BtnRequestRescue_Click(object sender, EventArgs e)
         {
             var request = new Request();
+            string message = "";
+            RelativeLayout requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
             var vehicle = _vehicles[_spVehicles.SelectedItemPosition];
             var reason = _reasons[_spReasons.SelectedItemPosition];
 
@@ -112,102 +115,50 @@ namespace RescueMe.Droid.Activities
             progressDialog.Indeterminate = true;
             progressDialog.SetCancelable(false);
 
-            new Thread(new ThreadStart(delegate
-            {
-                //LOAD METHOD TO GET ACCOUNT INFO
-                try
+            
+                new Thread(new ThreadStart(delegate
                 {
-                    request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
+
+                    try
+                    {
+                        if (IsNetworkConnected())
+                        {
+                            request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
+                            message = "Se ha enviado su solicitud";
+                        }
+                        else
+                        {
+                            //SMS
+                            message = "No tiene conexion se enviara por SMS";
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        request = null;
+                        message = ex.Message;
+                    }
+
+
+                    //HIDE PROGRESS DIALOG
+                    RunOnUiThread(() =>
+                    {
+                        progressDialog.Hide();
+                        _context.SaveRequest(request);
+                        Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
+                              .SetAction("OK", (v) =>
+                              {
+                                  this.Finish();
+                              })
+                              //.SetDuration(8000)
+                              .SetActionTextColor(Android.Graphics.Color.Orange)
+                              .Show();
+                    });
 
                 }
-                catch (Exception ex)
-                {
-                    request = null;
-                    // request = ex.Message;
-                }
-
-                if (request != null)
-                {
-
-                }
-                else
-                {
-                    //Snackbar.Make(marqueLayout, message, Snackbar.LengthLong)
-                    //        .SetAction("OK", (v) =>
-                    //        {
-                    //            txType.Text = String.Empty;
-                    //            txtMarque.Text = String.Empty;
-                    //        })
-                    //        .SetDuration(8000)
-                    //        .SetActionTextColor(Android.Graphics.Color.Orange)
-                    //        .Show();
-                }
-                //HIDE PROGRESS DIALOG
-                RunOnUiThread(() =>
-                {
-                    progressDialog.Hide();
-
-                });
-
-            })).Start();
-        }
-
-        public void SendRequest_Click(object sender, EventArgs e)
-        {
-            var request = new Request();
-            var vehicle = _vehicles[_spVehicles.SelectedItemPosition];
-            var reason = _reasons[_spReasons.SelectedItemPosition];
-
-            request.Latitude = decimal.Parse(_latitude.ToString());
-            request.Longitude = decimal.Parse(_longitude.ToString());
-            request.UserID = _context.GetUser().UserID;
-            request.ReasonID = reason.Id;
-            request.VehicleID = vehicle.Id;
-            request.Comments = _comment.Text;
-
-            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
-            progressDialog.Indeterminate = true;
-            progressDialog.SetCancelable(false);
+                
+                )).Start();
           
-            new Thread(new ThreadStart(delegate
-            {
-                //LOAD METHOD TO GET ACCOUNT INFO
-                try
-                {
-                    request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
-
-                }
-                catch (Exception ex)
-                {
-                    request = null;
-                   // request = ex.Message;
-                }
-
-                if (request != null)
-                {
-                 
-                }
-                else
-                {
-                    //Snackbar.Make(marqueLayout, message, Snackbar.LengthLong)
-                    //        .SetAction("OK", (v) =>
-                    //        {
-                    //            txType.Text = String.Empty;
-                    //            txtMarque.Text = String.Empty;
-                    //        })
-                    //        .SetDuration(8000)
-                    //        .SetActionTextColor(Android.Graphics.Color.Orange)
-                    //        .Show();
-                }
-                //HIDE PROGRESS DIALOG
-                RunOnUiThread(() =>
-                {
-                    progressDialog.Hide();
-
-                });
-
-            })).Start();
-
         }
 
         private string GetAddress(Double latitude, Double longitude)

@@ -21,11 +21,15 @@ namespace RescueMe
                 exception = JsonConvert.DeserializeObject<RescueException>(model.ToString());
                 deserializeModel = TryToDeserialize<TModel>(exception, model);
             }
+            catch(RescueException r)
+            {
+                throw r;
+            }
             catch (Exception)
             {
                 deserializeModel = TryToDeserialize<TModel>(exception, model);
             }
-            
+
             return deserializeModel;
         }
 
@@ -45,6 +49,10 @@ namespace RescueMe
                     throw new Exception(e.Message);
                 }
 
+            }
+            else
+            {
+                throw new RescueException(exception.message);
             }
 
             return tModel;
