@@ -22,7 +22,7 @@ namespace RescueMe.Droid.Data
     {
         private static DbContext _instance;
         private SQLiteAsyncConnection _connection;
-        public  bool IsNetworkConnected { get; set; }
+        public bool IsNetworkConnected { get; set; }
         private DbContext()
         {
             //_
@@ -49,7 +49,7 @@ namespace RescueMe.Droid.Data
                 return _connection;
             }
         }
-        private void CreateDatabase()
+        private async Task CreateDatabase()
         {
             try
             {
@@ -63,11 +63,11 @@ namespace RescueMe.Droid.Data
             {
                 try
                 {
-                    _connection.CreateTableAsync<UserSaved>().Wait();
-                    _connection.CreateTableAsync<VehicleSaved>().Wait();
-                    _connection.CreateTableAsync<Settings>().Wait();
-                    _connection.CreateTableAsync<ReasonRequest>().Wait();
-                    _connection.CreateTableAsync<RequestSaved>().Wait();
+                    await _connection.CreateTableAsync<UserSaved>();
+                    await _connection.CreateTableAsync<VehicleSaved>();
+                    await _connection.CreateTableAsync<Settings>();
+                    await _connection.CreateTableAsync<ReasonRequest>();
+                    await _connection.CreateTableAsync<RequestSaved>();
                 }
                 catch (Exception m)
                 {
@@ -157,7 +157,8 @@ namespace RescueMe.Droid.Data
         {
             await _connection.DropTableAsync<VehicleSaved>();
             await _connection.CreateTableAsync<VehicleSaved>();
-            var vehicleSaved = vehicles.Select(v => new VehicleSaved() {
+            var vehicleSaved = vehicles.Select(v => new VehicleSaved()
+            {
                 Id = v.Id,
                 Marque = v.Marque,
                 Type = v.Type
@@ -199,7 +200,7 @@ namespace RescueMe.Droid.Data
 
             await _connection.InsertAllAsync(requestsSaved);
             //Download all image's
-            foreach(var request in requests)
+            foreach (var request in requests)
             {
                 await GetImageBitmapFromRequest(request);
             }
@@ -213,19 +214,20 @@ namespace RescueMe.Droid.Data
             using (var webClient = new WebClient())
             {
                 //Save Local
-                webClient.DownloadDataCompleted += (s, e) => {
+                webClient.DownloadDataCompleted += (s, e) =>
+                {
                     var bytes = e.Result; // get the downloaded data
                     string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
                     string localFilename = $"{request.Id}_{GetUser().UserID}.png";
                     string localPath = System.IO.Path.Combine(documentsPath, localFilename);
                     File.WriteAllBytes(localPath, bytes); // writes to local storage
                 };
-                 webClient.DownloadDataAsync(new Uri($"http://rescueme-api.azurewebsites.net/api/Map?" +
-                                        $"requestID={request.Id}&UserID={GetUser().UserID}"));
+                webClient.DownloadDataAsync(new Uri($"http://rescueme-api.azurewebsites.net/api/Map?" +
+                                       $"requestID={request.Id}&UserID={GetUser().UserID}"));
 
-              
+
             }
-           
+
         }
         public async Task<Bitmap> GetImageBitmapFromRequest(Request request)
         {
@@ -240,10 +242,10 @@ namespace RescueMe.Droid.Data
                 fileImage = System.IO.File.OpenRead(localPath);
                 imageBitmap = BitmapFactory.DecodeStream(fileImage);
             }
-            else if(IsNetworkConnected)
+            else if (IsNetworkConnected)
             {
                 await GetImageBitmapFromUrl(request);
-            }          
+            }
             return imageBitmap;
         }
         public List<Request> GetRequest()
@@ -257,9 +259,9 @@ namespace RescueMe.Droid.Data
                                           StatusID = r.StatusID,
                                           Comments = r.Comments,
                                           VehicleID = r.VehicleID,
-                                          ReasonID =r.ReasonID,
-                                          ReasonRequest = GetReasons().FirstOrDefault(l=>l.Id == r.ReasonID),
-                                          Vehicle = GetVehicles().FirstOrDefault(v=>v.Id ==r.VehicleID),
+                                          ReasonID = r.ReasonID,
+                                          ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
+                                          Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
                                           User = GetUser().User,
                                           Status = new Status()
                                           {
@@ -305,7 +307,7 @@ namespace RescueMe.Droid.Data
                 var userProfile = _connection.Table<UserSaved>().FirstOrDefaultAsync().Result;
                 if (userProfile != null)
                 {
-             
+
                     return new UserProfile()
                     {
                         Email = userProfile.Email,
@@ -335,7 +337,7 @@ namespace RescueMe.Droid.Data
         /// Return Settings about application
         /// </summary>
         /// <returns></returns>
-        public Settings GetSettings()
+        public async Task<Settings> GetSettings()
         {
             Settings setting = null;
             try
@@ -345,8 +347,9 @@ namespace RescueMe.Droid.Data
             }
             catch (Exception e)
             {
-                CreateDatabase();
+                await CreateDatabase();
             }
+
             return setting;
         }
         public void SaveSetting(Settings setting)
@@ -368,10 +371,10 @@ namespace RescueMe.Droid.Data
         /// <param name="reasons"></param>
         public async void UpdateReasons(List<ReasonRequest> reasons)
         {
-           await _connection.DropTableAsync<VehicleSaved>();
-           await _connection.CreateTableAsync<VehicleSaved>();
-         
-           await _connection.InsertAllAsync(reasons);
+            await _connection.DropTableAsync<VehicleSaved>();
+            await _connection.CreateTableAsync<VehicleSaved>();
+
+            await _connection.InsertAllAsync(reasons);
         }
 
 

@@ -237,14 +237,14 @@ namespace RescueMe.Droid.Activities
                     Log.Info(TAG, "Location settings are not satisfied. Show the user a dialog to" +
                     "upgrade location settings ");
 
-                    try
-                    {
-                        status.StartResolutionForResult(this, REQUEST_CHECK_SETTINGS);
-                    }
-                    catch (IntentSender.SendIntentException)
-                    {
-                        Log.Info(TAG, "PendingIntent unable to execute request.");
-                    }
+                        try
+                        {
+                            status.StartResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                        }
+                        catch (IntentSender.SendIntentException)
+                        {
+                            Log.Info(TAG, "PendingIntent unable to execute request.");
+                        }
                     break;
                 case LocationSettingsStatusCodes.SettingsChangeUnavailable:
                     Log.Info(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
@@ -418,7 +418,7 @@ namespace RescueMe.Droid.Activities
             mMap.SetMinZoomPreference(14);
             mMap.UiSettings.CompassEnabled = false;
             mMap.UiSettings.MyLocationButtonEnabled = true;
-
+            
             bool success = mMap.SetMapStyle(new MapStyleOptions(GetString(Resource.String.style_json)));
             if (!success)
             {
