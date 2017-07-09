@@ -15,19 +15,25 @@ using RescueMe.Domain;
 using Android.Graphics;
 using System.Net;
 using System.Threading.Tasks;
+using SQLite.Net;
 
 namespace RescueMe.Droid.Data
 {
     public class DbContext
     {
         private static DbContext _instance;
-        private SQLiteAsyncConnection _connection;
+        private SQLiteConnection _connection;
         public bool IsNetworkConnected { get; set; }
         private DbContext()
         {
             //_
+            //string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            //_connection = new SQLiteAsyncConnection(System.IO.Path.Combine(path, "db.db3"));
+            var platform = new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroidN();
             string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            _connection = new SQLiteAsyncConnection(System.IO.Path.Combine(path, "db.db3"));
+
+             _connection = new SQLiteConnection(platform, System.IO.Path.Combine(path, "db.db3"));
+
             CreateDatabase();
         }
         public static DbContext Instance
@@ -42,7 +48,7 @@ namespace RescueMe.Droid.Data
             }
         }
 
-        public SQLiteAsyncConnection Connection
+        public SQLiteConnection Connection
         {
             get
             {
@@ -53,26 +59,16 @@ namespace RescueMe.Droid.Data
         {
             try
             {
-                var userProfileSaved = _connection.Table<UserSaved>().CountAsync().Result;
-                var vehicleSaved = _connection.Table<VehicleSaved>().CountAsync().Result;
-                var SettingSaved = _connection.Table<Settings>().CountAsync().Result;
-                var reasonsSaved = _connection.Table<ReasonRequest>().CountAsync().Result;
-                var requestSaved = _connection.Table<RequestSaved>().CountAsync().Result;
+                _connection.CreateTable<UserSaved>();
+                _connection.CreateTable<VehicleSaved>();
+                _connection.CreateTable<Settings>();
+                _connection.CreateTable<ReasonRequestSaved>();
+                _connection.CreateTable<RequestSaved>();
+              
             }
             catch (Exception e)
             {
-                try
-                {
-                    await _connection.CreateTableAsync<UserSaved>();
-                    await _connection.CreateTableAsync<VehicleSaved>();
-                    await _connection.CreateTableAsync<Settings>();
-                    await _connection.CreateTableAsync<ReasonRequest>();
-                    await _connection.CreateTableAsync<RequestSaved>();
-                }
-                catch (Exception m)
-                {
-                    var a = 1;
-                }
+                throw e;
             }
         }
 
@@ -83,10 +79,10 @@ namespace RescueMe.Droid.Data
         {
             //var user = _connection.Table<UserSaved>().FirstOrDefaultAsync().Result;
             //Remove(user);
-            _connection.DropTableAsync<UserSaved>().Wait();
-            _connection.DropTableAsync<Settings>().Wait();
-            _connection.DropTableAsync<VehicleSaved>().Wait();
-            _connection.DropTableAsync<ReasonRequest>().Wait();
+            _connection.DeleteAll<UserSaved>();
+            _connection.DeleteAll<Settings>();
+            _connection.DeleteAll<VehicleSaved>();
+            _connection.DeleteAll<ReasonRequestSaved>();
         }
 
         /// <summary>
@@ -98,25 +94,29 @@ namespace RescueMe.Droid.Data
                                 List<ReasonRequest> reasons,
                                 List<Request> requests = null)
         {
-            UpdateUser(user);
-            if (vehicles != null)
+            try
             {
-                UpdateVehicles(vehicles);
-            }
-            if (reasons != null)
+                SaveUser(user);
+                if (vehicles != null)
+                {
+                    UpdateVehicles(vehicles);
+                }
+                if (reasons != null)
+                {
+                    UpdateReasons(reasons);
+                }
+                if (requests != null)
+                {
+                    UpdateRequests(requests);
+                }
+            }catch(Exception e)
             {
-                UpdateReasons(reasons);
-            }
-            if (requests != null)
-            {
-                UpdateRequests(requests);
+                throw e;
             }
         }
 
-        public bool UpdateUser(UserProfile user)
+        public bool SaveUser(UserProfile user)
         {
-            _connection.DropTableAsync<UserSaved>().Wait();
-            _connection.CreateTableAsync<UserSaved>().Wait();
             var userSaved = new UserSaved()
             {
                 City = user.City,
@@ -130,7 +130,11 @@ namespace RescueMe.Droid.Data
                 UserID = user.UserID,
                 LastLogged = DateTime.Now
             };
-            var isSaved = _connection.InsertAsync(userSaved).Result > 0;
+            var isSaved = _connection.Update(userSaved)> 0;
+            if (isSaved == false)
+            {
+               isSaved =  _connection.Insert(userSaved) > 0;
+            }
             return isSaved;
         }
 
@@ -138,7 +142,7 @@ namespace RescueMe.Droid.Data
         /// Update Vehicle List
         /// </summary>
         /// <param name="vehicles"></param>
-        public async void InsertVehicle(Vehicle vehicle)
+        public  void InsertVehicle(Vehicle vehicle)
         {
             var vehicleSaved = new VehicleSaved()
             {
@@ -147,27 +151,29 @@ namespace RescueMe.Droid.Data
                 Type = vehicle.Type
             };
 
-            await _connection.InsertAsync(vehicleSaved);
+             _connection.Insert(vehicleSaved);
         }
         /// <summary>
         /// Update Vehicle List
         /// </summary>
         /// <param name="vehicles"></param>
-        public async void UpdateVehicles(List<Vehicle> vehicles)
+        public  void UpdateVehicles(List<Vehicle> vehicles)
         {
-            await _connection.DropTableAsync<VehicleSaved>();
-            await _connection.CreateTableAsync<VehicleSaved>();
             var vehicleSaved = vehicles.Select(v => new VehicleSaved()
             {
                 Id = v.Id,
                 Marque = v.Marque,
                 Type = v.Type
             }).ToList();
-
-            await _connection.InsertAllAsync(vehicleSaved);
+            var isSaved = _connection.UpdateAll(vehicleSaved) > 0;
+            if (isSaved == false)
+            {
+                _connection.InsertAll(vehicleSaved);
+            }
+          
         }
 
-        public async void InsertRequest(Request request)
+        public void InsertRequest(Request request)
         {
             var requestSaved = new RequestSaved()
             {
@@ -180,12 +186,11 @@ namespace RescueMe.Droid.Data
                 ReasonID = request.ReasonID
             };
 
-            await _connection.InsertAsync(requestSaved);
+             _connection.Insert(requestSaved);
         }
         public async void UpdateRequests(List<Request> requests)
         {
-            await _connection.DropTableAsync<RequestSaved>();
-            await _connection.CreateTableAsync<RequestSaved>();
+        
             var requestsSaved = requests.Select(r => new RequestSaved()
             {
                 Id = r.Id,
@@ -198,7 +203,11 @@ namespace RescueMe.Droid.Data
                 Status = r.Status.Name
             }).ToList();
 
-            await _connection.InsertAllAsync(requestsSaved);
+            var isSaved = _connection.UpdateAll(requestsSaved) > 0;
+            if (isSaved == false)
+            {
+                _connection.InsertAll(requestsSaved);
+            }
             //Download all image's
             foreach (var request in requests)
             {
@@ -250,8 +259,8 @@ namespace RescueMe.Droid.Data
         }
         public List<Request> GetRequest()
         {
-            var requests = _connection.Table<RequestSaved>().ToListAsync()
-                                      .Result.Select(r => new Request()
+            var requests = _connection.Table<RequestSaved>().ToList()
+                                      .Select(r => new Request()
                                       {
                                           Id = r.Id,
                                           Latitude = r.Latitude,
@@ -281,8 +290,8 @@ namespace RescueMe.Droid.Data
             List<Vehicle> vehicles = null;
             try
             {
-                vehicles = _connection.Table<VehicleSaved>().ToListAsync()
-                                        .Result.Select(v => new Vehicle()
+                vehicles = _connection.Table<VehicleSaved>().ToList()
+                                        .Select(v => new Vehicle()
                                         {
                                             Id = v.Id,
                                             Marque = v.Marque,
@@ -292,7 +301,7 @@ namespace RescueMe.Droid.Data
             }
             catch (Exception e)
             {
-                CreateDatabase();
+                throw e;
             }
             return vehicles;
         }
@@ -304,7 +313,7 @@ namespace RescueMe.Droid.Data
         {
             try
             {
-                var userProfile = _connection.Table<UserSaved>().FirstOrDefaultAsync().Result;
+                var userProfile = _connection.Table<UserSaved>().FirstOrDefault();
                 if (userProfile != null)
                 {
 
@@ -326,9 +335,9 @@ namespace RescueMe.Droid.Data
 
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                CreateDatabase();
+                return null;
             }
             return null;
         }
@@ -337,44 +346,56 @@ namespace RescueMe.Droid.Data
         /// Return Settings about application
         /// </summary>
         /// <returns></returns>
-        public async Task<Settings> GetSettings()
+        public Settings GetSettings()
         {
             Settings setting = null;
             try
             {
-                setting = _connection.Table<Settings>().FirstOrDefaultAsync().Result;
+                setting = _connection.Table<Settings>().FirstOrDefault();
 
             }
-            catch (Exception e)
+            catch (SQLite.Net.SQLiteException e)
             {
-                await CreateDatabase();
+                return null;
+            }catch(Exception e)
+            {
+                throw e;
             }
 
             return setting;
         }
         public void SaveSetting(Settings setting)
         {
-            _connection.DropTableAsync<Settings>().Wait();
-            _connection.CreateTableAsync<Settings>().Wait();
-            _connection.InsertAsync(setting);
+            _connection.Insert(setting);
         }
 
         //Get Reasons
         public List<ReasonRequest> GetReasons()
         {
-            var reasons = _connection.Table<ReasonRequest>().ToListAsync().Result;
+            var reasons = _connection.Table<ReasonRequestSaved>().Select(r => new ReasonRequest()
+            {
+                Id = r.Id,
+                Name = r.Name
+            }).ToList(); ;
             return reasons;
         }
         /// <summary>
         /// Update all Reasons
         /// </summary>
         /// <param name="reasons"></param>
-        public async void UpdateReasons(List<ReasonRequest> reasons)
+        public  void UpdateReasons(List<ReasonRequest> reasons)
         {
-            await _connection.DropTableAsync<VehicleSaved>();
-            await _connection.CreateTableAsync<VehicleSaved>();
-
-            await _connection.InsertAllAsync(reasons);
+            var reasonSaved = reasons.Select(r => new ReasonRequestSaved()
+            {
+                Id = r.Id,
+                Name = r.Name
+            }).ToList();
+            var isSaved = _connection.UpdateAll(reasonSaved) > 0;
+            if (isSaved == false)
+            {
+                _connection.InsertAll(reasonSaved);
+            }
+         
         }
 
 

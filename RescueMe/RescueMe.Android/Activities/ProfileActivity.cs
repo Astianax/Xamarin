@@ -150,7 +150,7 @@ namespace RescueMe.Droid.Activities
 
 
 
-                _context.UpdateUser(userProfile); //Validation
+                _context.SaveUser(userProfile); //Validation
 
 
                 if (IsNetworkConnected())

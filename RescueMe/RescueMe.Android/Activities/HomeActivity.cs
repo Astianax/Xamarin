@@ -329,17 +329,17 @@ namespace RescueMe.Droid.Activities
         {
             Log.Info(TAG, "Connected to GoogleApiClient");
             SetUp();
-
+         
             if (mCurrentLocation == null)
             {
                 mCurrentLocation = LocationServices.FusedLocationApi.GetLastLocation(mGoogleApiClient);
-
-                SetUpMap();
-
                 if (_isAllowed)
                 {
+                    SetUpMap();
                     UpdateLocationUI();
                 }
+
+
 
 
             }
@@ -382,15 +382,19 @@ namespace RescueMe.Droid.Activities
                         if (grantResults[0] == Permission.Granted)
                         {
                             //Permission granted :)
+                            SetUpMap();
                             CheckLocationSettings();
                             _isAllowed = true;
+                          
                         }
                         else
                         {
+                            CheckLocationSettings();
                             //Permission Denied :( :(
                             //Disabling location functionality
-                            var snack = Snackbar.Make(message, "No se puede Ubicar por los permisos negados...", Snackbar.LengthIndefinite);
-                            snack.Show();
+                            //var snack = Snackbar.Make(message, "No se puede Ubicar por los permisos negados...", Snackbar.LengthIndefinite);
+                            //snack.Show();
+
                         }
                     }
                     break;

@@ -9,12 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using SQLite.Net.Attributes;
 
 namespace RescueMe.Droid.Data
 {
     //SqLite Database
     public class UserSaved
     {
+        [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
