@@ -245,7 +245,7 @@ namespace RescueMe.Droid.Activities
                     txtCedula.Text = profile.IdentificationCard;
                     txTelefono.Text = profile.TelephoneNumber;
                     txtPassword.Text = profile.User.PassworDigest;
-
+                    progressDialog.Hide();
                 }
             }
 
