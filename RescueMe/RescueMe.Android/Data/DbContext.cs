@@ -186,7 +186,7 @@ namespace RescueMe.Droid.Data
                 ReasonID = request.ReasonID
             };
 
-             _connection.Insert(requestSaved);
+            // _connection.Insert(requestSaved);
         }
         public async void UpdateRequests(List<Request> requests)
         {

@@ -51,7 +51,7 @@ namespace RescueMe.Droid
 
             if (_context.GetUser() == null)
             {
-                SetContentView(Resource.Layout.Login);
+                 SetContentView(Resource.Layout.Login);
                 //Controls
                 btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
                 var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);

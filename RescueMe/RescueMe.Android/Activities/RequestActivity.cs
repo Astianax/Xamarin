@@ -18,6 +18,7 @@ using Android.Support.Design.Widget;
 using System.Drawing;
 using Android.Views.Animations;
 using Android.Support.V4.Content;
+using Android.Telephony;
 
 namespace RescueMe.Droid.Activities
 {
@@ -195,7 +196,13 @@ namespace RescueMe.Droid.Activities
                         else
                         {
                             //SMS
-                            message = "No tiene conexion se enviara por SMS";
+                            SmsManager sms = SmsManager.Default;
+                            PendingIntent sentPI;
+                            string requestData = request.Serialize();
+                            sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
+                            sms.SendTextMessage("8296370019", null, requestData, sentPI, null);
+
+
                         }
                     }
                     catch (Exception ex)

@@ -33,7 +33,6 @@ namespace RescueMe
             return deserializeModel;
         }
 
-
         private static TModel TryToDeserialize<TModel>(RescueException exception, object model)
         {
             TModel tModel = Activator.CreateInstance<TModel>(); 
@@ -57,6 +56,10 @@ namespace RescueMe
 
             return tModel;
         }
-        
+
+        public static string Serialize(this object message)
+        {
+            return JsonConvert.SerializeObject(message);
+        }
     }
 }

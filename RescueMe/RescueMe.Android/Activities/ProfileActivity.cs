@@ -148,19 +148,16 @@ namespace RescueMe.Droid.Activities
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
 
-
-
-                _context.SaveUser(userProfile); //Validation
-
-
                 if (IsNetworkConnected())
                 {
+                    _context.SaveUser(userProfile); //Validation
+
                     new Thread(new ThreadStart(delegate
                       {
                           //LOAD METHOD TO GET ACCOUNT INFO
 
                           updatedProfile = bool.Parse(_client.Post("Authentication/Update", userProfile).Result.ToString());
-                  
+
 
                           if (updatedProfile != false)
                           {
@@ -190,10 +187,19 @@ namespace RescueMe.Droid.Activities
 
                       })).Start();
                 }
+                else
+                {
+                    progressDialog.Hide();
+                    Snackbar.Make(passwordLayout, GetString(Resource.String.not_connection), Snackbar.LengthLong)
+                                    .SetAction("OK", (v) =>{})
+                                    .SetDuration(4000)
+                                    .SetActionTextColor(Android.Graphics.Color.Orange)
+                                    .Show();
+                }
 
             }
 
-        }
+0        }
 
         private void BtnCars_click(object sender, EventArgs e)
         {
@@ -245,7 +251,7 @@ namespace RescueMe.Droid.Activities
                     txtCedula.Text = profile.IdentificationCard;
                     txTelefono.Text = profile.TelephoneNumber;
                     txtPassword.Text = profile.User.PassworDigest;
-
+                    progressDialog.Hide();
                 }
             }
 

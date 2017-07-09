@@ -168,7 +168,7 @@ namespace RescueMe.Droid.Activities
                         }
                         else
                         {
-                            message = "No tiene conexión a Internet";
+                            message = GetString(Resource.String.not_connection);
                         }
                     }
                     catch (Exception ex)
