@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using SQLite;
+using SQLite.Net.Attributes;
 
 namespace RescueMe.Droid.Data
 {
