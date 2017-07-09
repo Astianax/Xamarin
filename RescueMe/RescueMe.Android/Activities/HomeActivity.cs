@@ -61,7 +61,7 @@ namespace RescueMe.Droid.Activities
         //Configuration Request
         protected const string TAG = "location-settings";
         protected const int REQUEST_CHECK_SETTINGS = 0x1;
-        public const long UPDATE_INTERVAL_IN_MILLISECONDS = 20000;
+        public const long UPDATE_INTERVAL_IN_MILLISECONDS =10000;
         public const long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
         protected const string KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
         protected const string KEY_LOCATION = "location";
@@ -504,9 +504,8 @@ namespace RescueMe.Droid.Activities
 
         private void Call_Click(object sender, EventArgs e)
         {
-            Intent callIntent = new Intent(Intent.ActionDial);
-            //Uri.
-            //callIntent.SetData()
+            var uri = Android.Net.Uri.Parse("tel:8296881000");
+            Intent callIntent = new Intent(Intent.ActionDial, uri);
             StartActivity(callIntent);
         }
     }
