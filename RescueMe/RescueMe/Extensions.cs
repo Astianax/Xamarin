@@ -21,7 +21,7 @@ namespace RescueMe
                 exception = JsonConvert.DeserializeObject<RescueException>(model.ToString());
                 deserializeModel = TryToDeserialize<TModel>(exception, model);
             }
-            catch(RescueException r)
+            catch (RescueException r)
             {
                 throw r;
             }
@@ -35,7 +35,7 @@ namespace RescueMe
 
         private static TModel TryToDeserialize<TModel>(RescueException exception, object model)
         {
-            TModel tModel = Activator.CreateInstance<TModel>(); 
+            TModel tModel = Activator.CreateInstance<TModel>();
             if (exception == null || exception.message == null)
             {
                 try
@@ -44,7 +44,7 @@ namespace RescueMe
                 }
                 catch (Exception e)
                 {
-                  //  tModel = Activator.CreateInstance<TModel>();
+                    //  tModel = Activator.CreateInstance<TModel>();
                     throw new Exception(e.Message);
                 }
 
@@ -57,9 +57,5 @@ namespace RescueMe
             return tModel;
         }
 
-        public static string Serialize(this object message)
-        {
-            return JsonConvert.SerializeObject(message);
-        }
     }
 }

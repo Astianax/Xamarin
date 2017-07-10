@@ -215,9 +215,13 @@ namespace RescueMe.Droid.Activities
                         else
                         {
                             //SMS
+                            message = "No tiene internet, se envió su solicitud por SMS";
                             SmsManager sms = SmsManager.Default;
                             PendingIntent sentPI;
-                            string requestData = request.Serialize();
+
+                            string requestData = request.Latitude + "|" + request.Longitude + "|" + request.UserID + "|" + request.ReasonID
+                            + "|" + request.VehicleID + "|" + request.Comments;
+
                             sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
                             sms.SendTextMessage("8296370019", null, requestData, sentPI, null);
                             btnRequestRescue.Enabled = false;
