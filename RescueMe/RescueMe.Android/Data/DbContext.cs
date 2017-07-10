@@ -185,8 +185,22 @@ namespace RescueMe.Droid.Data
                 VehicleID = request.VehicleID,
                 ReasonID = request.ReasonID
             };
-
-            // _connection.Insert(requestSaved);
+            if (IsNetworkConnected)
+            {
+                _connection.Insert(requestSaved);
+            }
+            else
+            {
+                var lastRequested =
+                      _connection.Table<RequestSaved>().OrderByDescending(o => o.Id).FirstOrDefault();
+                if (lastRequested != null)
+                {
+                    requestSaved.Id = lastRequested.Id + 1;
+                }
+                _connection.Insert(requestSaved);
+             
+            }
+            
         }
         public async void UpdateRequests(List<Request> requests)
         {
@@ -276,7 +290,7 @@ namespace RescueMe.Droid.Data
                                           {
                                               Name = r.Status
                                           }
-                                      }).ToList();
+                                      }).OrderByDescending(o=>o.Id).ToList();
 
             return requests;
         }
