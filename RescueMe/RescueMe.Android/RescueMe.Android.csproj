@@ -183,6 +183,7 @@
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\ReasonRequestSaved.cs" />
     <Compile Include="Data\SpinnerItem.cs" />
+    <Compile Include="Data\StatusSaved.cs" />
     <Compile Include="Data\UserSaved.cs" />
     <Compile Include="Data\VehicleSaved.cs" />
     <Compile Include="MainActivity.cs" />
