@@ -78,7 +78,7 @@ namespace RescueMe.Droid.Activities
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
-            menu.Click += menu_Click;
+            menu.Click += Menu_Click;
             navigationView.NavigationItemSelected += NavigationItemSelected;
             call.Click += Call_Click;
             request.Click += Request_Click;
@@ -444,7 +444,7 @@ namespace RescueMe.Droid.Activities
 
 
 
-        private void menu_Click(object sender, EventArgs e)
+        private void Menu_Click(object sender, EventArgs e)
         {
             if (drawerLayout.IsDrawerOpen(GravityCompat.Start))
             {
