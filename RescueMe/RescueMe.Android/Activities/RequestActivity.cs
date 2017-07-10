@@ -29,6 +29,7 @@ namespace RescueMe.Droid.Activities
         private Spinner _spReasons;
         private Spinner _spVehicles;
         private EditText _comment;
+        private RelativeLayout requestLayout;
         //Lists
         private List<Vehicle> _vehicles;
         private List<ReasonRequest> _reasons;
@@ -39,7 +40,7 @@ namespace RescueMe.Droid.Activities
 
 
         Android.Support.V7.Widget.Toolbar reasonsLayout;
-
+        private Button btnRequestRescue;
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
@@ -55,31 +56,48 @@ namespace RescueMe.Droid.Activities
             _vehicles = _context.GetVehicles();
             _reasons = _context.GetReasons();
 
+            SetContentView(Resource.Layout.RequestRescue);
 
             reasonsLayout = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.spinerReasonsLayout);
-
+            requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
 
 
             if (String.IsNullOrEmpty(user.IdentificationCard) || String.IsNullOrEmpty(user.TelephoneNumber))
             {
                 // If User don't have user information
-                StartActivity(typeof(ProfileActivity));
+                Snackbar.Make(requestLayout, "Es necesario que tenga cedula y telefono registrado para la asistencia", Snackbar.LengthIndefinite)
+                             .SetAction("OK", (v) =>
+                             {
+                                 StartActivity(typeof(ProfileActivity));
+                             })
+                             //.SetDuration(8000)
+                             .SetActionTextColor(Android.Graphics.Color.Orange)
+                             .Show();
+             
             }
             else if (_vehicles.Count == 0)
             {
                 //Show Activity for Vehicles
-                StartActivity(typeof(CarsActivity));
+                Snackbar.Make(requestLayout, "Es necesario que tenga al menos un vehiculo registrado para la asistencia", Snackbar.LengthIndefinite)
+                           .SetAction("OK", (v) =>
+                           {
+                               StartActivity(typeof(CarsActivity));
+                           })
+                           //.SetDuration(8000)
+                           .SetActionTextColor(Android.Graphics.Color.Orange)
+                           .Show();
+              
             }
             else
             {
                 //Load Activity
-                SetContentView(Resource.Layout.RequestRescue);
+                
                 _spReasons =
                        FindViewById<Spinner>(Resource.Id.ddReasons);
                 _spVehicles =
                         FindViewById<Spinner>(Resource.Id.ddVehicles);
                 _comment = FindViewById<EditText>(Resource.Id.txtComment);
-                var btnRequestRescue = FindViewById<Button>(Resource.Id.RequestRescue);
+                btnRequestRescue = FindViewById<Button>(Resource.Id.RequestRescue);
 
                 SetTools();
 
@@ -87,7 +105,7 @@ namespace RescueMe.Droid.Activities
                 //Adapter's 
                 var vehicleList = _vehicles.Select(v => new SpinnerItem
                 {
-                    Description = v.Marque + "," + v.Type,
+                    Description =$"{v.Marque}{(v.Type != null ? " ("+v.Type+")" : "")}",// v.Marque + (v.Type != "" ? ) "(" + v.Type+")",
                     Id = v.Id
                 }).ToArray();
                 var reasonsList = _reasons.Select(v => new SpinnerItem
@@ -156,7 +174,7 @@ namespace RescueMe.Droid.Activities
         {
             var request = new Request();
             string message = "";
-            RelativeLayout requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
+           
             var selectedVehicle = _spVehicles.SelectedItemPosition;
             var selectedReason = _spReasons.SelectedItemPosition;
             if (selectedReason == 0)
@@ -192,6 +210,7 @@ namespace RescueMe.Droid.Activities
                         {
                             request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
                             message = "Se ha enviado su solicitud";
+                            btnRequestRescue.Enabled = false;
                         }
                         else
                         {
@@ -201,7 +220,7 @@ namespace RescueMe.Droid.Activities
                             string requestData = request.Serialize();
                             sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
                             sms.SendTextMessage("8296370019", null, requestData, sentPI, null);
-
+                            btnRequestRescue.Enabled = false;
 
                         }
                     }
@@ -214,7 +233,10 @@ namespace RescueMe.Droid.Activities
                     RunOnUiThread(() =>
                         {
                             progressDialog.Hide();
-                            _context.InsertRequest(request);
+                            if (request != null)
+                            {
+                                _context.InsertRequest(request);
+                            }
                             Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
                                 .SetAction("OK", (v) =>
                                 {
