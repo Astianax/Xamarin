@@ -27,13 +27,15 @@ using static Android.Gms.Maps.GoogleMap;
 using Android.Graphics;
 using Android.Views.Animations;
 using Android.Animation;
+using Java.IO;
+using System.IO;
 
 namespace RescueMe.Droid.Activities
 {
     [Activity(Label = "HomeActivity",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class HomeActivity : BaseActivity, GoogleApiClient.IConnectionCallbacks,
-        GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener, IOnMapReadyCallback
+        GoogleApiClient.IOnConnectionFailedListener, Android.Gms.Location.ILocationListener, IOnMapReadyCallback, ISnapshotReadyCallback
 
 
     {
@@ -41,7 +43,7 @@ namespace RescueMe.Droid.Activities
         DrawerLayout drawerLayout;
         NavigationView navigationView;
         private GoogleMap mMap;
-
+        Bitmap bitmap;
         //GoogleApiClient apiClient;
         //LocationRequest locRequest;
 
@@ -61,7 +63,7 @@ namespace RescueMe.Droid.Activities
         //Configuration Request
         protected const string TAG = "location-settings";
         protected const int REQUEST_CHECK_SETTINGS = 0x1;
-        public const long UPDATE_INTERVAL_IN_MILLISECONDS =10000;
+        public const long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
         public const long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
         protected const string KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
         protected const string KEY_LOCATION = "location";
@@ -119,6 +121,7 @@ namespace RescueMe.Droid.Activities
             //               Resource.Animation.fade_in);
             //request.StartAnimation(anim);
 
+            mMap.Snapshot(this);
             StartActivity(intent);
 
         }
@@ -237,14 +240,14 @@ namespace RescueMe.Droid.Activities
                     Log.Info(TAG, "Location settings are not satisfied. Show the user a dialog to" +
                     "upgrade location settings ");
 
-                        try
-                        {
-                            status.StartResolutionForResult(this, REQUEST_CHECK_SETTINGS);
-                        }
-                        catch (IntentSender.SendIntentException)
-                        {
-                            Log.Info(TAG, "PendingIntent unable to execute request.");
-                        }
+                    try
+                    {
+                        status.StartResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                    }
+                    catch (IntentSender.SendIntentException)
+                    {
+                        Log.Info(TAG, "PendingIntent unable to execute request.");
+                    }
                     break;
                 case LocationSettingsStatusCodes.SettingsChangeUnavailable:
                     Log.Info(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
@@ -329,7 +332,7 @@ namespace RescueMe.Droid.Activities
         {
             Log.Info(TAG, "Connected to GoogleApiClient");
             SetUp();
-         
+
             if (mCurrentLocation == null)
             {
                 mCurrentLocation = LocationServices.FusedLocationApi.GetLastLocation(mGoogleApiClient);
@@ -385,7 +388,7 @@ namespace RescueMe.Droid.Activities
                             SetUpMap();
                             CheckLocationSettings();
                             _isAllowed = true;
-                          
+
                         }
                         else
                         {
@@ -422,7 +425,7 @@ namespace RescueMe.Droid.Activities
             mMap.SetMinZoomPreference(14);
             mMap.UiSettings.CompassEnabled = false;
             mMap.UiSettings.MyLocationButtonEnabled = true;
-            
+
             bool success = mMap.SetMapStyle(new MapStyleOptions(GetString(Resource.String.style_json)));
             if (!success)
             {
@@ -511,6 +514,38 @@ namespace RescueMe.Droid.Activities
             var uri = Android.Net.Uri.Parse("tel:8296881000");
             Intent callIntent = new Intent(Intent.ActionDial, uri);
             StartActivity(callIntent);
+        }
+
+        public void OnSnapshotReady(Bitmap snapshot)
+        {
+            bitmap = snapshot;
+            try
+            {
+                //int height = Resources.DisplayMetrics.HeightPixels;
+                //int width = _imageView.Height;
+                //App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
+
+                string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                string localFilename = $"{_context.GetRequest().FirstOrDefault().Id + 1}_{_context.GetUser().UserID}.png";
+                string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+
+                if (!System.IO.File.Exists(localPath))
+                {
+                    FileStream stream = new FileStream(localPath, FileMode.Create, FileAccess.ReadWrite, FileShare.None); 
+                    bitmap = Bitmap.CreateScaledBitmap(bitmap, 620, 400, false);
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
+                    
+
+                    stream.Close();
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }
