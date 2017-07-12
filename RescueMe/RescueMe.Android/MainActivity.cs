@@ -2,25 +2,16 @@
 
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
-using UK.CO.Chrisjenx.Calligraphy;
 using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
 using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
 using System.Threading;
-using RescueMe.Droid.Data;
-using Android;
-using Android.Support.V4.App;
 using Android.Content.PM;
-using Android.Content.Res;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Android.Views.Animations;
 using Firebase.Iid;
 
 namespace RescueMe.Droid
@@ -36,20 +27,22 @@ namespace RescueMe.Droid
         const string TAG = "MainActivity";
         protected override void OnCreate(Bundle bundle)
         {
+            //Informations
+         
             base.OnCreate(bundle);
 
             //CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
             //    .SetDefaultFontPath("fonts/OpenSans-Bold.ttf")
             //    .SetFontAttrId(Resource.Attribute.fontPath)
             //    .Build());
-            //SetContentView(Resource.Layout.Login);
-            // Set our view from the "main" layout resource
-            //SetContentView(Resource.Layout.Profile);
-            //var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //btnLogin.Click += BtnLogin_Click;
-            //var linkRegister = FindViewById<TextView>(Resource.Id.card_v);
-            //linkRegister.Click += linkRegister_click;
-            
+           // SetContentView(Resource.Layout.Login);
+           //// Set our view from the "main" layout resource
+           //// SetContentView(Resource.Layout.Profile);
+           // var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+           // btnLogin.Click += BtnLogin_Click;
+           // var linkRegister = FindViewById<TextView>(Resource.Id.card_v);
+           // linkRegister.Click += linkRegister_click;
+
             if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:6288a966f5369538"))
                 throw new System.Exception("Invalid Json file");
 
@@ -61,21 +54,21 @@ namespace RescueMe.Droid
                     Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
             });
 
-            //if (_context.GetUser() == null)
-            //{
-            //     SetContentView(Resource.Layout.Login);
-            //    //Controls
-            //    btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-            //    btnLogin.Click += BtnLogin_Click;
-            //    linkRegister.Click += linkRegister_click;
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                //Controls
+                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+                btnLogin.Click += BtnLogin_Click;
+                linkRegister.Click += linkRegister_click;
 
-            //    SetUp();
-            //}
-            //else
-            //{
-            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            //}
+                SetUp();
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
 
         }
 
@@ -138,7 +131,7 @@ namespace RescueMe.Droid
                 UserProfile user = null;
                 userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-                userViewModel.platform = "web";
+                //userViewModel.platform = "web";
 
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
