@@ -60,6 +60,7 @@ namespace RescueMe.Droid.Data
             try
             {
                 _connection.CreateTable<UserSaved>();
+                _connection.CreateTable<StatusSaved>();
                 _connection.CreateTable<VehicleSaved>();
                 _connection.CreateTable<Settings>();
                 _connection.CreateTable<ReasonRequestSaved>();
@@ -81,6 +82,7 @@ namespace RescueMe.Droid.Data
             //Remove(user);
             _connection.DeleteAll<UserSaved>();
             _connection.DeleteAll<Settings>();
+            _connection.CreateTable<StatusSaved>();
             _connection.DeleteAll<VehicleSaved>();
             _connection.DeleteAll<ReasonRequestSaved>();
         }
@@ -92,7 +94,8 @@ namespace RescueMe.Droid.Data
         /// <param name="vehicles"></param>
         public void LogIn(UserProfile user, List<Vehicle> vehicles,
                                 List<ReasonRequest> reasons,
-                                List<Request> requests = null)
+                                List<Request> requests = null,
+                                List<Status> status = null)
         {
             try
             {
@@ -108,6 +111,10 @@ namespace RescueMe.Droid.Data
                 if (requests != null)
                 {
                     UpdateRequests(requests);
+                }
+                if (status != null)
+                {
+                    UpdateStatus(status);
                 }
             }catch(Exception e)
             {
@@ -228,6 +235,21 @@ namespace RescueMe.Droid.Data
                 await GetImageBitmapFromRequest(request);
             }
         }
+        public void UpdateStatus(List<Status> status)
+        {
+            var statusSaved = status.Select(s => new StatusSaved()
+            {
+                Id = s.Id,
+               Name =s.Name
+            }).ToList();
+            var isSaved = _connection.UpdateAll(statusSaved) > 0;
+            if (isSaved == false)
+            {
+                _connection.InsertAll(statusSaved);
+            }
+
+        }
+
         /// <summary>
         /// Save image request
         /// </summary>

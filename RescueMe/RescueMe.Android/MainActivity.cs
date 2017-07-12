@@ -166,7 +166,8 @@ namespace RescueMe.Droid
                         var vehicles = GetVehicles(user.Id);
                         var reasons = GetReasons();
                         var rescues = GetRescues(user);
-                        _context.LogIn(user, vehicles, reasons, rescues);
+                        var status = GetStatus();
+                        _context.LogIn(user, vehicles, reasons, rescues, status);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }
@@ -238,6 +239,20 @@ namespace RescueMe.Droid
             }
 
             return reasons;
+        }
+        public List<Status> GetStatus()
+        {
+            List<Status> status;
+            try
+            {
+                status = _client.Get("Status/", null).Result.JsonToObject<List<Status>>();
+            }
+            catch (Exception ex)
+            {
+                status = null;
+            }
+
+            return status;
         }
     }
 }
