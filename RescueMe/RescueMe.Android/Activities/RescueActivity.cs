@@ -34,7 +34,11 @@ namespace RescueMe.Droid.Activities
             _requests = await GetRequests();
             SetRecyclerView(_requests);
 
+          
+
         }
+
+
         public async Task<List<Request>> GetRequests()
         {
             var requests = new List<Request>();
@@ -82,5 +86,9 @@ namespace RescueMe.Droid.Activities
             mAdapter.IsNetworkConnected = IsNetworkConnected();
             mRecyclerView.SetAdapter(mAdapter);
         }
+
+
+
+
     }
 }

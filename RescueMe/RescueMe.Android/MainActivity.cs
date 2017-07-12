@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Android.Views.Animations;
+using Firebase.Iid;
 
 namespace RescueMe.Droid
 {
@@ -32,7 +33,7 @@ namespace RescueMe.Droid
     {
 
         Button btnLogin;
-
+        const string TAG = "MainActivity";
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -48,22 +49,33 @@ namespace RescueMe.Droid
             //btnLogin.Click += BtnLogin_Click;
             //var linkRegister = FindViewById<TextView>(Resource.Id.card_v);
             //linkRegister.Click += linkRegister_click;
+            
+            if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:6288a966f5369538"))
+                throw new System.Exception("Invalid Json file");
 
-            if (_context.GetUser() == null)
+            Task.Run(() =>
             {
-                 SetContentView(Resource.Layout.Login);
-                //Controls
-                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-                var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-                btnLogin.Click += BtnLogin_Click;
-                linkRegister.Click += linkRegister_click;
+                var instanceId = FirebaseInstanceId.Instance;
+                //instanceId.DeleteInstanceId();
+                Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
+                    Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+            });
 
-                SetUp();
-            }
-            else
-            {
-                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            }
+            //if (_context.GetUser() == null)
+            //{
+            //     SetContentView(Resource.Layout.Login);
+            //    //Controls
+            //    btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+            //    btnLogin.Click += BtnLogin_Click;
+            //    linkRegister.Click += linkRegister_click;
+
+            //    SetUp();
+            //}
+            //else
+            //{
+            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            //}
 
         }
 

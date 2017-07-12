@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:minHeight="25dp"
+    android:minWidth="25dp">
+    <RadioGroup
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sucess">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Cerrado con éxito"
+            android:id="@+id/successfully" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cerrado sin éxito"
+            android:id="@+id/unSuccessfully" />
+    </RadioGroup>
+
+  <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+       android:gravity="center"
+       card_view:cardUseCompatPadding="true"
+       card_view:cardElevation="2dp"
+       card_view:cardCornerRadius="4dp"
+       card_view:contentPadding="10dp"
+       android:layout_width="fill_parent"
+       android:layout_below="@id/sucess"
+       android:layout_height="200dp"
+       android:id="@+id/cardComment"
+       android:layout_marginTop="40dp"
+       android:layout_marginLeft="30dp"
+       android:layout_marginRight="30dp">
+    <FrameLayout
+        android:background="@color/main_color"
+        android:layout_width="3dp"
+        android:id="@+id/frame"
+        android:layout_height="match_parent" />
+    <EditText
+        android:id="@+id/txtComment"
+        android:inputType="textMultiLine"
+        android:lines="8"
+        android:minLines="6"
+        android:maxLines="50"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:scrollbars="vertical"
+        android:background="@android:color/transparent"
+        android:layout_toRightOf="@id/frame"
+        android:layout_marginLeft="15dp"
+        android:gravity="top|left"        
+        android:hint="Comentarios"/>
+  </android.support.v7.widget.CardView>
+</RelativeLayout>

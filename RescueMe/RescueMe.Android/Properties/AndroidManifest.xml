@@ -3,7 +3,7 @@
 	<uses-sdk android:minSdkVersion="15" />
 	<application android:label="Rescue Me" android:theme="@style/MyCustomTheme" android:icon="@drawable/logoIcon"></application>
 </manifest>-->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="RescueMe.RescueMe" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="rescueMe.RescueMe" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -19,10 +19,16 @@
 	<application android:label="Rescue Me" android:theme="@style/MyCustomTheme" android:icon="@drawable/logoIcon" android:screenOrientation="portrait">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="@string/GoogleKey" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-		<!--<activity >-->
+    <!--FireBase-->
+      <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
+      <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+          <category android:name="${applicationId}" />
+        </intent-filter>
+      </receiver>
 	</application>
-
-  <!--Sms-->
-  <uses-permission android:name="android.permission.SEND_SMS" />
-  
+	<!--Sms-->
+	<uses-permission android:name="android.permission.SEND_SMS" />
 </manifest>
