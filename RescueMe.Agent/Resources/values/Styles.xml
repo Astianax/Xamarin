@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="my_green">#77D065</color>
+  <color name="my_purple">#B455B6</color>
+  <color name="my_gray">#738182</color>
+  <color name="white">#f5f5f5</color>
+  <color name="dark_blue">#071A36</color>
+  <color name="Light_Grey">#d6d9dc</color>
+
+
+  <color name="lightwhite">#d9d9d9</color>
+  <color name="login_bg_color">#F7D8C4</color>
+  <color name="main_color">#DD6F00</color>
+  <color name="btn_color">#DD6F00</color>
+  <color name="links_color">#DD6F00</color>
+  <color name="menu_text_color">#03033B</color>
+  
+  
+  
+  
+
+  <!-- Inherit from the light Material Theme -->
+  <!--<style name="MyCustomTheme" parent="android:Theme.Material.Light.NoActionBar">-->
+  <style name="MyCustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:colorPrimary">@color/main_color</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="colorAccent">@color/menu_text_color</item>
+    <!--<item name="colorControlHighlight">#ffffff</item>-->
+
+    <!-- TextLabel -->
+
+    <item name="android:textSize">16sp</item>
+    <item name="android:textColorHint">@color/menu_text_color</item>
+
+    <!-- END TextLabel -->
+    <!-- mySpinnerStyle -->
+    <!--<item name="android:dropDownListViewStyle">@style/mySpinnerStyle</item>-->
+
+  </style>
+  <style name="mySpinnerStyle" parent="android:Widget.ListView.DropDown">
+    <item name="android:divider">#00ff00</item>
+    <item name="android:dividerHeight">1dp</item>
+  </style>
+  <!--<style name="DropDownSpinner.My" parent="@android:style/Widget.Holo.Light.Spinner">
+    <item name="android:popupBackground">@drawable/menu_dropdown_panel_spinner</item>
+  </style>-->
+
+
+
+</resources>

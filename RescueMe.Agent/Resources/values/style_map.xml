@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <string name="style_json">
+    [
+    {
+   \"stylers\": [
+    {
+  \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+   \"saturation\": 90
+    },
+    {
+    \"lightness\": 75
+    },
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"geometry.fill\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"geometry.stroke\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"labels\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"labels.icon\",
+    \"stylers\": [
+    {
+    \"color\": \"#d35c1e\"
+    },
+    {
+    \"visibility\": \"off\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"labels.text\",
+    \"stylers\": [
+    {
+    \"color\": \"#6b776f\"
+    },
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"labels.text.fill\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"elementType\": \"labels.text.stroke\",
+    \"stylers\": [
+    {
+    \"color\": \"#f6f5df\"
+    },
+    {
+    \"visibility\": \"off\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"administrative.country\",
+    \"stylers\": [
+    {
+    \"color\": \"#19287f\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"administrative.land_parcel\",
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"administrative.locality\",
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"administrative.neighborhood\",
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"administrative.province\",
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape\",
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+    \"color\": \"#f2f5ed\"
+    },
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape.natural\",
+    \"stylers\": [
+    {
+    \"visibility\": \"simplified\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape.natural\",
+    \"elementType\": \"geometry.stroke\",
+    \"stylers\": [
+    {
+    \"visibility\": \"simplified\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape.natural.landcover\",
+    \"elementType\": \"labels\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape.natural.terrain\",
+    \"elementType\": \"geometry\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape.natural.terrain\",
+    \"elementType\": \"geometry.stroke\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"landscape.natural.terrain\",
+    \"elementType\": \"labels\",
+    \"stylers\": [
+    {
+    \"visibility\": \"on\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"transit.station\",
+    \"stylers\": [
+    {
+    \"color\": \"#96aa9c\"
+    },
+    {
+    \"visibility\": \"simplified\"
+    }
+    ]
+    },
+    {
+    \"featureType\": \"water\",
+    \"stylers\": [
+    {
+    \"color\": \"#8cb7c8\"
+    }
+    ]
+    }
+    ]
+  </string>
+</resources>
