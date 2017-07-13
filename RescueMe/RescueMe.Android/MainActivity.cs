@@ -25,6 +25,7 @@ namespace RescueMe.Droid
 
         Button btnLogin;
         const string TAG = "MainActivity";
+        private string token;
         protected override void OnCreate(Bundle bundle)
         {
             //Informations
@@ -52,6 +53,8 @@ namespace RescueMe.Droid
                 //instanceId.DeleteInstanceId();
                 Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
                     Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+
+                token = instanceId.Token;
             });
 
             if (_context.GetUser() == null)
@@ -129,8 +132,9 @@ namespace RescueMe.Droid
             if (valid)
             {
                 UserProfile user = null;
-                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
+                userViewModel.email = "firulaisp@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
+                userViewModel.token = token;
                 //userViewModel.platform = "web";
 
 

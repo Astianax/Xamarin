@@ -10,5 +10,6 @@ namespace RescueMe.Api.ViewModel
         public string email { get; set; }
         public string password { get; set; }
         public string platform { get; set; }
+        public string token { get; set; }
     }
 }
