@@ -29,6 +29,7 @@ namespace RescueMe.Droid.FireBaseServices
         void SendRegistrationToServer(string token)
         {
             // Add custom implementation, as needed.
+            //RestClient client = new RestClient("");
         }
     }
 }

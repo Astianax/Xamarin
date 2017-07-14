@@ -18,6 +18,9 @@ using Android.Net;
 using Android.Telephony;
 using Java.Net;
 using System.Net;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Analytics;
+using Microsoft.Azure.Mobile.Crashes;
 
 namespace RescueMe.Droid.Activities
 {
@@ -120,6 +123,19 @@ namespace RescueMe.Droid.Activities
             {
                 return false;
             }
+        }
+
+
+        protected override void OnStart()
+        {
+        
+            base.OnStart();
+        }
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            MobileCenter.Start("feb54400-4cbc-4f14-b342-6791df4f72f0", typeof(Analytics), typeof(Crashes));
+            //MobileCenter.Start("feb54400-4cbc-4f14-b342-6791df4f72f0", typeof(Analytics), typeof(Crashes));
+            base.OnCreate(savedInstanceState);
         }
 
     }
