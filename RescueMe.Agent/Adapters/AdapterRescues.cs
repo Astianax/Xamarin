@@ -5,16 +5,16 @@ using Android.Widget;
 using Android.Support.V7.Widget;
 using RescueMe.Domain;
 using System.Collections.Generic;
-using RescueMe.Droid.Data;
 using Android.Support.Design.Widget;
 using Android.Graphics;
 using System.Net;
 using Android.App;
 using static Android.Widget.RadioGroup;
+using RescueMe.Agent.Data;
 
-namespace RescueMe.Droid.Adapters
+namespace RescueMe.Agent.Adapters
 {
-    public class AdapterRescues : RecyclerView.Adapter, IOnCheckedChangeListener
+    public class AdapterRescues : RecyclerView.Adapter
     {
         public event EventHandler<AdapterRescuesClickEventArgs> ItemClick;
         public event EventHandler<AdapterRescuesClickEventArgs> ItemLongClick;
@@ -39,7 +39,7 @@ namespace RescueMe.Droid.Adapters
             //itemView = LayoutInflater.From(parent.Context).
             //       Inflate(id, parent, false);
 
-            var vh = new AdapterRescuesViewHolder(itemView, OnClick, OnLongClick);
+            var vh = new AdapterRescuesViewHolder(itemView, null, OnLongClick);
             return vh;
         }
 
@@ -79,44 +79,20 @@ namespace RescueMe.Droid.Adapters
 
     
         public override int ItemCount => items.Count;
-        void OnClick(AdapterRescuesClickEventArgs e)
-        {
-            //ItemClick?.Invoke(this, args);
-            var context = e.View.Context;
-
-            AlertDialog.Builder alert = new AlertDialog.Builder(context);
-            alert.SetTitle("Estatus");
-            alert.SetView(LayoutInflater.From(context).Inflate(Resource.Layout.StatusRequest, null));
-            alert.SetPositiveButton("Ok", (senderAlert, args) =>
-            {
-                Toast.MakeText(context, "Deleted!", ToastLength.Short).Show();
-            });
-
-            alert.SetNegativeButton("Cancelar", (senderAlert, args) =>
-            {
-                Toast.MakeText(context, "Cancelado!", ToastLength.Short).Show();
-            });
-
-
-
-            Dialog dialog = alert.Create();
-            dialog.Show();
-            radioGroup = dialog.FindViewById<RadioGroup>(Resource.Id.sucess);
-
-            radioGroup.SetOnCheckedChangeListener(this);
-        }
+      
         void OnLongClick(AdapterRescuesClickEventArgs args) => ItemLongClick?.Invoke(this, args);
-        
-        public void OnCheckedChanged(RadioGroup group, int checkedId)
-        {
-            var comment= group.FindViewById<EditText>(Resource.Id.txtComment);
-            //RadioButton radioButton = this. FindViewById<RadioButton>(group.CheckedRadioButtonId);
 
-            //if (group.ch isChecked())
-            //{
-            //    Toast.makeText(MainActivity.this, "Tea is selected", Toast.LENGTH_SHORT).show();
-            //}
-        }
+
+        //public void OnCheckedChanged(RadioGroup group, int checkedId)
+        //{
+        //    var comment= group.FindViewById<EditText>(Resource.Id.txtComment);
+        //    //RadioButton radioButton = this. FindViewById<RadioButton>(group.CheckedRadioButtonId);
+
+        //    //if (group.ch isChecked())
+        //    //{
+        //    //    Toast.makeText(MainActivity.this, "Tea is selected", Toast.LENGTH_SHORT).show();
+        //    //}
+        //}
     }
 
 

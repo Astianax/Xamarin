@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:minHeight="25dp"
     android:minWidth="25dp">
-  <include
-    layout="@layout/ToolBar" />
+  <!--<include
+    layout="@layout/ToolBar" />-->
   <TextView android:id="@+id/titleText"
             android:text="Mis Rescates"
             android:layout_width="0dp"

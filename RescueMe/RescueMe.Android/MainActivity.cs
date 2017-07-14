@@ -61,21 +61,21 @@ namespace RescueMe.Droid
                     Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
             });
 
-            //if (_context.GetUser() == null)
-            //{
-            //     SetContentView(Resource.Layout.Login);
-            //    //Controls
-            //    btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-            //    btnLogin.Click += BtnLogin_Click;
-            //    linkRegister.Click += linkRegister_click;
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                //Controls
+                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+                btnLogin.Click += BtnLogin_Click;
+                linkRegister.Click += linkRegister_click;
 
-            //    SetUp();
-            //}
-            //else
-            //{
-            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            //}
+                SetUp();
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
 
         }
 

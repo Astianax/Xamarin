@@ -12,7 +12,7 @@ using Android.Widget;
 using Firebase.Iid;
 using Android.Util;
 
-namespace RescueMe.Droid.FireBaseServices
+namespace RescueMe.Agent.FireBaseServices
 {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.INSTANCE_ID_EVENT" })]

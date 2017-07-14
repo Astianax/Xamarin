@@ -13,7 +13,7 @@ using Firebase.Messaging;
 using Android.Media;
 using Android.Support.V4.App;
 
-namespace RescueMe.Droid.FireBaseServices
+namespace RescueMe.Agent.FireBaseServices
 {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]

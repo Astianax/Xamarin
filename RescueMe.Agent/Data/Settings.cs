@@ -12,7 +12,7 @@ using Android.Widget;
 using SQLite;
 using SQLite.Net.Attributes;
 
-namespace RescueMe.Droid.Data
+namespace RescueMe.Agent.Data
 {
     public class Settings
     {

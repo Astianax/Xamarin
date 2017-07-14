@@ -30,7 +30,6 @@ namespace RescueMe.Droid
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::RescueMe.Droid.Resource.String.Hello;
 			global::SQLite.Net.Platform.XamarinAndroidN.Resource.String.ApplicationName = global::RescueMe.Droid.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroidN.Resource.String.Hello = global::RescueMe.Droid.Resource.String.Hello;
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::RescueMe.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using SQLite.Net.Attributes;
 
-namespace RescueMe.Droid.Data
+namespace RescueMe.Agent.Data
 {
     //SqLite Database
     public class UserSaved

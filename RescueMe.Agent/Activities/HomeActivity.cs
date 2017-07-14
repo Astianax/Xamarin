@@ -12,7 +12,7 @@ using Android.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
-using RescueMe.Droid.Data;
+//using RescueMe.Agent.Data;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
@@ -30,7 +30,7 @@ using Android.Animation;
 using Java.IO;
 using System.IO;
 
-namespace RescueMe.Droid.Activities
+namespace RescueMe.Agent.Activities
 {
     [Activity(Label = "HomeActivity",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
@@ -73,17 +73,17 @@ namespace RescueMe.Droid.Activities
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Home);
+            SetContentView(Resource.Layout.HomeContainer);
             var menu = FindViewById(Resource.Id.menuIcon);
             var call = FindViewById<ImageButton>(Resource.Id.btnCall);
             request = FindViewById<ImageButton>(Resource.Id.btnRescue);
             //drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             //navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
-            menu.Click += Menu_Click;
-            navigationView.NavigationItemSelected += NavigationItemSelected;
+            //menu.Click += Menu_Click;
+            //navigationView.NavigationItemSelected += NavigationItemSelected;
             call.Click += Call_Click;
-            request.Click += Request_Click;
+            //request.Click += Request_Click;
 
 
 
@@ -216,10 +216,10 @@ namespace RescueMe.Droid.Activities
 
 
                 mMap.AddMarker(markerOptions);
-                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
-                {
-                    IsNetworkConnected = IsNetworkConnected()
-                });
+                //mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
+                //{
+                //    IsNetworkConnected = IsNetworkConnected()
+                //});
 
                 mMap.MoveCamera(camera);
                 //AddMyCustomDrawnOverlayToMap();
@@ -331,7 +331,7 @@ namespace RescueMe.Droid.Activities
         public void OnConnected(Bundle connectionHint)
         {
             Log.Info(TAG, "Connected to GoogleApiClient");
-            SetUp();
+            //SetUp();
 
             if (mCurrentLocation == null)
             {
@@ -526,7 +526,7 @@ namespace RescueMe.Droid.Activities
                 //App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
 
                 string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                string localFilename = $"{_context.GetRequest().FirstOrDefault().Id + 1}_{_context.GetUser().UserID}.png";
+                string localFilename = null;//"{_context.GetRequest().FirstOrDefault().Id + 1}_{_context.GetUser().UserID}.png";
                 string localPath = System.IO.Path.Combine(documentsPath, localFilename);
 
                 if (!System.IO.File.Exists(localPath))

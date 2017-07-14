@@ -2,30 +2,21 @@
 
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
-using UK.CO.Chrisjenx.Calligraphy;
 using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
-using RescueMe.Droid.Activities;
 using Android.Support.Design.Widget;
 using System.Threading;
-using RescueMe.Droid.Data;
-using Android;
-using Android.Support.V4.App;
 using Android.Content.PM;
-using Android.Content.Res;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Android.Views.Animations;
 using Firebase.Iid;
+using RescueMe.Agent.Activities;
 
-namespace RescueMe.Droid
+namespace RescueMe.Agent
 {
-    [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true,
+    [Activity(Label = "Agent Rescate", Icon = "@drawable/appIcon", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 
     public class MainActivity : BaseActivity
@@ -47,22 +38,22 @@ namespace RescueMe.Droid
                     Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
             });
 
+            //SetContentView(Resource.Layout.Main);
+            if (_context.GetUser() == null)
+            {
+                SetContentView(Resource.Layout.Login);
+                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
+                //Controls
+                //var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+                btnLogin.Click += BtnLogin_Click;
+                //linkRegister.Click += linkRegister_click;
 
-            //if (_context.GetUser() == null)
-            //{
-            //     SetContentView(Resource.Layout.Login);
-            //    //Controls
-            //    btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            //    var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
-            //    btnLogin.Click += BtnLogin_Click;
-            //    linkRegister.Click += linkRegister_click;
-
-            //    SetUp();
-            //}
-            //else
-            //{
-            //    StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-            //}
+                SetUp();
+            }
+            else
+            {
+                StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+            }
 
         }
 
@@ -120,7 +111,7 @@ namespace RescueMe.Droid
             if (valid)
             {
                 UserProfile user = null;
-                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
+                userViewModel.email = "firulaisp@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
                 userViewModel.platform = "agent";
 
@@ -138,12 +129,12 @@ namespace RescueMe.Droid
                     if (user != null)
                     {
 
-                        //Save Vehicles
-                        var vehicles = GetVehicles(user.Id);
-                        var reasons = GetReasons();
+                        ////Save Vehicles
+                        //var vehicles = GetVehicles(user.Id);
+                        //var reasons = GetReasons();
                         var rescues = GetRescues(user);
                         var status = GetStatus();
-                        _context.LogIn(user, vehicles, reasons, rescues, status);
+                        //_context.LogIn(user, rescues, status);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }

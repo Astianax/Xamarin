@@ -17,7 +17,7 @@ using System.Net;
 using System.Threading.Tasks;
 using SQLite.Net;
 
-namespace RescueMe.Droid.Data
+namespace RescueMe.Agent.Data
 {
     public class DbContext
     {
@@ -32,7 +32,16 @@ namespace RescueMe.Droid.Data
             var platform = new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroidN();
             string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
 
-             _connection = new SQLiteConnection(platform, System.IO.Path.Combine(path, "db.db3"));
+            try
+            {
+                _connection = new SQLiteConnection(platform, System.IO.Path.Combine(path, "db.db3"));
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            
 
             CreateDatabase();
         }
@@ -92,22 +101,14 @@ namespace RescueMe.Droid.Data
         /// </summary>
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
-        public void LogIn(UserProfile user, List<Vehicle> vehicles,
-                                List<ReasonRequest> reasons,
+        public void LogIn(UserProfile user, 
                                 List<Request> requests = null,
                                 List<Status> status = null)
         {
             try
             {
                 SaveUser(user);
-                if (vehicles != null)
-                {
-                    UpdateVehicles(vehicles);
-                }
-                if (reasons != null)
-                {
-                    UpdateReasons(reasons);
-                }
+           
                 if (requests != null)
                 {
                     UpdateRequests(requests);

@@ -13,9 +13,9 @@ using Android.Content.PM;
 using RescueMe.Domain;
 using System.Threading.Tasks;
 using Android.Support.V7.Widget;
-using RescueMe.Droid.Adapters;
+using RescueMe.Agent.Adapters;
 
-namespace RescueMe.Droid.Activities
+namespace RescueMe.Agent.Activities
 {
     [Activity(Label = "RescueActivity",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
@@ -29,7 +29,7 @@ namespace RescueMe.Droid.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.MyRescues);
-            SetTools();
+            //SetTools();
             // Create your application here
             _requests = await GetRequests();
             SetRecyclerView(_requests);

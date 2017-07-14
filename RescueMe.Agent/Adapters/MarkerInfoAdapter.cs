@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using Android.Gms.Maps;
 
-namespace RescueMe.Droid.Adapters
+namespace RescueMe.Agent.Adapters
 {
-    public class MarkerInfoAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter
+    public class MarkerInfoAdapter : Java.Lang.Object
     {
         private LayoutInflater _layoutInflater = null;
         private Location mCurrentLocation;
@@ -34,41 +34,41 @@ namespace RescueMe.Droid.Adapters
             return null;
         }
 
-        public View GetInfoWindow(Marker marker)
-        {
-            View view = _layoutInflater.Inflate(Resource.Layout.info_window, null, false);
-            string mAddress;
+        //public View GetInfoWindow(Marker marker)
+        //{
+        //    View view = _layoutInflater.Inflate(Resource.Layout.info_window, null, false);
+        //    string mAddress;
 
-            if (IsNetworkConnected == true)
-            {
+        //    if (IsNetworkConnected == true)
+        //    {
 
-                //The Geocoder class retrieves a list of address from Google over the internet  
-                IList<Address> addressList = mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
-                Address addressCurrent = addressList.FirstOrDefault();
+        //        //The Geocoder class retrieves a list of address from Google over the internet  
+        //        IList<Address> addressList = mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
+        //        Address addressCurrent = addressList.FirstOrDefault();
 
-                if (addressCurrent != null)
-                {
-                    StringBuilder deviceAddress = new StringBuilder();
+        //        if (addressCurrent != null)
+        //        {
+        //            StringBuilder deviceAddress = new StringBuilder();
 
-                    for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
-                        deviceAddress.Append(addressCurrent.GetAddressLine(i))
-                            .AppendLine(",");
+        //            for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+        //                deviceAddress.Append(addressCurrent.GetAddressLine(i))
+        //                    .AppendLine(",");
 
-                    mAddress = deviceAddress.ToString();
-                }
-                else
-                {
+        //            mAddress = deviceAddress.ToString();
+        //        }
+        //        else
+        //        {
 
-                    mAddress = "Unable to determine the address.";
-                }
-            }
-            else
-            {
-                mAddress = "No Disponible";
-            }
+        //            mAddress = "Unable to determine the address.";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        mAddress = "No Disponible";
+        //    }
 
-            view.FindViewById<TextView>(Resource.Id.txtAddress).Text = mAddress;
-            return view;
-        }
+        //    //view.FindViewById<TextView>(Resource.Id.txtAddress).Text = mAddress;
+        //    return view;
+        //}
     }
 }
