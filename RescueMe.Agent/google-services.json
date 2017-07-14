@@ -59,10 +59,70 @@
       },
       "oauth_client": [
         {
+          "client_id": "851005322260-3ael6cpsv53labvsl2csnfgb72t13g53.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rescueMe.RescueMe",
+            "certificate_hash": "862ef969a6bb1f58d8842e88eb8dd06562962f78"
+          }
+        },
+        {
           "client_id": "851005322260-ho4a8gqha046slqgp5v5pi029t4mo5u8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "rescueMe.RescueMe",
+            "certificate_hash": "fe7110330d9e2ce7025010708c16aaf77b5eeffb"
+          }
+        },
+        {
+          "client_id": "851005322260-b6id1l25nklvo9m25v86395q9jpso6r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo8rLxuIRGW2phDxL2ZbMocTJCS5zPjtI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851005322260-b6id1l25nklvo9m25v86395q9jpso6r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851005322260:android:dc4df3d3160f0f1d",
+        "android_client_info": {
+          "package_name": "rescueMeAgent.RescueMeAgent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "851005322260-ak0ije8j1neghag2k69r2eg4djro1t4k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rescueMeAgent.RescueMeAgent",
+            "certificate_hash": "862ef969a6bb1f58d8842e88eb8dd06562962f78"
+          }
+        },
+        {
+          "client_id": "851005322260-391kq7e453hba25n7jk2841k20l2kgjp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rescueMeAgent.RescueMeAgent",
             "certificate_hash": "fe7110330d9e2ce7025010708c16aaf77b5eeffb"
           }
         },

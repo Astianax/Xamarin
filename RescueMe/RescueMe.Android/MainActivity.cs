@@ -132,7 +132,7 @@ namespace RescueMe.Droid
             if (valid)
             {
                 UserProfile user = null;
-                userViewModel.email = "firulaisp@gmail.com";//txtEmail.Text;
+                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
                 userViewModel.token = token;
                 //userViewModel.platform = "web";

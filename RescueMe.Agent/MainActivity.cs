@@ -16,7 +16,7 @@ using RescueMe.Agent.Activities;
 
 namespace RescueMe.Agent
 {
-    [Activity(Label = "Agent Rescate", Icon = "@drawable/appIcon", MainLauncher = true,
+    [Activity(Label = "Agent Rescate Vial ", Icon = "@drawable/appIcon", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
 
     public class MainActivity : BaseActivity
@@ -24,29 +24,30 @@ namespace RescueMe.Agent
 
         Button btnLogin;
         const string TAG = "MainActivity";
+        private string token;
         protected override void OnCreate(Bundle bundle)
         {
+
             base.OnCreate(bundle);
-            if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:6288a966f5369538"))
+            
+            if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:dc4df3d3160f0f1d"))
                 throw new System.Exception("Invalid Json file");
 
             Task.Run(() =>
             {
                 var instanceId = FirebaseInstanceId.Instance;
-                //instanceId.DeleteInstanceId();
                 Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
                     Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+
+                token = instanceId.Token;
             });
 
-            //SetContentView(Resource.Layout.Main);
             if (_context.GetUser() == null)
             {
                 SetContentView(Resource.Layout.Login);
-                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
                 //Controls
-                //var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
+                btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
                 btnLogin.Click += BtnLogin_Click;
-                //linkRegister.Click += linkRegister_click;
 
                 SetUp();
             }
@@ -58,10 +59,7 @@ namespace RescueMe.Agent
         }
 
 
-        //private void linkRegister_click(object sender, EventArgs e)
-        //{
-        //    StartActivity(new Intent(Application.Context, typeof(RegisterActivity)));
-        //}
+ 
 
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
@@ -71,7 +69,10 @@ namespace RescueMe.Agent
 
             var txtPassword = FindViewById<TextInputEditText>(Resource.Id.txtPassword);
             var passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
-            
+            //var loginLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.loginLayout);
+
+
+            //var chkRememberMe = FindViewById<CheckBox>(Resource.Id.chkRememberMe);
             var userViewModel = new UserViewModel();
 
 
@@ -113,6 +114,7 @@ namespace RescueMe.Agent
                 UserProfile user = null;
                 userViewModel.email = "firulaisp@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
+                userViewModel.token = token;
                 userViewModel.platform = "agent";
 
 
@@ -128,13 +130,19 @@ namespace RescueMe.Agent
 
                     if (user != null)
                     {
+                        //Save Database
+                        //_context.Save<UserSaved>(new UserSaved()
+                        //{
+                        //    Email = user.Email,
+                        //    Id = user.Id,
+                        //    FullName = user.Name,
+                        //    Password = user.User.PassworDigest
+                        //});
 
-                        ////Save Vehicles
-                        //var vehicles = GetVehicles(user.Id);
-                        //var reasons = GetReasons();
+                        //Save Vehicles
                         var rescues = GetRescues(user);
                         var status = GetStatus();
-                        //_context.LogIn(user, rescues, status);
+                        _context.LogIn(user, rescues, status);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }
@@ -154,25 +162,6 @@ namespace RescueMe.Agent
             }
 
         }
-        //public List<Vehicle> GetVehicles(int userID)
-        //{
-        //    List<Vehicle> vehicles = new List<Vehicle>();
-
-        //    var user = new
-        //    {
-        //        UserID = userID
-        //    };
-        //    try
-        //    {
-        //        vehicles = _client.Get("Vehicle/vehicles", user).Result.JsonToObject<List<Vehicle>>();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        vehicles = null;
-        //    }
-
-        //    return vehicles;
-        //}
 
         public List<Request> GetRescues(UserProfile user)
         {
@@ -193,20 +182,6 @@ namespace RescueMe.Agent
 
             return requests;
         }
-        //public List<ReasonRequest> GetReasons()
-        //{
-        //    List<ReasonRequest> reasons;
-        //    try
-        //    {
-        //        reasons = _client.Get("Request/reasons", null).Result.JsonToObject<List<ReasonRequest>>();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        reasons = null;
-        //    }
-
-        //    return reasons;
-        //}
         public List<Status> GetStatus()
         {
             List<Status> status;

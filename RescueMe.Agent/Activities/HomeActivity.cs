@@ -220,7 +220,8 @@ namespace RescueMe.Agent.Activities
                 //{
                 //    IsNetworkConnected = IsNetworkConnected()
                 //});
-
+                mMap.UiSettings.ZoomControlsEnabled = true;
+                mMap.UiSettings.CompassEnabled = true;
                 mMap.MoveCamera(camera);
                 //AddMyCustomDrawnOverlayToMap();
             }
