@@ -527,7 +527,8 @@ namespace RescueMe.Agent.Activities
                 //App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
 
                 string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                string localFilename = null;//"{_context.GetRequest().FirstOrDefault().Id + 1}_{_context.GetUser().UserID}.png";
+                string requestID = (_context.GetRequest().FirstOrDefault() == null ? 0 : _context.GetRequest().FirstOrDefault().Id + 1).ToString();
+                string localFilename = $"{requestID}_{_context.GetUser().UserID}.png";
                 string localPath = System.IO.Path.Combine(documentsPath, localFilename);
 
                 if (!System.IO.File.Exists(localPath))

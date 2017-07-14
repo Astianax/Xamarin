@@ -526,16 +526,17 @@ namespace RescueMe.Droid.Activities
                 //App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
 
                 string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                string localFilename = $"{_context.GetRequest().FirstOrDefault().Id + 1}_{_context.GetUser().UserID}.png";
+                string requestID = (_context.GetRequest().FirstOrDefault() == null ?  0 : _context.GetRequest().FirstOrDefault().Id + 1).ToString();
+                string localFilename = $"{requestID}_{_context.GetUser().UserID}.png";
                 string localPath = System.IO.Path.Combine(documentsPath, localFilename);
 
                 if (!System.IO.File.Exists(localPath))
                 {
-                    FileStream stream = new FileStream(localPath, FileMode.Create, FileAccess.ReadWrite, FileShare.None); 
+                    FileStream stream = new FileStream(localPath, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
                     bitmap = Bitmap.CreateScaledBitmap(bitmap, 620, 400, false);
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
-                    
+
 
                     stream.Close();
                 }
