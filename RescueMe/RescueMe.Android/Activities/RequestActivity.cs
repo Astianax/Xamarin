@@ -19,6 +19,7 @@ using System.Drawing;
 using Android.Views.Animations;
 using Android.Support.V4.Content;
 using Android.Telephony;
+using Clans.Fab;
 
 namespace RescueMe.Droid.Activities
 {
@@ -41,6 +42,7 @@ namespace RescueMe.Droid.Activities
 
         Android.Support.V7.Widget.Toolbar reasonsLayout;
         private Button btnRequestRescue;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
@@ -73,7 +75,7 @@ namespace RescueMe.Droid.Activities
                              //.SetDuration(8000)
                              .SetActionTextColor(Android.Graphics.Color.Orange)
                              .Show();
-             
+
             }
             else if (_vehicles.Count == 0)
             {
@@ -86,12 +88,12 @@ namespace RescueMe.Droid.Activities
                            //.SetDuration(8000)
                            .SetActionTextColor(Android.Graphics.Color.Orange)
                            .Show();
-              
+
             }
             else
             {
                 //Load Activity
-                
+
                 _spReasons =
                        FindViewById<Spinner>(Resource.Id.ddReasons);
                 _spVehicles =
@@ -105,7 +107,7 @@ namespace RescueMe.Droid.Activities
                 //Adapter's 
                 var vehicleList = _vehicles.Select(v => new SpinnerItem
                 {
-                    Description =$"{v.Marque}{(v.Type != null ? " ("+v.Type+")" : "")}",// v.Marque + (v.Type != "" ? ) "(" + v.Type+")",
+                    Description = $"{v.Marque}{(v.Type != null ? " (" + v.Type + ")" : "")}",// v.Marque + (v.Type != "" ? ) "(" + v.Type+")",
                     Id = v.Id
                 }).ToArray();
                 var reasonsList = _reasons.Select(v => new SpinnerItem
@@ -174,7 +176,7 @@ namespace RescueMe.Droid.Activities
         {
             var request = new Request();
             string message = "";
-           
+
             var selectedVehicle = _spVehicles.SelectedItemPosition;
             var selectedReason = _spReasons.SelectedItemPosition;
             if (selectedReason == 0)
@@ -241,10 +243,13 @@ namespace RescueMe.Droid.Activities
                             {
                                 _context.InsertRequest(request);
                             }
+
                             Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
                                 .SetAction("OK", (v) =>
                                 {
                                     this.Finish();
+
+                                 
                                 })
                                 //.SetDuration(8000)
                                 .SetActionTextColor(Android.Graphics.Color.Orange)

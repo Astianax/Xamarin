@@ -41,8 +41,8 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CalligraphyBindings">
-      <HintPath>..\..\Components\calligraphyxamarin-2.1\lib\android\CalligraphyBindings.dll</HintPath>
+    <Reference Include="FloatingActionButton-Xamarin, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FAB.XamarinAndroid.1.6.4.0\lib\MonoAndroid50\FloatingActionButton-Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="GeoFusedLocationProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Mj.GeoFusedLocationProvider.1.1.1\lib\MonoAndroid10\GeoFusedLocationProvider.dll</HintPath>
@@ -194,6 +194,7 @@
     <Compile Include="Data\VehicleSaved.cs" />
     <Compile Include="FireBaseServices\InstanceIDService.cs" />
     <Compile Include="FireBaseServices\MessagingService.cs" />
+    <Compile Include="Fragments\MenusFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -265,6 +266,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\StatusRequest.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\menus_fragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -410,6 +414,30 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\anim\cycle_7.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\anim\jump_to_down.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\anim\jump_from_down.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\anim\scale_up.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\anim\scale_down.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\colors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_request_menu.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RescueMe\RescueMe.csproj">

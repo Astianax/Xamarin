@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <com.github.clans.fab.FloatingActionMenu
+          android:id="@+id/btnMenu"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          fab:menu_backgroundColor="#ccffffff"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentRight="true"
+          android:paddingRight="150dp"
+          android:paddingBottom="50dp"
+          android:paddingLeft="10dp"
+          fab:menu_fab_label="Menu label"
+          fab:menu_colorNormal="@color/main_color"
+          fab:menu_colorPressed="@color/main_color"
+          fab:menu_colorRipple="@color/main_color"
+          fab:menu_icon="@drawable/ic_request_menu">
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/cancelRescue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_size="normal"/>
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/completeRescue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit"
+        fab:fab_size="normal"/>
+  </com.github.clans.fab.FloatingActionMenu>
+</RelativeLayout>

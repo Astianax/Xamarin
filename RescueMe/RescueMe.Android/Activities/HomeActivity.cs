@@ -69,14 +69,23 @@ namespace RescueMe.Droid.Activities
         protected const string KEY_LOCATION = "location";
 
         ImageButton request;
+        private FrameLayout frameLayoutMenu;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            //Init Btn menu
+            if (savedInstanceState == null)
+            {
+                SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, new MenusFragment()).Commit();
+            }
+
             SetContentView(Resource.Layout.Home);
             var menu = FindViewById(Resource.Id.menuIcon);
             var call = FindViewById<ImageButton>(Resource.Id.btnCall);
             request = FindViewById<ImageButton>(Resource.Id.btnRescue);
+            frameLayoutMenu = FindViewById<FrameLayout>(Resource.Id.fragment);
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
@@ -100,7 +109,8 @@ namespace RescueMe.Droid.Activities
             BuildLocationSettingsRequest();
 
 
-            // Load map from a portal item
+
+
 
 
         }
@@ -302,11 +312,31 @@ namespace RescueMe.Droid.Activities
         {
             base.OnStart();
             mGoogleApiClient.Connect();
+
+            bool anyPendingRequest = _context.GetRequest().Any(s => s.Status.Name == "pendiente");
+
+            if (anyPendingRequest)
+            {
+                frameLayoutMenu.Visibility = ViewStates.Visible;
+                request.Visibility = ViewStates.Gone;
+
+            }
+            else
+            {
+                frameLayoutMenu.Visibility = ViewStates.Gone;
+                request.Visibility = ViewStates.Visible;
+            }
         }
+
 
         protected override async void OnResume()
         {
             base.OnResume();
+
+
+
+
+
             if (mGoogleApiClient.IsConnected)
             {
                 await StartLocationUpdates();
@@ -526,7 +556,7 @@ namespace RescueMe.Droid.Activities
                 //App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
 
                 string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                string requestID = (_context.GetRequest().FirstOrDefault() == null ?  0 : _context.GetRequest().FirstOrDefault().Id + 1).ToString();
+                string requestID = (_context.GetRequest().FirstOrDefault() == null ? 0 : _context.GetRequest().FirstOrDefault().Id + 1).ToString();
                 string localFilename = $"{requestID}_{_context.GetUser().UserID}.png";
                 string localPath = System.IO.Path.Combine(documentsPath, localFilename);
 
