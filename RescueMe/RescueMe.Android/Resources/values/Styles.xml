@@ -48,4 +48,11 @@
 
 
 
+  <style name="MenuButtonsSmall">
+    <item name="fab_colorNormal">@color/menu_text_color</item>
+    <item name="fab_colorPressed">@color/menu_text_color</item>
+    <item name="fab_colorRipple">@color/menu_text_color</item>
+  </style>
+
+
 </resources>

@@ -212,7 +212,7 @@ namespace RescueMe.Droid
                 requests = _client.Get("Request/requests", new
                 {
                     UserId = user.UserID,
-                    platform = "mobile"
+                    platform = "client"                   
                 }
                         ).Result.JsonToObject<List<Request>>();
             }

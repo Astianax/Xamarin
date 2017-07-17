@@ -24,12 +24,14 @@
         android:id="@+id/cancelRescue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+         android:src="@drawable/ic_cancel"
         fab:fab_size="normal"/>
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/completeRescue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_edit"
+        android:src="@drawable/ic_complete"
+        style="@style/MenuButtonsSmall"
         fab:fab_size="normal"/>
   </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

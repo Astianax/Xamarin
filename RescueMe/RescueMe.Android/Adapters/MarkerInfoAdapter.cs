@@ -1,16 +1,11 @@
-﻿using System;
-
-using Android.Views;
+﻿using Android.Views;
 using Android.Widget;
-using Android.Support.V7.Widget;
-using RescueMe.Domain;
 using System.Collections.Generic;
-using static Android.Gms.Maps.GoogleMap;
 using Android.Gms.Maps.Model;
-using Android.Locations;
 using System.Linq;
 using System.Text;
 using Android.Gms.Maps;
+using Android.Locations;
 
 namespace RescueMe.Droid.Adapters
 {
