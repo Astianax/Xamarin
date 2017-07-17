@@ -20,6 +20,7 @@ using Fragment = Android.Support.V4.App.Fragment;
 using Android;
 using RescueMe.Droid.Data;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace RescueMe.Droid
 {
@@ -38,7 +39,7 @@ namespace RescueMe.Droid
 
         public void RestClient()
         {
-            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
+            _client = new RestClient("http://192.168.2.49:5000/api/");
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }
@@ -120,10 +121,7 @@ namespace RescueMe.Droid
                 var request = _context.GetRequest().FirstOrDefault(p => p.Status.Name == "pendiente"
                                                                    || p.Status.Name == "asignado");
 
-                var requestID = new
-                {
-                    requestID = request.Id
-                };
+                //var requestID =
 
                 if (fabButton.Id == Resource.Id.cancelRescue)
                 {
@@ -132,7 +130,10 @@ namespace RescueMe.Droid
                         try
                         {
 
-                            var status = _client.Post("Request/Cancel", requestID).Result;
+                            var status = _client.Post("Request/Cancel", new
+                            {
+                                requestID =request.Id
+                            }).Result;
                             message = "Se ha cancelado su solicitud";
                         }
                         catch (Exception ex)
@@ -158,7 +159,10 @@ namespace RescueMe.Droid
                             try
                             {
 
-                                var status = _client.Post("Request/close", requestID).Result;
+                                var status = _client.Post("Request/close", new
+                                {
+                                    requestID =request.Id
+                                }).Result;
                                 message = "Se ha completado su solicitud";
                             }
                             catch (Exception ex)
