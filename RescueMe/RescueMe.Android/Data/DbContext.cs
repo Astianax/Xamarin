@@ -32,7 +32,7 @@ namespace RescueMe.Droid.Data
             var platform = new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroidN();
             string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
 
-             _connection = new SQLiteConnection(platform, System.IO.Path.Combine(path, "db.db3"));
+            _connection = new SQLiteConnection(platform, System.IO.Path.Combine(path, "db.db3"));
 
             CreateDatabase();
         }
@@ -65,7 +65,7 @@ namespace RescueMe.Droid.Data
                 _connection.CreateTable<Settings>();
                 _connection.CreateTable<ReasonRequestSaved>();
                 _connection.CreateTable<RequestSaved>();
-              
+
             }
             catch (Exception e)
             {
@@ -116,7 +116,8 @@ namespace RescueMe.Droid.Data
                 {
                     UpdateStatus(status);
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -137,10 +138,10 @@ namespace RescueMe.Droid.Data
                 UserID = user.UserID,
                 LastLogged = DateTime.Now
             };
-            var isSaved = _connection.Update(userSaved)> 0;
+            var isSaved = _connection.Update(userSaved) > 0;
             if (isSaved == false)
             {
-               isSaved =  _connection.Insert(userSaved) > 0;
+                isSaved = _connection.Insert(userSaved) > 0;
             }
             return isSaved;
         }
@@ -149,7 +150,7 @@ namespace RescueMe.Droid.Data
         /// Update Vehicle List
         /// </summary>
         /// <param name="vehicles"></param>
-        public  void InsertVehicle(Vehicle vehicle)
+        public void InsertVehicle(Vehicle vehicle)
         {
             var vehicleSaved = new VehicleSaved()
             {
@@ -158,13 +159,13 @@ namespace RescueMe.Droid.Data
                 Type = vehicle.Type
             };
 
-             _connection.Insert(vehicleSaved);
+            _connection.Insert(vehicleSaved);
         }
         /// <summary>
         /// Update Vehicle List
         /// </summary>
         /// <param name="vehicles"></param>
-        public  void UpdateVehicles(List<Vehicle> vehicles)
+        public void UpdateVehicles(List<Vehicle> vehicles)
         {
             var vehicleSaved = vehicles.Select(v => new VehicleSaved()
             {
@@ -177,7 +178,7 @@ namespace RescueMe.Droid.Data
             {
                 _connection.InsertAll(vehicleSaved);
             }
-          
+
         }
 
         public void InsertRequest(Request request)
@@ -205,13 +206,13 @@ namespace RescueMe.Droid.Data
                     requestSaved.Id = lastRequested.Id + 1;
                 }
                 _connection.Insert(requestSaved);
-             
+
             }
-            
+
         }
         public async void UpdateRequests(List<Request> requests)
         {
-        
+
             var requestsSaved = requests.Select(r => new RequestSaved()
             {
                 Id = r.Id,
@@ -240,7 +241,7 @@ namespace RescueMe.Droid.Data
             var statusSaved = status.Select(s => new StatusSaved()
             {
                 Id = s.Id,
-               Name =s.Name
+                Name = s.Name
             }).ToList();
             var isSaved = _connection.UpdateAll(statusSaved) > 0;
             if (isSaved == false)
@@ -249,6 +250,48 @@ namespace RescueMe.Droid.Data
             }
 
         }
+
+        public List<Status> getStatusList()
+        {
+            var listStatus = _connection.Table<StatusSaved>().ToList().Select(s => new Status()
+            {
+                Id = s.Id,
+                Name = s.Name
+            }).ToList();
+
+            return listStatus;
+        }
+
+        /// <summary>
+        /// Update Status ---Cancel-Close
+        /// </summary>
+        /// <param name="requestID"></param>
+        public void CancelRequestStatus(int requestID)
+        {
+            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);
+            var status = getStatusList().FirstOrDefault(s => s.Name == "cancelado");
+            request.StatusID = status.Id;
+            request.Status =status.Name;
+            _connection.Update(request);
+
+        }
+
+        public void CloseRequestStatus(int requestID)
+        {
+            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);            
+            var status = getStatusList().FirstOrDefault(s => s.Name == "completado");
+            request.StatusID = status.Id;
+            request.Status = status.Name;
+            _connection.Update(request);
+
+        }
+
+
+
+
+
+
+
 
         /// <summary>
         /// Save image request
@@ -312,7 +355,7 @@ namespace RescueMe.Droid.Data
                                           {
                                               Name = r.Status
                                           }
-                                      }).OrderByDescending(o=>o.Id).ToList();
+                                      }).OrderByDescending(o => o.Id).ToList();
 
             return requests;
         }
@@ -393,7 +436,8 @@ namespace RescueMe.Droid.Data
             catch (SQLite.Net.SQLiteException e)
             {
                 return null;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -419,7 +463,7 @@ namespace RescueMe.Droid.Data
         /// Update all Reasons
         /// </summary>
         /// <param name="reasons"></param>
-        public  void UpdateReasons(List<ReasonRequest> reasons)
+        public void UpdateReasons(List<ReasonRequest> reasons)
         {
             var reasonSaved = reasons.Select(r => new ReasonRequestSaved()
             {
@@ -431,7 +475,7 @@ namespace RescueMe.Droid.Data
             {
                 _connection.InsertAll(reasonSaved);
             }
-         
+
         }
 
 

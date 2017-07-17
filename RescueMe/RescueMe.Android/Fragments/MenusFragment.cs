@@ -39,7 +39,7 @@ namespace RescueMe.Droid
 
         public void RestClient()
         {
-            _client = new RestClient("http://192.168.2.49:5000/api/");
+            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }
@@ -125,6 +125,7 @@ namespace RescueMe.Droid
                 {
                     Id = request.Id
                 };
+                string status="";
 
                 if (fabButton.Id == Resource.Id.cancelRescue)
                 {
@@ -133,19 +134,22 @@ namespace RescueMe.Droid
                         try
                         {
 
-                            var status = _client.Post("Request/Cancel", requestID).Result;
+                            status = _client.Post("Request/cancel", requestID).Result.ToString();
                             message = "Se ha cancelado su solicitud";
                         }
                         catch (Exception ex)
                         {
                             message = ex.Message;
                         }
+
                         this.Activity.RunOnUiThread(() =>
                         {
-                            ///DB Update
-
-
-                            Toast.MakeText(this.Activity, message, ToastLength.Short).Show();
+                            ///DB Update 
+                            if (status.ToLower()=="true")
+                            {
+                                _context.CancelRequestStatus(requestID.Id);
+                            }             
+                            Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                         });
 
                     })).Start();
@@ -159,7 +163,7 @@ namespace RescueMe.Droid
                             try
                             {
 
-                                var status = _client.Post("Request/close",requestID).Result;
+                                status = _client.Post("Request/close",requestID).Result.ToString();
                                 message = "Se ha completado su solicitud";
                             }
                             catch (Exception ex)
@@ -169,9 +173,11 @@ namespace RescueMe.Droid
                             this.Activity.RunOnUiThread(() =>
                             {
                                 ///DB Update
-
-
-                                Toast.MakeText(this.Activity, message, ToastLength.Short).Show();
+                                if (status.ToLower() == "true")
+                                {
+                                    _context.CloseRequestStatus(requestID.Id);
+                                }
+                                Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                             });
 
                         })).Start();
@@ -179,8 +185,7 @@ namespace RescueMe.Droid
                     else
                     {
                         message = "La solicitud debe estar asignada";
-
-                        Toast.MakeText(this.Activity, message, ToastLength.Short).Show();
+                        Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                     }
 
                 }
