@@ -39,7 +39,7 @@ namespace RescueMe.Droid.Adapters
             //itemView = LayoutInflater.From(parent.Context).
             //       Inflate(id, parent, false);
 
-            var vh = new AdapterRescuesViewHolder(itemView, OnClick, OnLongClick);
+            var vh = new AdapterRescuesViewHolder(itemView, null, OnLongClick);
             return vh;
         }
 
@@ -79,32 +79,32 @@ namespace RescueMe.Droid.Adapters
 
     
         public override int ItemCount => items.Count;
-        void OnClick(AdapterRescuesClickEventArgs e)
-        {
-            //ItemClick?.Invoke(this, args);
-            var context = e.View.Context;
+        //void OnClick(AdapterRescuesClickEventArgs e)
+        //{
+        //    //ItemClick?.Invoke(this, args);
+        //    var context = e.View.Context;
 
-            AlertDialog.Builder alert = new AlertDialog.Builder(context);
-            alert.SetTitle("Estatus");
-            alert.SetView(LayoutInflater.From(context).Inflate(Resource.Layout.StatusRequest, null));
-            alert.SetPositiveButton("Ok", (senderAlert, args) =>
-            {
-                Toast.MakeText(context, "Deleted!", ToastLength.Short).Show();
-            });
+        //    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        //    alert.SetTitle("Estatus");
+        //    alert.SetView(LayoutInflater.From(context).Inflate(Resource.Layout.StatusRequest, null));
+        //    alert.SetPositiveButton("Ok", (senderAlert, args) =>
+        //    {
+        //        Toast.MakeText(context, "Deleted!", ToastLength.Short).Show();
+        //    });
 
-            alert.SetNegativeButton("Cancelar", (senderAlert, args) =>
-            {
-                Toast.MakeText(context, "Cancelado!", ToastLength.Short).Show();
-            });
+        //    alert.SetNegativeButton("Cancelar", (senderAlert, args) =>
+        //    {
+        //        Toast.MakeText(context, "Cancelado!", ToastLength.Short).Show();
+        //    });
 
 
 
-            Dialog dialog = alert.Create();
-            dialog.Show();
-            radioGroup = dialog.FindViewById<RadioGroup>(Resource.Id.sucess);
+        //    Dialog dialog = alert.Create();
+        //    dialog.Show();
+        //    radioGroup = dialog.FindViewById<RadioGroup>(Resource.Id.sucess);
 
-            radioGroup.SetOnCheckedChangeListener(this);
-        }
+        //    radioGroup.SetOnCheckedChangeListener(this);
+        //}
         void OnLongClick(AdapterRescuesClickEventArgs args) => ItemLongClick?.Invoke(this, args);
         
         public void OnCheckedChanged(RadioGroup group, int checkedId)
@@ -143,12 +143,12 @@ namespace RescueMe.Droid.Adapters
             Status = itemView.FindViewById<TextView>(Resource.Id.status);
 
 
-            Status.Click += (sender, e) => clickListener(new AdapterRescuesClickEventArgs
-            {
-                View = itemView,
-                Position = AdapterPosition
+            //Status.Click += (sender, e) => clickListener(new AdapterRescuesClickEventArgs
+            //{
+            //    View = itemView,
+            //    Position = AdapterPosition
 
-            });
+            //});
 
             itemView.LongClick += (sender, e) => longClickListener(new AdapterRescuesClickEventArgs
             {

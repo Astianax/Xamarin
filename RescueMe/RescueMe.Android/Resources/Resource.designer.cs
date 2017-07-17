@@ -1412,38 +1412,38 @@ namespace RescueMe.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f07005b
-			public const int Light_Grey = 2131165275;
+			// aapt resource value: 0x7f070055
+			public const int Light_Grey = 2131165269;
 			
-			// aapt resource value: 0x7f070062
-			public const int abc_background_cache_hint_selector_material_dark = 2131165282;
+			// aapt resource value: 0x7f07005d
+			public const int abc_background_cache_hint_selector_material_dark = 2131165277;
 			
-			// aapt resource value: 0x7f070063
-			public const int abc_background_cache_hint_selector_material_light = 2131165283;
+			// aapt resource value: 0x7f07005e
+			public const int abc_background_cache_hint_selector_material_light = 2131165278;
 			
-			// aapt resource value: 0x7f070064
-			public const int abc_btn_colored_borderless_text_material = 2131165284;
+			// aapt resource value: 0x7f07005f
+			public const int abc_btn_colored_borderless_text_material = 2131165279;
 			
-			// aapt resource value: 0x7f070065
-			public const int abc_color_highlight_material = 2131165285;
+			// aapt resource value: 0x7f070060
+			public const int abc_color_highlight_material = 2131165280;
 			
 			// aapt resource value: 0x7f070008
 			public const int abc_input_method_navigation_guard = 2131165192;
 			
-			// aapt resource value: 0x7f070066
-			public const int abc_primary_text_disable_only_material_dark = 2131165286;
+			// aapt resource value: 0x7f070061
+			public const int abc_primary_text_disable_only_material_dark = 2131165281;
 			
-			// aapt resource value: 0x7f070067
-			public const int abc_primary_text_disable_only_material_light = 2131165287;
+			// aapt resource value: 0x7f070062
+			public const int abc_primary_text_disable_only_material_light = 2131165282;
 			
-			// aapt resource value: 0x7f070068
-			public const int abc_primary_text_material_dark = 2131165288;
+			// aapt resource value: 0x7f070063
+			public const int abc_primary_text_material_dark = 2131165283;
 			
-			// aapt resource value: 0x7f070069
-			public const int abc_primary_text_material_light = 2131165289;
+			// aapt resource value: 0x7f070064
+			public const int abc_primary_text_material_light = 2131165284;
 			
-			// aapt resource value: 0x7f07006a
-			public const int abc_search_url_text = 2131165290;
+			// aapt resource value: 0x7f070065
+			public const int abc_search_url_text = 2131165285;
 			
 			// aapt resource value: 0x7f070009
 			public const int abc_search_url_text_normal = 2131165193;
@@ -1454,44 +1454,38 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f07000b
 			public const int abc_search_url_text_selected = 2131165195;
 			
+			// aapt resource value: 0x7f070066
+			public const int abc_secondary_text_material_dark = 2131165286;
+			
+			// aapt resource value: 0x7f070067
+			public const int abc_secondary_text_material_light = 2131165287;
+			
+			// aapt resource value: 0x7f070068
+			public const int abc_tint_btn_checkable = 2131165288;
+			
+			// aapt resource value: 0x7f070069
+			public const int abc_tint_default = 2131165289;
+			
+			// aapt resource value: 0x7f07006a
+			public const int abc_tint_edittext = 2131165290;
+			
 			// aapt resource value: 0x7f07006b
-			public const int abc_secondary_text_material_dark = 2131165291;
+			public const int abc_tint_seek_thumb = 2131165291;
 			
 			// aapt resource value: 0x7f07006c
-			public const int abc_secondary_text_material_light = 2131165292;
+			public const int abc_tint_spinner = 2131165292;
 			
 			// aapt resource value: 0x7f07006d
-			public const int abc_tint_btn_checkable = 2131165293;
+			public const int abc_tint_switch_thumb = 2131165293;
 			
 			// aapt resource value: 0x7f07006e
-			public const int abc_tint_default = 2131165294;
-			
-			// aapt resource value: 0x7f07006f
-			public const int abc_tint_edittext = 2131165295;
-			
-			// aapt resource value: 0x7f070070
-			public const int abc_tint_seek_thumb = 2131165296;
-			
-			// aapt resource value: 0x7f070071
-			public const int abc_tint_spinner = 2131165297;
-			
-			// aapt resource value: 0x7f070072
-			public const int abc_tint_switch_thumb = 2131165298;
-			
-			// aapt resource value: 0x7f070073
-			public const int abc_tint_switch_track = 2131165299;
+			public const int abc_tint_switch_track = 2131165294;
 			
 			// aapt resource value: 0x7f07000c
 			public const int accent_material_dark = 2131165196;
 			
 			// aapt resource value: 0x7f07000d
 			public const int accent_material_light = 2131165197;
-			
-			// aapt resource value: 0x7f070050
-			public const int app_primary = 2131165264;
-			
-			// aapt resource value: 0x7f070051
-			public const int app_primary_dark = 2131165265;
 			
 			// aapt resource value: 0x7f07000e
 			public const int background_floating_material_dark = 2131165198;
@@ -1504,9 +1498,6 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f070011
 			public const int background_material_light = 2131165201;
-			
-			// aapt resource value: 0x7f070055
-			public const int black = 2131165269;
 			
 			// aapt resource value: 0x7f070012
 			public const int bright_foreground_disabled_material_dark = 2131165202;
@@ -1526,8 +1517,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f070017
 			public const int bright_foreground_material_light = 2131165207;
 			
-			// aapt resource value: 0x7f07005f
-			public const int btn_color = 2131165279;
+			// aapt resource value: 0x7f07005a
+			public const int btn_color = 2131165274;
 			
 			// aapt resource value: 0x7f070018
 			public const int button_material_dark = 2131165208;
@@ -1547,8 +1538,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f07004f
 			public const int cardview_shadow_start_color = 2131165263;
 			
-			// aapt resource value: 0x7f070074
-			public const int common_google_signin_btn_text_dark = 2131165300;
+			// aapt resource value: 0x7f07006f
+			public const int common_google_signin_btn_text_dark = 2131165295;
 			
 			// aapt resource value: 0x7f070000
 			public const int common_google_signin_btn_text_dark_default = 2131165184;
@@ -1562,8 +1553,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f070003
 			public const int common_google_signin_btn_text_dark_pressed = 2131165187;
 			
-			// aapt resource value: 0x7f070075
-			public const int common_google_signin_btn_text_light = 2131165301;
+			// aapt resource value: 0x7f070070
+			public const int common_google_signin_btn_text_light = 2131165296;
 			
 			// aapt resource value: 0x7f070004
 			public const int common_google_signin_btn_text_light_default = 2131165188;
@@ -1577,11 +1568,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f070007
 			public const int common_google_signin_btn_text_light_pressed = 2131165191;
 			
-			// aapt resource value: 0x7f07005a
-			public const int dark_blue = 2131165274;
+			// aapt resource value: 0x7f070054
+			public const int dark_blue = 2131165268;
 			
-			// aapt resource value: 0x7f070076
-			public const int design_error = 2131165302;
+			// aapt resource value: 0x7f070071
+			public const int design_error = 2131165297;
 			
 			// aapt resource value: 0x7f070042
 			public const int design_fab_shadow_end_color = 2131165250;
@@ -1613,8 +1604,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f07004b
 			public const int design_textinput_error_color_light = 2131165259;
 			
-			// aapt resource value: 0x7f070077
-			public const int design_tint_password_toggle = 2131165303;
+			// aapt resource value: 0x7f070072
+			public const int design_tint_password_toggle = 2131165298;
 			
 			// aapt resource value: 0x7f07001a
 			public const int dim_foreground_disabled_material_dark = 2131165210;
@@ -1634,9 +1625,6 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f07001f
 			public const int foreground_material_light = 2131165215;
 			
-			// aapt resource value: 0x7f070052
-			public const int grey = 2131165266;
-			
 			// aapt resource value: 0x7f070020
 			public const int highlighted_text_material_dark = 2131165216;
 			
@@ -1649,20 +1637,20 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f070023
 			public const int hint_foreground_material_light = 2131165219;
 			
-			// aapt resource value: 0x7f070053
-			public const int light_grey = 2131165267;
+			// aapt resource value: 0x7f070059
+			public const int light_main_color = 2131165273;
 			
-			// aapt resource value: 0x7f07005c
-			public const int lightwhite = 2131165276;
+			// aapt resource value: 0x7f070056
+			public const int lightwhite = 2131165270;
 			
-			// aapt resource value: 0x7f070060
-			public const int links_color = 2131165280;
+			// aapt resource value: 0x7f07005b
+			public const int links_color = 2131165275;
 			
-			// aapt resource value: 0x7f07005d
-			public const int login_bg_color = 2131165277;
+			// aapt resource value: 0x7f070057
+			public const int login_bg_color = 2131165271;
 			
-			// aapt resource value: 0x7f07005e
-			public const int main_color = 2131165278;
+			// aapt resource value: 0x7f070058
+			public const int main_color = 2131165272;
 			
 			// aapt resource value: 0x7f070024
 			public const int material_blue_grey_800 = 2131165220;
@@ -1700,17 +1688,17 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f07002f
 			public const int material_grey_900 = 2131165231;
 			
-			// aapt resource value: 0x7f070061
-			public const int menu_text_color = 2131165281;
+			// aapt resource value: 0x7f07005c
+			public const int menu_text_color = 2131165276;
 			
-			// aapt resource value: 0x7f070058
-			public const int my_gray = 2131165272;
+			// aapt resource value: 0x7f070052
+			public const int my_gray = 2131165266;
 			
-			// aapt resource value: 0x7f070056
-			public const int my_green = 2131165270;
+			// aapt resource value: 0x7f070050
+			public const int my_green = 2131165264;
 			
-			// aapt resource value: 0x7f070057
-			public const int my_purple = 2131165271;
+			// aapt resource value: 0x7f070051
+			public const int my_purple = 2131165265;
 			
 			// aapt resource value: 0x7f070030
 			public const int primary_dark_material_dark = 2131165232;
@@ -1760,11 +1748,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f07003f
 			public const int switch_thumb_disabled_material_light = 2131165247;
 			
-			// aapt resource value: 0x7f070078
-			public const int switch_thumb_material_dark = 2131165304;
+			// aapt resource value: 0x7f070073
+			public const int switch_thumb_material_dark = 2131165299;
 			
-			// aapt resource value: 0x7f070079
-			public const int switch_thumb_material_light = 2131165305;
+			// aapt resource value: 0x7f070074
+			public const int switch_thumb_material_light = 2131165300;
 			
 			// aapt resource value: 0x7f070040
 			public const int switch_thumb_normal_material_dark = 2131165248;
@@ -1772,11 +1760,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f070041
 			public const int switch_thumb_normal_material_light = 2131165249;
 			
-			// aapt resource value: 0x7f070059
-			public const int white = 2131165273;
-			
-			// aapt resource value: 0x7f070054
-			public const int white_transparent = 2131165268;
+			// aapt resource value: 0x7f070053
+			public const int white = 2131165267;
 			
 			static Color()
 			{
