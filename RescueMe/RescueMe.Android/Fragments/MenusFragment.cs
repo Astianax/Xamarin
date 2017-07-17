@@ -121,7 +121,10 @@ namespace RescueMe.Droid
                 var request = _context.GetRequest().FirstOrDefault(p => p.Status.Name == "pendiente"
                                                                    || p.Status.Name == "asignado");
 
-                //var requestID =
+                var requestID = new
+                {
+                    Id = request.Id
+                };
 
                 if (fabButton.Id == Resource.Id.cancelRescue)
                 {
@@ -130,10 +133,7 @@ namespace RescueMe.Droid
                         try
                         {
 
-                            var status = _client.Post("Request/Cancel", new
-                            {
-                                requestID =request.Id
-                            }).Result;
+                            var status = _client.Post("Request/Cancel", requestID).Result;
                             message = "Se ha cancelado su solicitud";
                         }
                         catch (Exception ex)
@@ -159,10 +159,7 @@ namespace RescueMe.Droid
                             try
                             {
 
-                                var status = _client.Post("Request/close", new
-                                {
-                                    requestID =request.Id
-                                }).Result;
+                                var status = _client.Post("Request/close",requestID).Result;
                                 message = "Se ha completado su solicitud";
                             }
                             catch (Exception ex)

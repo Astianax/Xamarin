@@ -440,12 +440,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_request_menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RescueMe\RescueMe.csproj">
-      <Project>{67612f4f-95be-4ca8-a802-a26389a9008a}</Project>
-      <Name>RescueMe</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\ic_cancel.png" />
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +447,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\ic_complete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RescueMe\RescueMe.csproj">
+      <Project>{67612f4f-95be-4ca8-a802-a26389a9008a}</Project>
+      <Name>RescueMe</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
