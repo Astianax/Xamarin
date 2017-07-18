@@ -41,7 +41,7 @@ namespace RescueMe.Agent.Data
 
                 throw;
             }
-            
+
 
             CreateDatabase();
         }
@@ -74,7 +74,7 @@ namespace RescueMe.Agent.Data
                 _connection.CreateTable<Settings>();
                 _connection.CreateTable<ReasonRequestSaved>();
                 _connection.CreateTable<RequestSaved>();
-              
+
             }
             catch (Exception e)
             {
@@ -101,14 +101,14 @@ namespace RescueMe.Agent.Data
         /// </summary>
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
-        public void LogIn(UserProfile user, 
+        public void LogIn(UserProfile user,
                                 List<Request> requests = null,
                                 List<Status> status = null)
         {
             try
             {
                 SaveUser(user);
-           
+
                 if (requests != null)
                 {
                     UpdateRequests(requests);
@@ -117,11 +117,20 @@ namespace RescueMe.Agent.Data
                 {
                     UpdateStatus(status);
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
         }
+
+
+
+
+
+
+
+
 
         public bool SaveUser(UserProfile user)
         {
@@ -138,10 +147,10 @@ namespace RescueMe.Agent.Data
                 UserID = user.UserID,
                 LastLogged = DateTime.Now
             };
-            var isSaved = _connection.Update(userSaved)> 0;
+            var isSaved = _connection.Update(userSaved) > 0;
             if (isSaved == false)
             {
-               isSaved =  _connection.Insert(userSaved) > 0;
+                isSaved = _connection.Insert(userSaved) > 0;
             }
             return isSaved;
         }
@@ -150,7 +159,7 @@ namespace RescueMe.Agent.Data
         /// Update Vehicle List
         /// </summary>
         /// <param name="vehicles"></param>
-        public  void InsertVehicle(Vehicle vehicle)
+        public void InsertVehicle(Vehicle vehicle)
         {
             var vehicleSaved = new VehicleSaved()
             {
@@ -159,13 +168,13 @@ namespace RescueMe.Agent.Data
                 Type = vehicle.Type
             };
 
-             _connection.Insert(vehicleSaved);
+            _connection.Insert(vehicleSaved);
         }
         /// <summary>
         /// Update Vehicle List
         /// </summary>
         /// <param name="vehicles"></param>
-        public  void UpdateVehicles(List<Vehicle> vehicles)
+        public void UpdateVehicles(List<Vehicle> vehicles)
         {
             var vehicleSaved = vehicles.Select(v => new VehicleSaved()
             {
@@ -178,7 +187,7 @@ namespace RescueMe.Agent.Data
             {
                 _connection.InsertAll(vehicleSaved);
             }
-          
+
         }
 
         public void InsertRequest(Request request)
@@ -206,23 +215,23 @@ namespace RescueMe.Agent.Data
                     requestSaved.Id = lastRequested.Id + 1;
                 }
                 _connection.Insert(requestSaved);
-             
+
             }
-            
+
         }
         public async void UpdateRequests(List<Request> requests)
         {
-        
+
             var requestsSaved = requests.Select(r => new RequestSaved()
             {
                 Id = r.Id,
                 Latitude = r.Latitude,
                 Longitude = r.Longitude,
-                StatusID = r.StatusID,
+                StatusID = r.AgentStatusID.HasValue ? r.AgentStatusID.Value : 0,
                 Comments = r.Comments,
                 VehicleID = r.VehicleID,
                 ReasonID = r.ReasonID,
-                Status = r.Status.Name
+                Status = r.AgentStatus.Name
             }).ToList();
 
             var isSaved = _connection.UpdateAll(requestsSaved) > 0;
@@ -241,7 +250,7 @@ namespace RescueMe.Agent.Data
             var statusSaved = status.Select(s => new StatusSaved()
             {
                 Id = s.Id,
-               Name =s.Name
+                Name = s.Name
             }).ToList();
             var isSaved = _connection.UpdateAll(statusSaved) > 0;
             if (isSaved == false)
@@ -250,6 +259,42 @@ namespace RescueMe.Agent.Data
             }
 
         }
+
+        public List<Status> getStatusList()
+        {
+            var listStatus = _connection.Table<StatusSaved>().ToList().Select(s => new Status()
+            {
+                Id = s.Id,
+                Name = s.Name
+            }).ToList();
+
+            return listStatus;
+        }
+
+        /// <summary>
+        /// Update Status ---Cancel-Close
+        /// </summary>
+        /// <param name="requestID"></param>
+        public void CancelRequestStatus(int requestID)
+        {
+            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);
+            var status = getStatusList().FirstOrDefault(s => s.Name == "cancelado");
+            request.StatusID = status.Id;
+            request.Status = status.Name;
+            _connection.Update(request);
+
+        }
+
+        public void CloseRequestStatus(int requestID)
+        {
+            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);
+            var status = getStatusList().FirstOrDefault(s => s.Name == "completado");
+            request.StatusID = status.Id;
+            request.Status = status.Name;
+            _connection.Update(request);
+
+        }
+
 
         /// <summary>
         /// Save image request
@@ -302,18 +347,18 @@ namespace RescueMe.Agent.Data
                                           Id = r.Id,
                                           Latitude = r.Latitude,
                                           Longitude = r.Longitude,
-                                          StatusID = r.StatusID,
+                                          AgentStatusID = r.StatusID,
                                           Comments = r.Comments,
                                           VehicleID = r.VehicleID,
                                           ReasonID = r.ReasonID,
                                           ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
                                           Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
                                           User = GetUser().User,
-                                          Status = new Status()
+                                          AgentStatus = new Status()
                                           {
                                               Name = r.Status
                                           }
-                                      }).OrderByDescending(o=>o.Id).ToList();
+                                      }).OrderByDescending(o => o.Id).ToList();
 
             return requests;
         }
@@ -394,7 +439,8 @@ namespace RescueMe.Agent.Data
             catch (SQLite.Net.SQLiteException e)
             {
                 return null;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -404,6 +450,13 @@ namespace RescueMe.Agent.Data
         public void SaveSetting(Settings setting)
         {
             _connection.Insert(setting);
+        }
+
+        public void UpdateAvailability(bool availability)
+        {
+            Settings setting = _connection.Table<Settings>().FirstOrDefault();
+            setting.AgentaAvailability = availability;
+            _connection.Update(setting);
         }
 
         //Get Reasons
@@ -420,7 +473,7 @@ namespace RescueMe.Agent.Data
         /// Update all Reasons
         /// </summary>
         /// <param name="reasons"></param>
-        public  void UpdateReasons(List<ReasonRequest> reasons)
+        public void UpdateReasons(List<ReasonRequest> reasons)
         {
             var reasonSaved = reasons.Select(r => new ReasonRequestSaved()
             {
@@ -432,7 +485,7 @@ namespace RescueMe.Agent.Data
             {
                 _connection.InsertAll(reasonSaved);
             }
-         
+
         }
 
 

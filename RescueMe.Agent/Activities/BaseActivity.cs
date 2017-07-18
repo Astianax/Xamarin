@@ -18,6 +18,7 @@ using Android.Telephony;
 using Java.Net;
 using System.Net;
 using RescueMe.Agent.Data;
+using Android.Locations;
 
 namespace RescueMe.Agent.Activities
 {
@@ -33,6 +34,7 @@ namespace RescueMe.Agent.Activities
         public BaseActivity()
         {
             _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
+            //_client = new RestClient("http://10.0.0.9:5000/api/");
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }
@@ -72,7 +74,8 @@ namespace RescueMe.Agent.Activities
                 RequestPermissions(PermissionsLocation, 0);
                 _context.SaveSetting(new Settings()
                 {
-                    LocationPermission = true
+                    LocationPermission = true,
+                    AgentaAvailability = true
                 });
                 _isAllowed = false;
             }
@@ -100,7 +103,7 @@ namespace RescueMe.Agent.Activities
 
             return isOnline;
         }
-        
+
         public bool ActiveInternetConnectivity()
         {
             string CheckUrl = "http://google.com";
@@ -120,6 +123,34 @@ namespace RescueMe.Agent.Activities
             {
                 return false;
             }
+        }
+
+        public static string GetAddress(Location location, Geocoder mGeocoder)
+        {
+            string mAddress;
+
+            //The Geocoder class retrieves a list of address from Google over the internet  
+            IList<Address> addressList = mGeocoder.GetFromLocation(location.Latitude, location.Longitude, 10);
+            Address addressCurrent = addressList.FirstOrDefault();
+
+            if (addressCurrent != null)
+            {
+                //StringBuilder deviceAddress = new StringBuilder();
+
+                //for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+                ////deviceAddress.Append(addressCurrent.GetAddressLine(i))
+                //.AppendLine(",");
+
+                //mAddress = deviceAddress.ToString();
+                mAddress = addressCurrent.Locality;
+            }
+            else
+            {
+
+                mAddress = "Unable to determine the address.";
+            }
+
+            return mAddress;
         }
 
     }
