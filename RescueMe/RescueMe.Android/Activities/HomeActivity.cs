@@ -313,7 +313,7 @@ namespace RescueMe.Droid.Activities
             base.OnStart();
             mGoogleApiClient.Connect();
 
-            bool anyPendingRequest = _context.GetRequest().Any(s => s.Status.Name == "pendiente");
+            bool anyPendingRequest = _context.GetRequest().Any(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado");
 
             if (anyPendingRequest)
             {

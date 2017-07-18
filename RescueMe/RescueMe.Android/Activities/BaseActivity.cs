@@ -36,7 +36,9 @@ namespace RescueMe.Droid.Activities
         public BaseActivity()
         {
             _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-           // _client = new RestClient("http://192.168.2.49:5000/api/");
+            // _client = new RestClient("http://192.168.2.49:5000/api/");
+             //_client = new RestClient("http://192.168.2.42:5000/api/");
+
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }

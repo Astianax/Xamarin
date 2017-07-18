@@ -192,6 +192,7 @@ namespace RescueMe.Droid.Data
                 Comments = request.Comments,
                 VehicleID = request.VehicleID,
                 ReasonID = request.ReasonID
+                
             };
             if (IsNetworkConnected)
             {
@@ -353,7 +354,7 @@ namespace RescueMe.Droid.Data
                                           User = GetUser().User,
                                           Status = new Status()
                                           {
-                                              Name = r.Status
+                                              Name = getStatusList().FirstOrDefault(s=>s.Id == r.StatusID).Name
                                           }
                                       }).OrderByDescending(o => o.Id).ToList();
 
