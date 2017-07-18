@@ -84,7 +84,7 @@ namespace RescueMe.Agent.Activities
             //drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             //navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
-            //menu.Click += Menu_Click;
+            menu.Click += Menu_Click;
             //navigationView.NavigationItemSelected += NavigationItemSelected;
             btnLogout.Click += Logout_Click;
             available.Click += Available_Click;
@@ -151,7 +151,7 @@ namespace RescueMe.Agent.Activities
 
         private void Available_Click(object sender, EventArgs e)
         {
-          
+
             string status = "";
             string message = "";
             string city = RescueMe.Agent.Activities.BaseActivity.GetAddress(mCurrentLocation, mGeocoder);
@@ -549,19 +549,12 @@ namespace RescueMe.Agent.Activities
 
 
 
-        //private void Menu_Click(object sender, EventArgs e)
-        //{
-        //    //if (drawerLayout.IsDrawerOpen(GravityCompat.Start))
-        //    //{
-        //    //    drawerLayout.CloseDrawer(GravityCompat.Start);
+        private void Menu_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(RescueActivity));
+            StartActivity(intent);
 
-        //    //}
-        //    //else
-        //    //{
-        //    //    drawerLayout.OpenDrawer(GravityCompat.Start);
-        //    //    GetUserInfo();
-        //    //}
-        //}
+        }
 
         //private void NavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
         //{

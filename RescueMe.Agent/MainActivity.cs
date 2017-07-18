@@ -142,7 +142,8 @@ namespace RescueMe.Agent
                         //Save Vehicles
                         var rescues = GetRescues(user);
                         var status = GetStatus();
-                        _context.LogIn(user, rescues, status);
+                        var reasons = GetReasons();
+                        _context.LogIn(user, reasons, rescues, status);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }
@@ -181,6 +182,20 @@ namespace RescueMe.Agent
             }
 
             return requests;
+        }
+        public List<ReasonRequest> GetReasons()
+        {
+            List<ReasonRequest> reasons;
+            try
+            {
+                reasons = _client.Get("Request/reasons", null).Result.JsonToObject<List<ReasonRequest>>();
+            }
+            catch (Exception ex)
+            {
+                reasons = null;
+            }
+
+            return reasons;
         }
         public List<Status> GetStatus()
         {

@@ -20,6 +20,7 @@ namespace RescueMe.Agent.Data
         public int StatusID { get; set; }
         public int ReasonID { get; set; }
         public int VehicleID { get; set; }
+        public string VehicleType { get; set; }
         [PrimaryKey]
         public int Id { get; set; }
         public decimal Latitude { get; set; }

@@ -42,28 +42,6 @@ namespace RescueMe.Agent.Activities
         public async Task<List<Request>> GetRequests()
         {
             var requests = new List<Request>();
-            //try
-            //{
-            //    if (IsNetworkConnected())
-            //    {
-            //        requests = _client.Get("Request/requests", new
-            //                                                {
-            //                                                    UserId = _context.GetUser().UserID,
-            //                                                    platform = "mobile"
-            //                                                }
-            //            ).Result.JsonToObject<List<Request>>(); 
-            //    }
-            //    else
-            //    {
-            //        //Offline
-            //        requests = _context.GetRequest();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    requests = null;
-            //    //message = ex.Message;
-            //}
             requests = _context.GetRequest();
             return requests;
         }

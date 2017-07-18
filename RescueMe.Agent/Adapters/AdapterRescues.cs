@@ -54,8 +54,8 @@ namespace RescueMe.Agent.Adapters
 
 
             holder.Type.Text = request.Vehicle.Type;
-            holder.Marque.Text = request.Vehicle.Marque;
-            holder.Status.Text = request.Status.Name;
+            holder.Marque.Text = request.ReasonRequest.Name;
+            holder.Status.Text = request.AgentStatus.Name;
             //Get and validate if image exist 
             var imageBitmap = _context.GetImageBitmapFromRequest(request).Result;
             holder.Map.SetImageBitmap(imageBitmap);

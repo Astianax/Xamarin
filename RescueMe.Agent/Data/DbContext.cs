@@ -102,13 +102,17 @@ namespace RescueMe.Agent.Data
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
         public void LogIn(UserProfile user,
+                                List<ReasonRequest> reasons,
                                 List<Request> requests = null,
                                 List<Status> status = null)
         {
             try
             {
                 SaveUser(user);
-
+                if (reasons != null)
+                {
+                    UpdateReasons(reasons);
+                }
                 if (requests != null)
                 {
                     UpdateRequests(requests);
@@ -230,6 +234,7 @@ namespace RescueMe.Agent.Data
                 StatusID = r.AgentStatusID.HasValue ? r.AgentStatusID.Value : 0,
                 Comments = r.Comments,
                 VehicleID = r.VehicleID,
+                VehicleType = r.Vehicle.Type,
                 ReasonID = r.ReasonID,
                 Status = r.AgentStatus.Name
             }).ToList();
@@ -240,10 +245,10 @@ namespace RescueMe.Agent.Data
                 _connection.InsertAll(requestsSaved);
             }
             //Download all image's
-            foreach (var request in requests)
-            {
-                await GetImageBitmapFromRequest(request);
-            }
+            //foreach (var request in requests)
+            //{
+            //    //await GetImageBitmapFromRequest(request);
+            //}
         }
         public void UpdateStatus(List<Status> status)
         {
@@ -352,7 +357,11 @@ namespace RescueMe.Agent.Data
                                           VehicleID = r.VehicleID,
                                           ReasonID = r.ReasonID,
                                           ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
-                                          Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
+                                          Vehicle = new Vehicle
+                                          {
+                                              Type = r.VehicleType
+                                          },
+                                          //Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
                                           User = GetUser().User,
                                           AgentStatus = new Status()
                                           {
