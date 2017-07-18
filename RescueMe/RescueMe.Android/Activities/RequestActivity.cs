@@ -212,7 +212,7 @@ namespace RescueMe.Droid.Activities
                         {
                             request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
                             message = "Se ha enviado su solicitud";
-                            btnRequestRescue.Enabled = false;
+                           
                         }
                         else
                         {
@@ -226,7 +226,7 @@ namespace RescueMe.Droid.Activities
 
                             sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
                             sms.SendTextMessage("8296370019", null, requestData, sentPI, null);
-                            btnRequestRescue.Enabled = false;
+                          
 
                         }
                     }
@@ -242,6 +242,7 @@ namespace RescueMe.Droid.Activities
                             if (request != null)
                             {
                                 _context.InsertRequest(request);
+                                btnRequestRescue.Enabled = false;
                             }
 
                             Snackbar.Make(requestLayout, message, Snackbar.LengthIndefinite)
