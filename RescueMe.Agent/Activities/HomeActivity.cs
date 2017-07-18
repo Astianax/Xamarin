@@ -1,34 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.Design.Widget;
-using Android.Support.V4.View;
-//using RescueMe.Agent.Data;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.Util;
 using System.Threading.Tasks;
-using Android;
 using Android.Content.PM;
 using Android.Gms.Location;
 using Android.Gms.Common.Apis;
-using Android.Gms.Common;
 using static Android.Gms.Maps.GoogleMap;
 using Android.Graphics;
-using Android.Views.Animations;
-using Android.Animation;
 using Java.IO;
 using System.IO;
+using System.Threading;
 
 namespace RescueMe.Agent.Activities
 {
@@ -68,22 +60,35 @@ namespace RescueMe.Agent.Activities
         protected const string KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates";
         protected const string KEY_LOCATION = "location";
 
-        ImageButton request;
+        ImageButton available;
+        ImageButton unAvailable;
+        private FrameLayout frameLayoutMenu;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            //Init Btn menu
+            if (savedInstanceState == null)
+            {
+                SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, new MenusFragment()).Commit();
+            }
+
+
             SetContentView(Resource.Layout.HomeContainer);
             var menu = FindViewById(Resource.Id.menuIcon);
-            var call = FindViewById<ImageButton>(Resource.Id.btnCall);
-            request = FindViewById<ImageButton>(Resource.Id.btnRescue);
+            var btnLogout = FindViewById<ImageButton>(Resource.Id.logout);
+            available = FindViewById<ImageButton>(Resource.Id.btnAvailable);
+            unAvailable = FindViewById<ImageButton>(Resource.Id.btnUnavailable);
+            frameLayoutMenu = FindViewById<FrameLayout>(Resource.Id.fragment);
             //drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             //navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mGeocoder = new Geocoder(this);
             //menu.Click += Menu_Click;
             //navigationView.NavigationItemSelected += NavigationItemSelected;
-            call.Click += Call_Click;
-            //request.Click += Request_Click;
+            btnLogout.Click += Logout_Click;
+            available.Click += Available_Click;
+            unAvailable.Click += UnAvailable_Click;
 
 
 
@@ -105,26 +110,95 @@ namespace RescueMe.Agent.Activities
 
         }
 
+        private void UnAvailable_Click(object sender, EventArgs e)
+        {
+            string status = "";
+            string message = "";
+
+            var requestID = new
+            {
+                agentId = _context.GetUser().Id
+            };
+
+            new Thread(new ThreadStart(delegate
+                {
+                    try
+                    {
+
+                        status = _client.Get("Agent/disconnect", requestID).Result.ToString();
+                        message = "Desconectado";
+                    }
+                    catch (Exception ex)
+                    {
+                        message = ex.Message;
+                    }
+
+                    RunOnUiThread(() =>
+                    {
+                        if (status.ToLower() == "true")
+                        {
+                            _context.UpdateAvailability(false);
+                            unAvailable.Visibility = ViewStates.Gone;
+                            available.Visibility = ViewStates.Visible;
+                        }
+
+                        Toast.MakeText(this, message, ToastLength.Long).Show();
+                    });
+
+                })).Start();
+
+        }
+
+        private void Available_Click(object sender, EventArgs e)
+        {
+          
+            string status = "";
+            string message = "";
+            string city = RescueMe.Agent.Activities.BaseActivity.GetAddress(mCurrentLocation, mGeocoder);
+
+
+            var agentLocation = new
+            {
+                AgentID = _context.GetUser().Id,
+                City = city,
+                Location = new
+                {
+                    lat = mCurrentLocation.Latitude,
+                    lng = mCurrentLocation.Longitude
+                }
+            };
+
+
+            new Thread(new ThreadStart(delegate
+            {
+                try
+                {
+
+                    status = _client.Post("Agent/connect", agentLocation).Result.JsonToObject<dynamic>().ToString();
+                    message = "Conectado";
+                }
+                catch (Exception ex)
+                {
+                    message = ex.Message;
+                }
+
+                RunOnUiThread(() =>
+                 {
+                     if (status.ToLower() == "true")
+                     {
+                         _context.UpdateAvailability(true);
+                         available.Visibility = ViewStates.Gone;
+                         unAvailable.Visibility = ViewStates.Visible;
+
+                     }
+                     Toast.MakeText(this, message, ToastLength.Long).Show();
+                 });
+
+            })).Start();
+
+        }
 
         private GroundOverlay cobjGroundOverlay = null;
-
-        //private void Request_Click(object sender, EventArgs e)
-        //{
-        //    var bundle = new Bundle();
-        //    bundle.PutDouble("Latitude", mCurrentLocation.Latitude);
-        //    bundle.PutDouble("Longitude", mCurrentLocation.Longitude);
-
-        //    var intent = new Intent(this, typeof(RequestActivity));
-        //    intent.PutExtra("location", bundle);
-
-        //    //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
-        //    //               Resource.Animation.fade_in);
-        //    //request.StartAnimation(anim);
-
-        //    mMap.Snapshot(this);
-        //    StartActivity(intent);
-
-        //}
 
 
         void UpdateValuesFromBundle(Bundle savedInstanceState)
@@ -216,10 +290,10 @@ namespace RescueMe.Agent.Activities
 
 
                 mMap.AddMarker(markerOptions);
-                //mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
-                //{
-                //    IsNetworkConnected = IsNetworkConnected()
-                //});
+                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
+                {
+                    IsNetworkConnected = IsNetworkConnected()
+                });
                 mMap.UiSettings.ZoomControlsEnabled = true;
                 mMap.UiSettings.CompassEnabled = true;
                 mMap.MoveCamera(camera);
@@ -303,6 +377,33 @@ namespace RescueMe.Agent.Activities
         {
             base.OnStart();
             mGoogleApiClient.Connect();
+
+
+
+            bool anyPendingRequest = _context.GetRequest().Any(s => s.AgentStatus.Name == "asignado");
+
+            if (anyPendingRequest)
+            {
+                frameLayoutMenu.Visibility = ViewStates.Visible;
+                available.Visibility = ViewStates.Gone;
+                unAvailable.Visibility = ViewStates.Gone;
+
+            }
+            else
+            {
+                frameLayoutMenu.Visibility = ViewStates.Gone;
+                if (_context.GetSettings().AgentaAvailability)
+                {
+                    unAvailable.Visibility = ViewStates.Visible;
+                    available.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    unAvailable.Visibility = ViewStates.Gone;
+                    available.Visibility = ViewStates.Visible;
+
+                }
+            }
         }
 
         protected override async void OnResume()
@@ -510,11 +611,12 @@ namespace RescueMe.Agent.Activities
         //    name.Text = _context.GetUser().Name;
         //}
 
-        private void Call_Click(object sender, EventArgs e)
+        private void Logout_Click(object sender, EventArgs e)
         {
-            var uri = Android.Net.Uri.Parse("tel:8296881000");
-            Intent callIntent = new Intent(Intent.ActionDial, uri);
-            StartActivity(callIntent);
+            _context.LogOut();
+            this.Finish();
+            Intent intent = new Intent(this, typeof(MainActivity));
+            StartActivity(intent);
         }
 
         public void OnSnapshotReady(Bitmap snapshot)
@@ -533,11 +635,11 @@ namespace RescueMe.Agent.Activities
 
                 if (!System.IO.File.Exists(localPath))
                 {
-                    FileStream stream = new FileStream(localPath, FileMode.Create, FileAccess.ReadWrite, FileShare.None); 
+                    FileStream stream = new FileStream(localPath, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
                     bitmap = Bitmap.CreateScaledBitmap(bitmap, 620, 400, false);
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
-                    
+
 
                     stream.Close();
                 }

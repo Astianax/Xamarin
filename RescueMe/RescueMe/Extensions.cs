@@ -9,7 +9,7 @@ namespace RescueMe
 {
     public static class Extensions
     {
-        public static TModel JsonToObject<TModel>(this object model) where TModel : class
+        public static TModel JsonToObject<TModel>(this object model) where TModel : class 
         {
             TModel deserializeModel = null;
             RescueException exception = null;

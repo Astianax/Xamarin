@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="my_green">#77D065</color>
-  <color name="my_purple">#B455B6</color>
-  <color name="my_gray">#738182</color>
-  <color name="white">#f5f5f5</color>
-  <color name="dark_blue">#071A36</color>
-  <color name="Light_Grey">#d6d9dc</color>
 
-
-  <color name="lightwhite">#d9d9d9</color>
-  <color name="login_bg_color">#F7D8C4</color>
-  <color name="main_color">#DD6F00</color>
-  <color name="btn_color">#DD6F00</color>
-  <color name="links_color">#DD6F00</color>
-  <color name="menu_text_color">#03033B</color>
-  
-  
   
   
 
@@ -46,6 +31,13 @@
     <item name="android:popupBackground">@drawable/menu_dropdown_panel_spinner</item>
   </style>-->
 
+
+
+  <style name="MenuButtonsSmall">
+    <item name="fab_colorNormal">@color/menu_text_color</item>
+    <item name="fab_colorPressed">@color/menu_text_color</item>
+    <item name="fab_colorRipple">@color/menu_text_color</item>
+  </style>
 
 
 </resources>

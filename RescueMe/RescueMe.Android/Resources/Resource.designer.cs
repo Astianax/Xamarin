@@ -4312,11 +4312,14 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0a0168
 			public const int CardView_Light = 2131362152;
 			
-			// aapt resource value: 0x7f0a016b
-			public const int MenuButtonsSmall = 2131362155;
+			// aapt resource value: 0x7f0a016c
+			public const int MenuButtonsSmall = 2131362156;
 			
 			// aapt resource value: 0x7f0a0169
-			public const int MyCustomTheme = 2131362153;
+			public const int MenuLabelsStyle = 2131362153;
+			
+			// aapt resource value: 0x7f0a016a
+			public const int MyCustomTheme = 2131362154;
 			
 			// aapt resource value: 0x7f0a0019
 			public const int Platform_AppCompat = 2131361817;
@@ -4918,8 +4921,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0a0164
 			public const int Widget_Design_TextInputLayout = 2131362148;
 			
-			// aapt resource value: 0x7f0a016a
-			public const int mySpinnerStyle = 2131362154;
+			// aapt resource value: 0x7f0a016b
+			public const int mySpinnerStyle = 2131362155;
 			
 			static Style()
 			{
