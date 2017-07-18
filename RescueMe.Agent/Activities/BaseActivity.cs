@@ -39,17 +39,17 @@ namespace RescueMe.Agent.Activities
             _context.IsNetworkConnected = true;
         }
 
-        //protected void SetTools()
-        //{
-        //    var title = FindViewById<TextView>(Resource.Id.titleID);
-        //    var titleText = FindViewById<TextView>(Resource.Id.titleText);
-        //    var btnBack = FindViewById(Resource.Id.back);
+        protected void SetTools()
+        {
+            var title = FindViewById<TextView>(Resource.Id.titleID);
+            var titleText = FindViewById<TextView>(Resource.Id.titleText);
+            var btnBack = FindViewById(Resource.Id.back);
 
-        //    title.Text = titleText.Text;
+            title.Text = titleText.Text;
 
-        //    btnBack.Click += BtnBack_click;
-        //    _context.IsNetworkConnected = IsNetworkConnected();
-        //}
+            btnBack.Click += BtnBack_click;
+            _context.IsNetworkConnected = IsNetworkConnected();
+        }
 
 
         protected void BtnBack_click(object sender, EventArgs e)

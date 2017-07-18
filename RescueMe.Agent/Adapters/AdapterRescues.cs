@@ -54,7 +54,7 @@ namespace RescueMe.Agent.Adapters
 
 
             holder.Type.Text = request.Vehicle.Type;
-            holder.Marque.Text = request.ReasonRequest.Name;
+            holder.Reason.Text = request.ReasonRequest.Name;
             holder.Status.Text = request.AgentStatus.Name;
             //Get and validate if image exist 
             var imageBitmap = _context.GetImageBitmapFromRequest(request).Result;
@@ -102,7 +102,7 @@ namespace RescueMe.Agent.Adapters
 
         public TextView Status { get; set; }
         public TextView Type { get; set; }
-        public TextView Marque { get; set; }
+        public TextView Reason { get; set; }
         public ImageView Map { get; set; }
 
 
@@ -114,7 +114,7 @@ namespace RescueMe.Agent.Adapters
         {
             //TextView = v;
             Type = itemView.FindViewById<TextView>(Resource.Id.type);
-            Marque = itemView.FindViewById<TextView>(Resource.Id.marque);
+            Reason = itemView.FindViewById<TextView>(Resource.Id.reason);
             Map = itemView.FindViewById<ImageView>(Resource.Id.map);
             Status = itemView.FindViewById<TextView>(Resource.Id.status);
 

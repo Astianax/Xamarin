@@ -120,6 +120,10 @@ namespace RescueMe.Agent.Activities
                 agentId = _context.GetUser().Id
             };
 
+            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "");
+            progressDialog.Indeterminate = true;
+            progressDialog.SetCancelable(false);
+
             new Thread(new ThreadStart(delegate
                 {
                     try
@@ -135,6 +139,8 @@ namespace RescueMe.Agent.Activities
 
                     RunOnUiThread(() =>
                     {
+                        progressDialog.Hide();
+
                         if (status.ToLower() == "true")
                         {
                             _context.UpdateAvailability(false);
@@ -142,7 +148,9 @@ namespace RescueMe.Agent.Activities
                             available.Visibility = ViewStates.Visible;
                         }
 
-                        Toast.MakeText(this, message, ToastLength.Long).Show();
+                        Toast toast = Toast.MakeText(this, message, ToastLength.Long);
+                        toast.SetGravity(GravityFlags.Bottom | GravityFlags.Center, 100, 100);
+                        toast.Show();
                     });
 
                 })).Start();
@@ -168,6 +176,9 @@ namespace RescueMe.Agent.Activities
                 }
             };
 
+            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "");
+            progressDialog.Indeterminate = true;
+            progressDialog.SetCancelable(false);
 
             new Thread(new ThreadStart(delegate
             {
@@ -184,6 +195,7 @@ namespace RescueMe.Agent.Activities
 
                 RunOnUiThread(() =>
                  {
+                     progressDialog.Hide();
                      if (status.ToLower() == "true")
                      {
                          _context.UpdateAvailability(true);
@@ -191,7 +203,9 @@ namespace RescueMe.Agent.Activities
                          unAvailable.Visibility = ViewStates.Visible;
 
                      }
-                     Toast.MakeText(this, message, ToastLength.Long).Show();
+                     Toast toast = Toast.MakeText(this, message, ToastLength.Long);
+                     toast.SetGravity(GravityFlags.Bottom|GravityFlags.Center, 100, 100);
+                     toast.Show();
                  });
 
             })).Start();

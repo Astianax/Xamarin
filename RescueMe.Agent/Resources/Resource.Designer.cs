@@ -2690,11 +2690,17 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090016
 			public const int auto = 2131296278;
 			
+			// aapt resource value: 0x7f0900af
+			public const int back = 2131296431;
+			
 			// aapt resource value: 0x7f090028
 			public const int beginning = 2131296296;
 			
 			// aapt resource value: 0x7f090030
 			public const int bottom = 2131296304;
+			
+			// aapt resource value: 0x7f0900b1
+			public const int btnAddCars = 2131296433;
 			
 			// aapt resource value: 0x7f090089
 			public const int btnAvailable = 2131296393;
@@ -2900,9 +2906,6 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090085
 			public const int map = 2131296389;
 			
-			// aapt resource value: 0x7f0900ac
-			public const int marque = 2131296428;
-			
 			// aapt resource value: 0x7f090048
 			public const int marquee = 2131296328;
 			
@@ -2959,6 +2962,9 @@ namespace RescueMe.Agent
 			
 			// aapt resource value: 0x7f090064
 			public const int radio = 2131296356;
+			
+			// aapt resource value: 0x7f0900ac
+			public const int reason = 2131296428;
 			
 			// aapt resource value: 0x7f09003c
 			public const int right = 2131296316;
@@ -3095,11 +3101,17 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090053
 			public const int title = 2131296339;
 			
+			// aapt resource value: 0x7f0900b0
+			public const int titleID = 2131296432;
+			
 			// aapt resource value: 0x7f09009d
 			public const int titleText = 2131296413;
 			
 			// aapt resource value: 0x7f090058
 			public const int title_template = 2131296344;
+			
+			// aapt resource value: 0x7f0900ae
+			public const int toolbar = 2131296430;
 			
 			// aapt resource value: 0x7f090031
 			public const int top = 2131296305;
@@ -3363,6 +3375,9 @@ namespace RescueMe.Agent
 			
 			// aapt resource value: 0x7f030039
 			public const int support_simple_spinner_dropdown_item = 2130903097;
+			
+			// aapt resource value: 0x7f03003a
+			public const int ToolBar = 2130903098;
 			
 			static Layout()
 			{

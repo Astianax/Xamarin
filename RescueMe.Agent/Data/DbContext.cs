@@ -245,10 +245,10 @@ namespace RescueMe.Agent.Data
                 _connection.InsertAll(requestsSaved);
             }
             //Download all image's
-            //foreach (var request in requests)
-            //{
-            //    //await GetImageBitmapFromRequest(request);
-            //}
+            foreach (var request in requests)
+            {
+                await GetImageBitmapFromRequest(request);
+            }
         }
         public void UpdateStatus(List<Status> status)
         {

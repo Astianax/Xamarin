@@ -29,7 +29,7 @@ namespace RescueMe.Agent.Activities
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.MyRescues);
-            //SetTools();
+            SetTools();
             // Create your application here
             _requests = await GetRequests();
             SetRecyclerView(_requests);

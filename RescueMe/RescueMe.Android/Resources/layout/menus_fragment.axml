@@ -13,7 +13,7 @@
           android:layout_alignParentBottom="true"
           android:layout_alignParentRight="true"
           android:paddingRight="150dp"
-          android:paddingBottom="50dp"
+          android:paddingBottom="80dp"
           android:paddingLeft="10dp"
           fab:menu_colorNormal="@color/main_color"
           fab:menu_colorPressed="@color/main_color"
