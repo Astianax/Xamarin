@@ -126,7 +126,7 @@ namespace RescueMe.Droid
                 {
                     Id = request.Id
                 };
-                string status="";
+                string status = "";
 
                 if (fabButton.Id == Resource.Id.cancelRescue)
                 {
@@ -146,11 +146,12 @@ namespace RescueMe.Droid
                         this.Activity.RunOnUiThread(() =>
                         {
                             ///DB Update 
-                            if (status.ToLower()=="true")
+                            if (status.ToLower() == "true")
                             {
                                 _context.CancelRequestStatus(requestID.Id);
-                            }             
+                            }
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                            SetMainBtnBack(Resource.Id.cancelRescue);
                         });
 
                     })).Start();
@@ -164,7 +165,7 @@ namespace RescueMe.Droid
                             try
                             {
 
-                                status = _client.Post("Request/close",requestID).Result.ToString();
+                                status = _client.Post("Request/close", requestID).Result.ToString();
                                 message = "Se ha completado su solicitud";
                             }
                             catch (Exception ex)
@@ -179,6 +180,7 @@ namespace RescueMe.Droid
                                     _context.CloseRequestStatus(requestID.Id);
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                                SetMainBtnBack(Resource.Id.completeRescue);
                             });
 
                         })).Start();
@@ -199,6 +201,12 @@ namespace RescueMe.Droid
         {
             FloatingActionMenu menu = (FloatingActionMenu)v.Parent;
             menu.Toggle(animate: true);
+        }
+
+        public void SetMainBtnBack(int btn)
+        {
+            this.Activity.FindViewById<FloatingActionButton>(btn).Visibility = ViewStates.Gone;
+            this.Activity.FindViewById<ImageButton>(Resource.Id.btnRescue).Visibility = ViewStates.Visible;
         }
 
     }

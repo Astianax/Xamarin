@@ -24,6 +24,7 @@ namespace RescueMe.Agent.Data
         private static DbContext _instance;
         private SQLiteConnection _connection;
         public bool IsNetworkConnected { get; set; }
+
         private DbContext()
         {
             //_
@@ -101,6 +102,7 @@ namespace RescueMe.Agent.Data
         /// </summary>
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
+        
         public void LogIn(UserProfile user,
                                 List<ReasonRequest> reasons,
                                 List<Request> requests = null,
@@ -127,12 +129,6 @@ namespace RescueMe.Agent.Data
                 throw e;
             }
         }
-
-
-
-
-
-
 
 
 
@@ -467,7 +463,6 @@ namespace RescueMe.Agent.Data
             setting.AgentaAvailability = availability;
             _connection.Update(setting);
         }
-
         //Get Reasons
         public List<ReasonRequest> GetReasons()
         {

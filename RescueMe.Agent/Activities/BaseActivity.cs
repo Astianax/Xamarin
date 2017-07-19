@@ -33,8 +33,8 @@ namespace RescueMe.Agent.Activities
 
         public BaseActivity()
         {
-            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-            //_client = new RestClient("http://10.0.0.9:5000/api/");
+            //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
+            _client = new RestClient("http://10.0.0.11:5000/api/");
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }
@@ -75,7 +75,7 @@ namespace RescueMe.Agent.Activities
                 _context.SaveSetting(new Settings()
                 {
                     LocationPermission = true,
-                    AgentaAvailability = true
+                    AgentaAvailability = false
                 });
                 _isAllowed = false;
             }
@@ -130,7 +130,7 @@ namespace RescueMe.Agent.Activities
             string mAddress;
 
             //The Geocoder class retrieves a list of address from Google over the internet  
-            IList<Address> addressList = mGeocoder.GetFromLocation(location.Latitude, location.Longitude, 10);
+            IList<Address> addressList = mGeocoder.GetFromLocationAsync(location.Latitude, location.Longitude, 10).Result;
             Address addressCurrent = addressList.FirstOrDefault();
 
             if (addressCurrent != null)
