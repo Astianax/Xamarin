@@ -32,7 +32,27 @@ namespace RescueMe
 
             return deserializeModel;
         }
+        public static bool JsonToBoolean(this object model)
+        {
+            RescueException exception = null;
+            bool deserializeModel = false;
+            try
+            {
+                //Case 1: Exception = null
+                //Case 2: Exception != null && Message == null
+                exception = JsonConvert.DeserializeObject<RescueException>(model.ToString());
+            }
+            catch (RescueException r)
+            {
+                throw r;
+            }
+            catch (Exception)
+            {
+                deserializeModel = JsonConvert.DeserializeObject<bool>(model.ToString());
+            }
 
+            return deserializeModel;
+        }
         private static TModel TryToDeserialize<TModel>(RescueException exception, object model)
         {
             TModel tModel = Activator.CreateInstance<TModel>();
