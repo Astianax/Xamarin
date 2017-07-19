@@ -22,20 +22,19 @@
             android:layout_marginRight="70dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="70dp" />
-
-          <FrameLayout
-           android:id="@+id/fragment"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:visibility="gone"/>
-      
+        <FrameLayout
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
         <ImageButton
             android:background="@drawable/ic_request"
             android:id="@+id/btnRescue"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="80dp" />
+            android:layout_marginBottom="80dp"
+             android:visibility="visible"/>
         <ImageButton
             android:background="@drawable/ic_call"
             android:id="@+id/btnCall"
@@ -44,6 +43,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:padding="10dp"
-            android:layout_gravity="top|right" />
+            android:layout_gravity="top|right"
+            android:visibility="visible"/>
     </fragment>
 </FrameLayout>

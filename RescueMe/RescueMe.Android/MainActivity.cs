@@ -47,16 +47,7 @@ namespace RescueMe.Droid
             if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:6288a966f5369538"))
                 throw new System.Exception("Invalid Json file");
 
-            Task.Run(() =>
-            {
-                var instanceId = FirebaseInstanceId.Instance;
-                //instanceId.DeleteInstanceId();
-                Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
-                    Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
-
-                token = instanceId.Token;
-            });
-
+           
             if (_context.GetUser() == null)
             {
                 SetContentView(Resource.Layout.Login);
@@ -134,7 +125,6 @@ namespace RescueMe.Droid
                 UserProfile user = null;
                 userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-                userViewModel.token = token;
                 //userViewModel.platform = "web";
 
 
@@ -145,6 +135,12 @@ namespace RescueMe.Droid
               
                 new Thread(new ThreadStart(delegate
                 {
+                    var instanceId = FirebaseInstanceId.Instance;
+                    //instanceId.DeleteInstanceId();
+                    Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
+                        Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+
+                    userViewModel.token = instanceId.Token;
                     //LOAD METHOD TO GET ACCOUNT INFO
                     user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
 

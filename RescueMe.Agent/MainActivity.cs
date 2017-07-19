@@ -33,14 +33,7 @@ namespace RescueMe.Agent
             if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:dc4df3d3160f0f1d"))
                 throw new System.Exception("Invalid Json file");
 
-            Task.Run(() =>
-            {
-                var instanceId = FirebaseInstanceId.Instance;
-                Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
-                    Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
-
-                token = instanceId.Token;
-            });
+          
 
             if (_context.GetUser() == null)
             {
@@ -114,18 +107,24 @@ namespace RescueMe.Agent
                 UserProfile user = null;
                 userViewModel.email = "firulaisp@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-                userViewModel.token = token;
+                //userViewModel.token = token;
                 userViewModel.platform = "agent";
 
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
                 progressDialog.Indeterminate = true;
                 progressDialog.SetCancelable(false);
-
+               
 
                 new Thread(new ThreadStart(delegate
                 {
                     //LOAD METHOD TO GET ACCOUNT INFO
+                    var instanceId = FirebaseInstanceId.Instance;
+                    Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
+                        Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+
+                  
+                    userViewModel.token = instanceId.Token;
                     user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
 
                     if (user != null)
