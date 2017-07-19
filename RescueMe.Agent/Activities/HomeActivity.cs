@@ -185,7 +185,7 @@ namespace RescueMe.Agent.Activities
                 try
                 {
 
-                    status = _client.Post("Agent/connect", agentLocation).Result.JsonToObject<dynamic>().ToString();
+                    status = _client.Post("Agent/connect", agentLocation).Result.JsonToBoolean().ToString();
                     message = "Conectado";
                 }
                 catch (Exception ex)

@@ -22,10 +22,10 @@ namespace RescueMe.Agent.FireBaseServices
         public override void OnMessageReceived(RemoteMessage message)
         {
             base.OnMessageReceived(message);
-            SendNotification(message.GetNotification().Body);
+            SendNotification(message.GetNotification());
         }
 
-        private void SendNotification(string body)
+        private void SendNotification(RemoteMessage.Notification data)
         {
             var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
@@ -34,8 +34,8 @@ namespace RescueMe.Agent.FireBaseServices
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
             var notificationBuilder = new NotificationCompat.Builder(this)
                 .SetSmallIcon(Resource.Drawable.Icon)
-                .SetContentTitle("EDMTDev")
-                .SetContentText(body)
+                .SetContentTitle(data.Title)
+                .SetContentText(data.Body)
                 .SetAutoCancel(true)
                 .SetSound(defaultSoundUri)
                 .SetContentIntent(pendingIntent)
