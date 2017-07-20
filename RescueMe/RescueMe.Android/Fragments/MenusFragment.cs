@@ -26,7 +26,6 @@ namespace RescueMe.Droid
 {
     public class MenusFragment : Fragment, View.IOnClickListener
     {
-
         private FloatingActionMenu btnMenu;
         private FloatingActionButton cancelRescue;
         private FloatingActionButton completeRescue;
@@ -36,17 +35,15 @@ namespace RescueMe.Droid
 
         protected RestClient _client;
         protected DbContext _context;
-
-        public void RestClient()
+        
+        public void Initialize(RestClient client, DbContext context)
         {
-            //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-            _client = new RestClient("http://192.168.2.49:5000/api/");
-            _context = DbContext.Instance;
-            _context.IsNetworkConnected = true;
+            _client = client;
+            _context = context;
         }
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+          
             return inflater.Inflate(Resource.Layout.menus_fragment, container, false);
         }
 
@@ -117,10 +114,11 @@ namespace RescueMe.Droid
 
             if (fabButton != null)
             {
-                RestClient();
+                //RestClient();
 
                 var request = _context.GetRequest().FirstOrDefault(p => p.Status.Name == "pendiente"
-                                                                   || p.Status.Name == "asignado");
+                                                                   || p.Status.Name == "asignado"
+                                                                   || p.Status.Name == "no disponible");
 
                 var requestID = new
                 {

@@ -71,7 +71,9 @@ namespace RescueMe.Agent.Activities
             //Init Btn menu
             if (savedInstanceState == null)
             {
-                SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, new MenusFragment()).Commit();
+                var menuFragment = new MenusFragment();
+                menuFragment.Initialize(_client, _context);
+                SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, menuFragment).Commit();
             }
 
 

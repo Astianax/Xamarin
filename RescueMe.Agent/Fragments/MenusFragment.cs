@@ -36,14 +36,11 @@ namespace RescueMe.Agent
         protected RestClient _client;
         protected DbContext _context;
 
-        public void RestClient()
+        public void Initialize(RestClient client, DbContext context)
         {
-            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-            //_client = new RestClient("http://10.0.0.9:5000/api/");
-            _context = DbContext.Instance;
-            _context.IsNetworkConnected = true;
+            _client = client;
+            _context = context;
         }
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.menus_fragment, container, false);

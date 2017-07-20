@@ -19,7 +19,7 @@ using SQLite.Net;
 
 namespace RescueMe.Droid.Data
 {
-    public class DbContext
+    public class DbContext 
     {
         private static DbContext _instance;
         private SQLiteConnection _connection;
@@ -108,14 +108,15 @@ namespace RescueMe.Droid.Data
                 {
                     UpdateReasons(reasons);
                 }
-                if (requests != null)
-                {
-                    UpdateRequests(requests);
-                }
                 if (status != null)
                 {
                     UpdateStatus(status);
                 }
+                if (requests != null)
+                {
+                    UpdateRequests(requests);
+                }
+           
             }
             catch (Exception e)
             {
