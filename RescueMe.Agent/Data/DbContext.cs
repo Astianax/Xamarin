@@ -115,16 +115,15 @@ namespace RescueMe.Agent.Data
                 {
                     UpdateReasons(reasons);
                 }
-                if (requests != null)
-                {
-                    UpdateRequests(requests);
-                }
+              
                 if (status != null)
                 {
                     UpdateStatus(status);
                 }
-                
-              
+                if (requests != null)
+                {
+                    UpdateRequests(requests);
+                }
             }
             catch (Exception e)
             {
@@ -234,7 +233,7 @@ namespace RescueMe.Agent.Data
                 VehicleID = r.VehicleID,
                 VehicleType = r.Vehicle.Type,
                 ReasonID = r.ReasonID,
-                Status = r.AgentStatus.Name
+                Status = getStatusList().FirstOrDefault(s=>s.Id == r.AgentStatusID).Name
             }).ToList();
 
             var isSaved = _connection.UpdateAll(requestsSaved) > 0;
@@ -361,9 +360,9 @@ namespace RescueMe.Agent.Data
                                           },
                                           //Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
                                           User = GetUser().User,
-                                          Status = new Status()
+                                          AgentStatus = new Status()
                                           {
-                                              Name = getStatusList().FirstOrDefault(s => s.Id == r.StatusID).Name
+                                              Name = r.Status
                                           }
                                       }).OrderByDescending(o => o.Id).ToList();
 
