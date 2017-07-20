@@ -123,6 +123,8 @@ namespace RescueMe.Agent.Data
                 {
                     UpdateStatus(status);
                 }
+                
+              
             }
             catch (Exception e)
             {
@@ -359,9 +361,9 @@ namespace RescueMe.Agent.Data
                                           },
                                           //Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
                                           User = GetUser().User,
-                                          AgentStatus = new Status()
+                                          Status = new Status()
                                           {
-                                              Name = r.Status
+                                              Name = getStatusList().FirstOrDefault(s => s.Id == r.StatusID).Name
                                           }
                                       }).OrderByDescending(o => o.Id).ToList();
 

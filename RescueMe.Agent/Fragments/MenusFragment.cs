@@ -124,7 +124,7 @@ namespace RescueMe.Agent
                 {
                     Id = request.Id
                 };
-                string status="";
+                string status = "";
 
                 if (fabButton.Id == Resource.Id.cancelRescue)
                 {
@@ -144,11 +144,12 @@ namespace RescueMe.Agent
                         this.Activity.RunOnUiThread(() =>
                         {
                             ///DB Update 
-                            if (status.ToLower()=="true")
+                            if (status.ToLower() == "true")
                             {
                                 _context.CancelRequestStatus(requestID.Id);
-                            }             
+                            }
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                            SetMainBtnBack(btnMenu);
                         });
 
                     })).Start();
@@ -162,7 +163,7 @@ namespace RescueMe.Agent
                             try
                             {
 
-                                status = _client.Post("Agent/close",requestID).Result.ToString();
+                                status = _client.Post("Agent/close", requestID).Result.ToString();
                                 message = "Se ha completado la solicitud";
                             }
                             catch (Exception ex)
@@ -177,6 +178,7 @@ namespace RescueMe.Agent
                                     _context.CloseRequestStatus(requestID.Id);
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                                SetMainBtnBack(btnMenu);
                             });
 
                         })).Start();
@@ -197,6 +199,25 @@ namespace RescueMe.Agent
         {
             FloatingActionMenu menu = (FloatingActionMenu)v.Parent;
             menu.Toggle(animate: true);
+        }
+
+        public void SetMainBtnBack(FloatingActionMenu btn)
+        {
+            btn.Visibility = ViewStates.Gone;
+
+            if (_context.GetSettings().AgentaAvailability)
+            {
+                this.Activity.FindViewById<ImageButton>(Resource.Id.btnUnavailable).Visibility = ViewStates.Visible;
+                this.Activity.FindViewById<ImageButton>(Resource.Id.btnAvailable).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                this.Activity.FindViewById<ImageButton>(Resource.Id.btnUnavailable).Visibility = ViewStates.Gone;
+                this.Activity.FindViewById<ImageButton>(Resource.Id.btnAvailable).Visibility = ViewStates.Visible;
+
+            }
+
+
         }
 
     }

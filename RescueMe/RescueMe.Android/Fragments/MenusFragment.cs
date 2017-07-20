@@ -151,7 +151,7 @@ namespace RescueMe.Droid
                                 _context.CancelRequestStatus(requestID.Id);
                             }
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                            SetMainBtnBack(Resource.Id.cancelRescue);
+                            SetMainBtnBack(btnMenu);
                         });
 
                     })).Start();
@@ -180,7 +180,7 @@ namespace RescueMe.Droid
                                     _context.CloseRequestStatus(requestID.Id);
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                                SetMainBtnBack(Resource.Id.completeRescue);
+                                SetMainBtnBack(btnMenu);
                             });
 
                         })).Start();
@@ -203,9 +203,9 @@ namespace RescueMe.Droid
             menu.Toggle(animate: true);
         }
 
-        public void SetMainBtnBack(int btn)
+        public void SetMainBtnBack(FloatingActionMenu btn)
         {
-            this.Activity.FindViewById<FloatingActionButton>(btn).Visibility = ViewStates.Gone;
+            btn.Visibility = ViewStates.Gone;
             this.Activity.FindViewById<ImageButton>(Resource.Id.btnRescue).Visibility = ViewStates.Visible;
         }
 
