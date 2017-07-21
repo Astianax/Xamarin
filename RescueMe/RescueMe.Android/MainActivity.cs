@@ -13,41 +13,49 @@ using Android.Content.PM;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Firebase.Iid;
-
+using Android.Gms.Common.Apis;
+using Android.Gms.Common;
+using Android.Views;
+using Android.Gms.Plus;
+using Android.Util;
+using Android.Gms.Auth.Api;
 namespace RescueMe.Droid
 {
     [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     //[Activity(Label = "Leftdrawerlayout", Theme = "@style/Theme.DesignDemo", MainLauncher = true, Icon = "@drawable/icon")]
 
-    public class MainActivity : BaseActivity
+    public class MainActivity : BaseActivity, View.IOnClickListener,
+        GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
     {
 
         Button btnLogin;
         const string TAG = "MainActivity";
+        const string KEY_IS_RESOLVING = "is_resolving";
+        const string KEY_SHOULD_RESOLVE = "should_resolve";
+
         private string token;
+        const int RC_SIGN_IN = 9001;
+        GoogleApiClient mGoogleApiClient;
+        TextView mStatus;
+        bool mIsResolving = false;
+        bool mShouldResolve = false;
+
         protected override void OnCreate(Bundle bundle)
         {
             //Informations
-         
-            base.OnCreate(bundle);
 
-            //CalligraphyConfig.InitDefault(new CalligraphyConfig.Builder()
-            //    .SetDefaultFontPath("fonts/OpenSans-Bold.ttf")
-            //    .SetFontAttrId(Resource.Attribute.fontPath)
-            //    .Build());
-           // SetContentView(Resource.Layout.Login);
-           //// Set our view from the "main" layout resource
-           //// SetContentView(Resource.Layout.Profile);
-           // var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-           // btnLogin.Click += BtnLogin_Click;
-           // var linkRegister = FindViewById<TextView>(Resource.Id.card_v);
-           // linkRegister.Click += linkRegister_click;
+            base.OnCreate(bundle);
+            if (bundle != null)
+            {
+                mIsResolving = bundle.GetBoolean(KEY_IS_RESOLVING);
+                mShouldResolve = bundle.GetBoolean(KEY_SHOULD_RESOLVE);
+            }
 
             if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:6288a966f5369538"))
                 throw new System.Exception("Invalid Json file");
 
-           
+
             if (_context.GetUser() == null)
             {
                 SetContentView(Resource.Layout.Login);
@@ -56,13 +64,31 @@ namespace RescueMe.Droid
                 var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
                 btnLogin.Click += BtnLogin_Click;
                 linkRegister.Click += linkRegister_click;
-
                 SetUp();
+
+
+
+                FindViewById<SignInButton>(Resource.Id.sign_in_button).SetOnClickListener(this);
+                FindViewById<SignInButton>(Resource.Id.sign_in_button).SetSize(SignInButton.SizeWide);
+                FindViewById(Resource.Id.sign_in_button).Enabled = false;
+                mStatus = FindViewById<TextView>(Resource.Id.status);
+
             }
             else
             {
                 StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
             }
+
+
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .AddConnectionCallbacks(this)
+                .AddOnConnectionFailedListener(this)
+                .AddApi(PlusClass.API)
+                .AddScope(new Scope(Scopes.Profile))
+                .Build();
+
+
 
         }
 
@@ -117,67 +143,14 @@ namespace RescueMe.Droid
                 passwordLayout.ErrorEnabled = false;
             }
 
-
-
-
             if (valid)
             {
-                UserProfile user = null;
                 userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-                //userViewModel.platform = "web";
-
-
-                var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
-                progressDialog.Indeterminate = true;
-                progressDialog.SetCancelable(false);
-
-              
-                new Thread(new ThreadStart(delegate
-                {
-                    var instanceId = FirebaseInstanceId.Instance;
-                    //instanceId.DeleteInstanceId();
-                    Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
-                        Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
-
-                    userViewModel.token = instanceId.Token;
-                    //LOAD METHOD TO GET ACCOUNT INFO
-                    user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
-
-                    if (user != null)
-                    {
-                        //Save Database
-                        //_context.Save<UserSaved>(new UserSaved()
-                        //{
-                        //    Email = user.Email,
-                        //    Id = user.Id,
-                        //    FullName = user.Name,
-                        //    Password = user.User.PassworDigest
-                        //});
-                     
-                        //Save Vehicles
-                        var vehicles = GetVehicles(user.Id);
-                        var reasons = GetReasons();
-                        var rescues = GetRescues(user);
-                        var status = GetStatus();
-                        _context.LogIn(user, vehicles, reasons, rescues, status);
-                        Intent intent = new Intent(this, typeof(HomeActivity));
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
-                                .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
-                                .SetDuration(8000)
-                                .SetActionTextColor(Android.Graphics.Color.Orange)
-                                .Show();
-                    }
-                    //HIDE PROGRESS DIALOG
-                    RunOnUiThread(() => progressDialog.Hide());
-
-                })).Start();
-
+                                                       //userViewModel.platform = "web";
+                SignIn(userViewModel, false);
             }
+
 
         }
         public List<Vehicle> GetVehicles(int userID)
@@ -190,7 +163,7 @@ namespace RescueMe.Droid
             };
             try
             {
-                vehicles =  _client.Get("Vehicle/vehicles", user).Result.JsonToObject<List<Vehicle>>();
+                vehicles = _client.Get("Vehicle/vehicles", user).Result.JsonToObject<List<Vehicle>>();
             }
             catch (Exception ex)
             {
@@ -208,7 +181,7 @@ namespace RescueMe.Droid
                 requests = _client.Get("Request/requests", new
                 {
                     UserId = user.UserID,
-                    platform = "client"                   
+                    platform = "client"
                 }
                         ).Result.JsonToObject<List<Request>>();
             }
@@ -224,7 +197,7 @@ namespace RescueMe.Droid
             List<ReasonRequest> reasons;
             try
             {
-                reasons   = _client.Get("Request/reasons", null).Result.JsonToObject<List<ReasonRequest>>();
+                reasons = _client.Get("Request/reasons", null).Result.JsonToObject<List<ReasonRequest>>();
             }
             catch (Exception ex)
             {
@@ -246,6 +219,295 @@ namespace RescueMe.Droid
             }
 
             return status;
+        }
+
+        public void SignIn(UserViewModel userViewModel, bool isGoogle)
+        {
+            UserProfile user = null;
+
+            var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
+            progressDialog.Indeterminate = true;
+            progressDialog.SetCancelable(false);
+
+            var txtPassword = FindViewById<TextInputEditText>(Resource.Id.txtPassword);
+            var passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
+
+            new Thread(new ThreadStart(delegate
+            {
+                var instanceId = FirebaseInstanceId.Instance;
+                //instanceId.DeleteInstanceId();
+                Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
+                    Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
+
+                userViewModel.token = instanceId.Token;
+                //LOAD METHOD TO GET ACCOUNT INFO
+                user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
+
+                if (user != null)
+                {
+                    //Save Database
+                    //_context.Save<UserSaved>(new UserSaved()
+                    //{
+                    //    Email = user.Email,
+                    //    Id = user.Id,
+                    //    FullName = user.Name,
+                    //    Password = user.User.PassworDigest
+                    //});
+
+                    //Save Vehicles
+                    var vehicles = GetVehicles(user.Id);
+                    var reasons = GetReasons();
+                    var rescues = GetRescues(user);
+                    var status = GetStatus();
+                    _context.LogIn(user, vehicles, reasons, rescues, status);
+                    Intent intent = new Intent(this, typeof(HomeActivity));
+                    StartActivity(intent);
+                }
+                else
+                {
+
+                    if (isGoogle)
+                    {
+                        RegisterToGoogle(userViewModel);
+                    }
+                    else
+                    {
+                        Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
+                                .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
+                                .SetDuration(8000)
+                                .SetActionTextColor(Android.Graphics.Color.Orange)
+                                .Show();
+                    }
+                }
+                //HIDE PROGRESS DIALOG
+                RunOnUiThread(() => progressDialog.Hide());
+
+            })).Start();
+        }
+
+
+        public void RegisterToGoogle(UserViewModel profile)
+        {
+            UserProfile userProfile = new UserProfile();
+            User user = null;
+
+            userProfile.Name = profile.name;
+            userProfile.Email = profile.email;
+            userProfile.User = new User
+            {
+                PassworDigest = profile.password.Substring(0, 8)
+            };
+
+            try
+            {
+                if (IsNetworkConnected())
+                {
+                    user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<User>();
+                }
+                else
+                {
+                    Log.Info(TAG, GetString(Resource.String.not_connection));
+                }
+            }
+            catch (Exception ex)
+            {
+                user = null;
+                Log.Info(TAG, ex.Message);
+            }
+
+
+            if (user != null)
+            {
+                //Set User generated
+                userProfile.User = user;
+                _context.LogIn(userProfile, null, null);
+                Intent intent = new Intent(this, typeof(HomeActivity));
+                StartActivity(intent);
+            }
+
+
+
+        }
+
+
+        void UpdateUI(bool isSignedIn)
+        {
+            if (isSignedIn)
+            {
+                var userViewModel = new UserViewModel();
+                var person = PlusClass.PeopleApi.GetCurrentPerson(mGoogleApiClient);
+                userViewModel.email = PlusClass.AccountApi.GetAccountName(mGoogleApiClient);
+                userViewModel.password = person.Id.Substring(0,8);
+                userViewModel.name = person.DisplayName;
+
+                //mStatus.Text = string.Format(GetString(Resource.String.signed_in_fmt), name);
+
+                //FindViewById(Resource.Id.sign_in_button).Visibility = ViewStates.Gone;
+
+
+                SignIn(userViewModel, true);
+
+
+            }
+            else
+            {
+                if (_context.GetUser() == null)
+                {
+                    FindViewById(Resource.Id.sign_in_button).Enabled = true;
+                    FindViewById(Resource.Id.sign_in_button).Visibility = ViewStates.Visible;
+                }
+            }
+        }
+
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            mGoogleApiClient.Connect();
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            mGoogleApiClient.Disconnect();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+            outState.PutBoolean(KEY_IS_RESOLVING, mIsResolving);
+            outState.PutBoolean(KEY_SHOULD_RESOLVE, mIsResolving);
+        }
+
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            Log.Debug(TAG, "onActivityResult:" + requestCode + ":" + resultCode + ":" + data);
+
+            if (requestCode == RC_SIGN_IN)
+            {
+                if (resultCode != Result.Ok)
+                {
+                    mShouldResolve = false;
+                }
+
+                mIsResolving = false;
+                mGoogleApiClient.Connect();
+            }
+        }
+
+
+
+
+
+
+
+        public void OnConnectionFailed(ConnectionResult result)
+        {
+            Log.Debug(TAG, "onConnectionFailed:" + result);
+
+            if (!mIsResolving && mShouldResolve)
+            {
+                if (result.HasResolution)
+                {
+                    try
+                    {
+                        result.StartResolutionForResult(this, RC_SIGN_IN);
+                        mIsResolving = true;
+                    }
+                    catch (IntentSender.SendIntentException e)
+                    {
+                        Log.Error(TAG, "Could not resolve ConnectionResult.", e);
+                        mIsResolving = false;
+                        mGoogleApiClient.Connect();
+                    }
+                }
+                else
+                {
+                    ShowErrorDialog(result);
+                }
+            }
+            else
+            {
+                UpdateUI(false);
+            }
+        }
+
+        public void OnConnected(Bundle connectionHint)
+        {
+            Log.Debug(TAG, "onConnected:" + connectionHint);
+            UpdateUI(true);
+        }
+
+        public void OnConnectionSuspended(int cause)
+        {
+            Log.Warn(TAG, "onConnectionSuspended:" + cause);
+        }
+
+        public void OnClick(View v)
+        {
+            switch (v.Id)
+            {
+                case Resource.Id.sign_in_button:
+                    //mStatus.Text = GetString(Resource.String.signing_in);
+                    mShouldResolve = true;
+                    mGoogleApiClient.Connect();
+                    //SetUp();
+                    //StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
+                    break;
+                    //case Resource.Id.sign_out_button:
+                    //    if (mGoogleApiClient.IsConnected)
+                    //    {
+                    //        PlusClass.AccountApi.ClearDefaultAccount(mGoogleApiClient);
+                    //        mGoogleApiClient.Disconnect();
+                    //    }
+                    //    UpdateUI(false);
+                    //    break;
+                    //case Resource.Id.disconnect_button:
+                    //    if (mGoogleApiClient.IsConnected)
+                    //    {
+                    //        PlusClass.AccountApi.ClearDefaultAccount(mGoogleApiClient);
+                    //        await PlusClass.AccountApi.RevokeAccessAndDisconnect(mGoogleApiClient);
+                    //        mGoogleApiClient.Disconnect();
+                    //    }
+                    //    UpdateUI(false);
+                    //break;
+            }
+        }
+
+
+        class DialogInterfaceOnCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
+        {
+            public Action<IDialogInterface> OnCancelImpl { get; set; }
+
+            public void OnCancel(IDialogInterface dialog)
+            {
+                OnCancelImpl(dialog);
+            }
+        }
+        void ShowErrorDialog(ConnectionResult connectionResult)
+        {
+            int errorCode = connectionResult.ErrorCode;
+
+            if (GooglePlayServicesUtil.IsUserRecoverableError(errorCode))
+            {
+                var listener = new DialogInterfaceOnCancelListener();
+                listener.OnCancelImpl = (dialog) =>
+                {
+                    mShouldResolve = false;
+                    UpdateUI(false);
+                };
+                GooglePlayServicesUtil.GetErrorDialog(errorCode, this, RC_SIGN_IN, listener).Show();
+            }
+            else
+            {
+                var errorstring = string.Format(GetString(Resource.String.play_services_error_fmt), errorCode);
+                Toast.MakeText(this, errorstring, ToastLength.Short).Show();
+
+                mShouldResolve = false;
+                UpdateUI(false);
+            }
         }
     }
 }

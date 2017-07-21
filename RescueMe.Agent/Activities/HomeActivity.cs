@@ -456,8 +456,10 @@ namespace RescueMe.Agent.Activities
         {
             mCurrentLocation = location;
             UpdateLocationUI();
-            SendAgentStatus(mCurrentLocation, mGeocoder);
-
+            new Thread(new ThreadStart(delegate
+            {
+                SendAgentStatus(mCurrentLocation, mGeocoder);
+            })).Start();
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -640,7 +642,7 @@ namespace RescueMe.Agent.Activities
         }
 
         public void SetButtonMenuHome()
-        {            
+        {
             bool anyPendingRequest = _context.GetRequest().Any(s => s.AgentStatus.Name == "asignado");
 
             if (anyPendingRequest)
