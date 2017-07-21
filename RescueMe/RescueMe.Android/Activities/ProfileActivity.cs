@@ -14,6 +14,7 @@ using RescueMe.Api.ViewModel;
 using RescueMe.Domain;
 using System.Threading;
 using System.Text.RegularExpressions;
+using Android.Telephony;
 
 namespace RescueMe.Droid.Activities
 {
@@ -191,7 +192,7 @@ namespace RescueMe.Droid.Activities
                 {
                     progressDialog.Hide();
                     Snackbar.Make(passwordLayout, GetString(Resource.String.not_connection), Snackbar.LengthLong)
-                                    .SetAction("OK", (v) =>{})
+                                    .SetAction("OK", (v) => { })
                                     .SetDuration(4000)
                                     .SetActionTextColor(Android.Graphics.Color.Orange)
                                     .Show();
@@ -212,9 +213,14 @@ namespace RescueMe.Droid.Activities
 
             UserProfile profile = _context.GetUser();
             var userViewModel = new UserViewModel();
+            TelephonyManager mTelephonyMgr;
+            mTelephonyMgr = (TelephonyManager)GetSystemService(TelephonyService);
+            var Number = mTelephonyMgr.Line1Number.Replace("+1","");
+
             userViewModel.email = profile.Email;
             userViewModel.password = profile.User.PassworDigest;
-            userViewModel.platform = "web"; // TO CHANGE
+            //userViewModel.telephone = Number;
+            userViewModel.platform = "client"; // TO CHANGE
 
 
 
@@ -237,7 +243,7 @@ namespace RescueMe.Droid.Activities
                         progressDialog.Hide();
                         txtName.Text = profile.Name;
                         txtCedula.Text = profile.IdentificationCard;
-                        txTelefono.Text = profile.TelephoneNumber;
+                        txTelefono.Text = profile.TelephoneNumber == null ? Number : profile.TelephoneNumber;
                         txtPassword.Text = profile.User.PassworDigest;
                     });
 

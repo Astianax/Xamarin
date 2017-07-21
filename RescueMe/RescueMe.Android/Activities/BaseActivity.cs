@@ -141,5 +141,6 @@ namespace RescueMe.Droid.Activities
             base.OnCreate(savedInstanceState);
         }
 
+        
     }
 }

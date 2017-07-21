@@ -19,6 +19,7 @@ using Java.Net;
 using System.Net;
 using RescueMe.Agent.Data;
 using Android.Locations;
+using Android.Util;
 
 namespace RescueMe.Agent.Activities
 {
@@ -34,10 +35,10 @@ namespace RescueMe.Agent.Activities
         public BaseActivity()
         {
             //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-            //_client = new RestClient("http://10.0.0.11:5000/api/");
+            _client = new RestClient("http://10.0.0.13:5000/api/");
 
-            _client = new RestClient("http://192.168.2.42:5000/api/");
-           
+            //_client = new RestClient("http://192.168.2.42:5000/api/");
+
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }
@@ -78,7 +79,7 @@ namespace RescueMe.Agent.Activities
                 _context.SaveSetting(new Settings()
                 {
                     LocationPermission = true,
-                    AgentaAvailability = false
+                    AgentAvailability = true
                 });
                 _isAllowed = false;
             }
@@ -156,5 +157,34 @@ namespace RescueMe.Agent.Activities
             return mAddress;
         }
 
+        protected void SendAgentStatus(Location location, Geocoder mGeocoder)
+        {
+            bool status = _context.GetSettings().AgentAvailability;
+            string city = RescueMe.Agent.Activities.BaseActivity.GetAddress(location, mGeocoder);
+
+            var agentLocation = new
+            {
+                AgentID = _context.GetUser().Id,
+                City = city,
+                Location = new
+                {
+                    lat = location.Latitude,
+                    lng = location.Longitude
+                }
+            };
+
+            if (status)
+            {
+                try
+                {
+                    
+                    _client.Post("Agent/update", agentLocation).Result.JsonToBoolean().ToString();
+                }
+                catch (Exception)
+                {
+                    Log.Info("Conexion", "Conexion Problem");
+                }
+            }
+        }
     }
 }

@@ -2528,28 +2528,28 @@ namespace RescueMe.Agent
 			public const int fab_add = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int ic_call = 2130837621;
+			public const int ic_available = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int ic_cancel = 2130837622;
+			public const int ic_call = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int ic_car = 2130837623;
+			public const int ic_cancel = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int ic_close = 2130837624;
+			public const int ic_car = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int ic_complete = 2130837625;
+			public const int ic_close = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int ic_delete = 2130837626;
+			public const int ic_complete = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int ic_directory = 2130837627;
+			public const int ic_delete = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int ic_edit = 2130837628;
+			public const int ic_directory = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
 			public const int ic_exit = 2130837629;
@@ -2561,49 +2561,46 @@ namespace RescueMe.Agent
 			public const int ic_info = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int ic_profile = 2130837632;
+			public const int ic_request_menu = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int ic_request = 2130837633;
+			public const int ic_rescue = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int ic_request_menu = 2130837634;
+			public const int ic_unavailable = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int ic_rescue = 2130837635;
+			public const int Icon = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int Icon = 2130837636;
+			public const int line = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int line = 2130837637;
+			public const int logoIcon = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int logoIcon = 2130837638;
+			public const int market = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int market = 2130837639;
+			public const int menu = 2130837639;
 			
 			// aapt resource value: 0x7f020088
-			public const int menu = 2130837640;
+			public const int navigation_empty_icon = 2130837640;
 			
 			// aapt resource value: 0x7f020089
-			public const int navigation_empty_icon = 2130837641;
-			
-			// aapt resource value: 0x7f02008a
-			public const int next = 2130837642;
-			
-			// aapt resource value: 0x7f02008e
-			public const int notification_template_icon_bg = 2130837646;
-			
-			// aapt resource value: 0x7f02008b
-			public const int save = 2130837643;
-			
-			// aapt resource value: 0x7f02008c
-			public const int save_car = 2130837644;
+			public const int next = 2130837641;
 			
 			// aapt resource value: 0x7f02008d
-			public const int sos = 2130837645;
+			public const int notification_template_icon_bg = 2130837645;
+			
+			// aapt resource value: 0x7f02008a
+			public const int save = 2130837642;
+			
+			// aapt resource value: 0x7f02008b
+			public const int save_car = 2130837643;
+			
+			// aapt resource value: 0x7f02008c
+			public const int sos = 2130837644;
 			
 			static Drawable()
 			{

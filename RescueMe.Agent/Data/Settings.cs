@@ -19,6 +19,6 @@ namespace RescueMe.Agent.Data
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public bool LocationPermission { get; set; }
-        public bool AgentaAvailability { get; set; }
+        public bool AgentAvailability { get; set; }
     }
 }

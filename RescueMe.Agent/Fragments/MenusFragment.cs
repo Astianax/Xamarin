@@ -113,7 +113,7 @@ namespace RescueMe.Agent
 
             if (fabButton != null)
             {
-                RestClient();
+                //RestClient();
 
                 var request = _context.GetRequest().FirstOrDefault(p => p.AgentStatus.Name == "asignado");
 
@@ -202,7 +202,7 @@ namespace RescueMe.Agent
         {
             btn.Visibility = ViewStates.Gone;
 
-            if (_context.GetSettings().AgentaAvailability)
+            if (_context.GetSettings().AgentAvailability)
             {
                 this.Activity.FindViewById<ImageButton>(Resource.Id.btnUnavailable).Visibility = ViewStates.Visible;
                 this.Activity.FindViewById<ImageButton>(Resource.Id.btnAvailable).Visibility = ViewStates.Gone;

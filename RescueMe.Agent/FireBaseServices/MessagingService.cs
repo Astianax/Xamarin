@@ -39,6 +39,8 @@ namespace RescueMe.Agent.FireBaseServices
                 .SetAutoCancel(true)
                 .SetSound(defaultSoundUri)
                 .SetContentIntent(pendingIntent)
+                
+                
                 ;
 
             var notificationManager = NotificationManager.FromContext(this);

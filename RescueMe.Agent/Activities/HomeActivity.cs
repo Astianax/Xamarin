@@ -206,7 +206,7 @@ namespace RescueMe.Agent.Activities
 
                      }
                      Toast toast = Toast.MakeText(this, message, ToastLength.Long);
-                     toast.SetGravity(GravityFlags.Bottom|GravityFlags.Center, 100, 100);
+                     toast.SetGravity(GravityFlags.Bottom | GravityFlags.Center, 100, 100);
                      toast.Show();
                  });
 
@@ -393,33 +393,7 @@ namespace RescueMe.Agent.Activities
         {
             base.OnStart();
             mGoogleApiClient.Connect();
-
-
-
-            bool anyPendingRequest = _context.GetRequest().Any(s => s.AgentStatus.Name == "asignado");
-
-            if (anyPendingRequest)
-            {
-                frameLayoutMenu.Visibility = ViewStates.Visible;
-                available.Visibility = ViewStates.Gone;
-                unAvailable.Visibility = ViewStates.Gone;
-
-            }
-            else
-            {
-                frameLayoutMenu.Visibility = ViewStates.Gone;
-                if (_context.GetSettings().AgentaAvailability)
-                {
-                    unAvailable.Visibility = ViewStates.Visible;
-                    available.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    unAvailable.Visibility = ViewStates.Gone;
-                    available.Visibility = ViewStates.Visible;
-
-                }
-            }
+            SetButtonMenuHome();
         }
 
         protected override async void OnResume()
@@ -428,12 +402,14 @@ namespace RescueMe.Agent.Activities
             if (mGoogleApiClient.IsConnected)
             {
                 await StartLocationUpdates();
+                SetButtonMenuHome();
             }
         }
 
         protected override async void OnPause()
         {
             base.OnPause();
+
             if (mGoogleApiClient.IsConnected)
             {
                 await StopLocationUpdates();
@@ -480,6 +456,8 @@ namespace RescueMe.Agent.Activities
         {
             mCurrentLocation = location;
             UpdateLocationUI();
+            SendAgentStatus(mCurrentLocation, mGeocoder);
+
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -660,5 +638,35 @@ namespace RescueMe.Agent.Activities
             }
 
         }
+
+        public void SetButtonMenuHome()
+        {            
+            bool anyPendingRequest = _context.GetRequest().Any(s => s.AgentStatus.Name == "asignado");
+
+            if (anyPendingRequest)
+            {
+                frameLayoutMenu.Visibility = ViewStates.Visible;
+                available.Visibility = ViewStates.Gone;
+                unAvailable.Visibility = ViewStates.Gone;
+
+            }
+            else
+            {
+                frameLayoutMenu.Visibility = ViewStates.Gone;
+                if (_context.GetSettings().AgentAvailability)
+                {
+                    unAvailable.Visibility = ViewStates.Visible;
+                    available.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    unAvailable.Visibility = ViewStates.Gone;
+                    available.Visibility = ViewStates.Visible;
+
+                }
+            }
+
+        }
+
     }
 }

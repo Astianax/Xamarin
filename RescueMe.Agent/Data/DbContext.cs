@@ -461,7 +461,7 @@ namespace RescueMe.Agent.Data
         public void UpdateAvailability(bool availability)
         {
             Settings setting = _connection.Table<Settings>().FirstOrDefault();
-            setting.AgentaAvailability = availability;
+            setting.AgentAvailability = availability;
             _connection.Update(setting);
         }
         //Get Reasons
