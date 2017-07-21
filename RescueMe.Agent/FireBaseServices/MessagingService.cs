@@ -12,6 +12,9 @@ using Android.Widget;
 using Firebase.Messaging;
 using Android.Media;
 using Android.Support.V4.App;
+using Android.Graphics;
+using Android.Graphics.Drawables;
+using RescueMe.Agent.Activities;
 
 namespace RescueMe.Agent.FireBaseServices
 {
@@ -28,23 +31,31 @@ namespace RescueMe.Agent.FireBaseServices
         private void SendNotification(RemoteMessage.Notification data)
         {
             var intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.ClearTop);
+            intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
+
+
+            Drawable myDrawable = GetDrawable(Resource.Drawable.logoIcon);
+            Bitmap myLogo = ((BitmapDrawable)myDrawable).Bitmap;
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
             var notificationBuilder = new NotificationCompat.Builder(this)
-                .SetSmallIcon(Resource.Drawable.Icon)
+                .SetSmallIcon(Resource.Drawable.logoIcon)
+                .SetWhen(Java.Lang.JavaSystem.CurrentTimeMillis())
                 .SetContentTitle(data.Title)
-                .SetContentText(data.Body)
                 .SetAutoCancel(true)
                 .SetSound(defaultSoundUri)
                 .SetContentIntent(pendingIntent)
-                
-                
-                ;
+                .SetStyle(new NotificationCompat.BigTextStyle().BigText(data.Body))
+                .SetContentText(data.Body)
+                .SetColor(Resource.Color.menu_text_color)
+                .SetPriority((int)NotificationPriority.High);
+            //.SetLargeIcon(myLogo);
+
 
             var notificationManager = NotificationManager.FromContext(this);
-            notificationManager.Notify(0, notificationBuilder.Build());
+            notificationManager.Notify(data.Tag, 0, notificationBuilder.Build());
+
         }
     }
 }
