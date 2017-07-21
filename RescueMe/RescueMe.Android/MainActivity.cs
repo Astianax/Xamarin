@@ -37,7 +37,7 @@ namespace RescueMe.Droid
         private string token;
         const int RC_SIGN_IN = 9001;
         GoogleApiClient mGoogleApiClient;
-        TextView mStatus;
+        //TextView mStatus;
         bool mIsResolving = false;
         bool mShouldResolve = false;
 
@@ -68,10 +68,10 @@ namespace RescueMe.Droid
 
 
 
-                FindViewById<SignInButton>(Resource.Id.sign_in_button).SetOnClickListener(this);
-                FindViewById<SignInButton>(Resource.Id.sign_in_button).SetSize(SignInButton.SizeWide);
+                FindViewById<ImageButton>(Resource.Id.sign_in_button).SetOnClickListener(this);
+                //FindViewById<ImageButton>(Resource.Id.sign_in_button).SetSize(SignInButton.SizeWide);
                 FindViewById(Resource.Id.sign_in_button).Enabled = false;
-                mStatus = FindViewById<TextView>(Resource.Id.status);
+                //mStatus = FindViewById<TextView>(Resource.Id.status);
 
             }
             else
@@ -145,9 +145,8 @@ namespace RescueMe.Droid
 
             if (valid)
             {
-                userViewModel.email = "firulais@gmail.com";//txtEmail.Text;
-                userViewModel.password = "hello123456";//txtPassword.Text.ToString();
-                                                       //userViewModel.platform = "web";
+                userViewModel.email = txtEmail.Text;
+                userViewModel.password = txtPassword.Text.ToString();
                 SignIn(userViewModel, false);
             }
 
@@ -502,8 +501,7 @@ namespace RescueMe.Droid
             }
             else
             {
-                var errorstring = string.Format(GetString(Resource.String.play_services_error_fmt), errorCode);
-                Toast.MakeText(this, errorstring, ToastLength.Short).Show();
+                Log.Info(TAG,errorCode.ToString());
 
                 mShouldResolve = false;
                 UpdateUI(false);

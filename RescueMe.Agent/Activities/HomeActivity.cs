@@ -64,6 +64,8 @@ namespace RescueMe.Agent.Activities
         ImageButton unAvailable;
         private FrameLayout frameLayoutMenu;
 
+        int counter = 0;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -456,10 +458,23 @@ namespace RescueMe.Agent.Activities
         {
             mCurrentLocation = location;
             UpdateLocationUI();
-            new Thread(new ThreadStart(delegate
+
+            if (counter == 5)
             {
-                SendAgentStatus(mCurrentLocation, mGeocoder);
-            })).Start();
+                new Thread(new ThreadStart(delegate
+                {
+                    SendAgentStatus(mCurrentLocation, mGeocoder);
+                    counter = 0;
+
+                })).Start();
+
+            }
+            else
+            {
+                counter++;
+            }
+
+
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
