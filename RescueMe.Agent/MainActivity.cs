@@ -143,6 +143,7 @@ namespace RescueMe.Agent
                         var status = GetStatus();
                         var reasons = GetReasons();
                         _context.LogIn(user, reasons, rescues, status);
+                        _context.UpdateAvailability(true);
                         Intent intent = new Intent(this, typeof(HomeActivity));
                         StartActivity(intent);
                     }

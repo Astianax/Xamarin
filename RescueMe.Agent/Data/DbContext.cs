@@ -102,7 +102,7 @@ namespace RescueMe.Agent.Data
         /// </summary>
         /// <param name="user"></param>
         /// <param name="vehicles"></param>
-        
+
         public void LogIn(UserProfile user,
                                 List<ReasonRequest> reasons,
                                 List<Request> requests = null,
@@ -115,7 +115,7 @@ namespace RescueMe.Agent.Data
                 {
                     UpdateReasons(reasons);
                 }
-              
+
                 if (status != null)
                 {
                     UpdateStatus(status);
@@ -233,7 +233,7 @@ namespace RescueMe.Agent.Data
                 VehicleID = r.VehicleID,
                 VehicleType = r.Vehicle.Type,
                 ReasonID = r.ReasonID,
-                Status = getStatusList().FirstOrDefault(s=>s.Id == r.AgentStatusID).Name
+                Status = getStatusList().FirstOrDefault(s => s.Id == r.AgentStatusID).Name
             }).ToList();
 
             var isSaved = _connection.UpdateAll(requestsSaved) > 0;
@@ -461,8 +461,11 @@ namespace RescueMe.Agent.Data
         public void UpdateAvailability(bool availability)
         {
             Settings setting = _connection.Table<Settings>().FirstOrDefault();
-            setting.AgentAvailability = availability;
-            _connection.Update(setting);
+            if (setting != null)
+            {
+                setting.AgentAvailability = availability;
+                _connection.Update(setting);
+            }
         }
         //Get Reasons
         public List<ReasonRequest> GetReasons()

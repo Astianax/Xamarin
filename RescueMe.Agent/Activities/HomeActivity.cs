@@ -616,11 +616,17 @@ namespace RescueMe.Agent.Activities
         //}
 
         private void Logout_Click(object sender, EventArgs e)
-        {
-            _context.LogOut();
-            this.Finish();
-            Intent intent = new Intent(this, typeof(MainActivity));
-            StartActivity(intent);
+        {          
+           unAvailable.CallOnClick();
+
+            //RunOnUiThread(() =>
+            //{
+                _context.LogOut();
+                this.Finish();
+                Intent intent = new Intent(this, typeof(MainActivity));
+                StartActivity(intent);
+            //});
+            
         }
 
         public void OnSnapshotReady(Bitmap snapshot)

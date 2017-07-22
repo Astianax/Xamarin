@@ -50,7 +50,7 @@ namespace RescueMe.Agent.FireBaseServices
                 .SetContentText(data.Body)
                 .SetColor(Resource.Color.menu_text_color)
                 .SetPriority((int)NotificationPriority.High);
-            //.SetLargeIcon(myLogo);
+              //.SetLargeIcon(myLogo);
 
 
             var notificationManager = NotificationManager.FromContext(this);
