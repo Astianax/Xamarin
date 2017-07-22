@@ -2807,6 +2807,9 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900cb
 			public const int ddReasons = 2131296459;
 			
+			// aapt resource value: 0x7f0900aa
+			public const int ddType = 2131296426;
+			
 			// aapt resource value: 0x7f0900cd
 			public const int ddVehicles = 2131296461;
 			
@@ -3155,6 +3158,9 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900cc
 			public const int spinerVechicleLayout = 2131296460;
 			
+			// aapt resource value: 0x7f0900a9
+			public const int spinertxType = 2131296425;
+			
 			// aapt resource value: 0x7f090008
 			public const int split_action_bar = 2131296264;
 			
@@ -3245,9 +3251,6 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900c1
 			public const int txTelefono = 2131296449;
 			
-			// aapt resource value: 0x7f0900aa
-			public const int txType = 2131296426;
-			
 			// aapt resource value: 0x7f090098
 			public const int txtAddress = 2131296408;
 			
@@ -3277,9 +3280,6 @@ namespace RescueMe.Droid
 			
 			// aapt resource value: 0x7f09007d
 			public const int type = 2131296381;
-			
-			// aapt resource value: 0x7f0900a9
-			public const int typeLayout = 2131296425;
 			
 			// aapt resource value: 0x7f0900d4
 			public const int unSuccessfully = 2131296468;

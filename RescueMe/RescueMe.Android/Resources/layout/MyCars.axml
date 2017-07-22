@@ -12,7 +12,27 @@
         android:text="Mis Vehículos"
         android:layout_width="0dp"
         android:layout_height="0dp" />
-    <android.support.design.widget.TextInputLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frame">
+        <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spinertxType"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@id/toolbar"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="60dp">
+            <Spinner
+                android:id="@+id/ddType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:isScrollContainer="true"
+                android:spinnerMode="dropdown" />
+        </android.support.v7.widget.Toolbar>
+    <!--<android.support.design.widget.TextInputLayout
         android:id="@+id/typeLayout"
         android:layout_height="wrap_content"
         android:layout_width="278.0dp"
@@ -20,30 +40,30 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_gravity="bottom|start"
-        android:layout_marginTop="60dp">
-        <android.support.design.widget.TextInputEditText
+        android:layout_marginTop="60dp">-->
+    <!--<android.support.design.widget.TextInputEditText
             android:inputType="text"
             android:layout_height="wrap_content"
             android:layout_width="278.0dp"
             android:id="@+id/txType"
-            android:hint="Tipo" />
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/marqueLayout"
-        android:layout_height="wrap_content"
-        android:layout_width="278.0dp"
-        android:layout_below="@id/typeLayout"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp">
-        <android.support.design.widget.TextInputEditText
-            android:inputType="text"
+            android:hint="Tipo" />-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/marqueLayout"
             android:layout_height="wrap_content"
-            android:layout_width="278.0dp"
-            android:id="@+id/txtMarque"
-            android:hint="Marca" />
-    </android.support.design.widget.TextInputLayout>
-<!--<CheckBox
+            android:layout_width="match_parent"
+            android:layout_below="@id/spinertxType"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp">
+            <android.support.design.widget.TextInputEditText
+                android:inputType="text"
+                android:layout_height="match_parent"
+                android:layout_width="250dp"
+                android:id="@+id/txtMarque"
+                android:hint="Marca" />
+        </android.support.design.widget.TextInputLayout>
+    <!--<CheckBox
         android:id="@+id/checkbox"
         android:layout_width="162.0dp"
         android:layout_height="wrap_content"
@@ -53,7 +73,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="#ff00ffff" />-->
-<!--<Button
+    <!--<Button
         android:text="Agregar"
         android:layout_height="40dp"
         android:id="@+id/btnAddCars"
@@ -69,7 +89,7 @@
         android:textColor="@android:color/background_light"
         android:layout_marginBottom="15dp"
         android:textSize="16dp" />-->
-<!--<ImageView
+    <!--<ImageView
         android:src="@drawable/line"
         android:layout_width="match_parent"
         android:layout_height="26.0dp"
@@ -88,11 +108,12 @@
         android:layout_marginLeft="25dp"
         android:textStyle="bold"
         android:textSize="16dp" />-->
-<!-- Recycle View-->
+    <!-- Recycle View-->
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:scrollbars="vertical"
-        android:layout_below="@id/marqueLayout"
+        android:layout_below="@id/frame"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

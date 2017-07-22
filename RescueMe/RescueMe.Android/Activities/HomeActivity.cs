@@ -520,6 +520,7 @@ namespace RescueMe.Droid.Activities
                     break;
                 case Resource.Id.nav_logOut:
                     _context.LogOut();
+                    mGoogleApiClient.Disconnect();
                     this.Finish();
                     intent = new Intent(this, typeof(MainActivity));
                     StartActivity(intent);

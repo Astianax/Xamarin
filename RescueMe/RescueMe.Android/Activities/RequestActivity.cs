@@ -54,8 +54,21 @@ namespace RescueMe.Droid.Activities
             _latitude = location.GetDouble("Latitude");
             _longitude = location.GetDouble("Longitude");
 
-            var user = _context.GetUser();
-            _vehicles = _context.GetVehicles();
+
+            _vehicles = new List<Vehicle>()
+            {
+                 new Vehicle()
+                {
+                    Id = 0,
+                    Marque ="Seleccionar Vehículo"
+                },
+                new Vehicle()
+                {
+                    Id = 0,
+                    Marque ="Vehículo Tercero"
+                }
+            };
+            _vehicles.AddRange(_context.GetVehicles());
             _reasons = _context.GetReasons();
 
             SetContentView(Resource.Layout.RequestRescue);
@@ -63,104 +76,46 @@ namespace RescueMe.Droid.Activities
             reasonsLayout = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.spinerReasonsLayout);
             requestLayout = FindViewById<RelativeLayout>(Resource.Id.layoutRequest);
 
+            //Load Activity
 
-            if (String.IsNullOrEmpty(user.IdentificationCard) || String.IsNullOrEmpty(user.TelephoneNumber))
+            _spReasons =
+                   FindViewById<Spinner>(Resource.Id.ddReasons);
+            _spVehicles =
+                    FindViewById<Spinner>(Resource.Id.ddVehicles);
+            _comment = FindViewById<EditText>(Resource.Id.txtComment);
+            btnRequestRescue = FindViewById<Button>(Resource.Id.RequestRescue);
+
+            SetTools();
+
+            //spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+            //Adapter's 
+            var vehicleList = _vehicles.Select(v => new SpinnerItem
             {
-                // If User don't have user information
-                Snackbar.Make(requestLayout, "Es necesario que tenga cedula y telefono registrado para la asistencia", Snackbar.LengthIndefinite)
-                             .SetAction("OK", (v) =>
-                             {
-                                 StartActivity(typeof(ProfileActivity));
-                             })
-                             //.SetDuration(8000)
-                             .SetActionTextColor(Android.Graphics.Color.Orange)
-                             .Show();
-
-            }
-            else if (_vehicles.Count == 0)
+                Description = $"{v.Marque}{(v.Type != null ? " (" + v.Type + ")" : "")}",// v.Marque + (v.Type != "" ? ) "(" + v.Type+")",
+                Id = v.Id
+            }).ToArray();
+            var reasonsList = _reasons.Select(v => new SpinnerItem
             {
-                //Show Activity for Vehicles
-                Snackbar.Make(requestLayout, "Es necesario que tenga al menos un vehiculo registrado para la asistencia", Snackbar.LengthIndefinite)
-                           .SetAction("OK", (v) =>
-                           {
-                               StartActivity(typeof(CarsActivity));
-                           })
-                           //.SetDuration(8000)
-                           .SetActionTextColor(Android.Graphics.Color.Orange)
-                           .Show();
+                Description = v.Name,
+                Id = v.Id
+            }).ToArray();
+            //var reasons = reas
 
+            var reasonsAdapter = new SpinnerAdapter(this, Resource.String.select_spinner, reasonsList);
+            var vehicleAdapter = new SpinnerAdapter(this, Resource.String.select_vehicle, vehicleList);
+            btnRequestRescue.Click += BtnRequestRescue_Click;
+            //adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            _spVehicles.Adapter = vehicleAdapter;
+            _spReasons.Adapter = reasonsAdapter;
+
+            if (IsNetworkConnected())
+            {
+                _comment.Text = GetAddress(_latitude, _longitude);
+                _comment.SetSelection(_comment.Text.Length);
             }
             else
             {
-                //Load Activity
-
-                _spReasons =
-                       FindViewById<Spinner>(Resource.Id.ddReasons);
-                _spVehicles =
-                        FindViewById<Spinner>(Resource.Id.ddVehicles);
-                _comment = FindViewById<EditText>(Resource.Id.txtComment);
-                btnRequestRescue = FindViewById<Button>(Resource.Id.RequestRescue);
-
-                SetTools();
-
-                //spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
-                //Adapter's 
-                var vehicleList = _vehicles.Select(v => new SpinnerItem
-                {
-                    Description = $"{v.Marque}{(v.Type != null ? " (" + v.Type + ")" : "")}",// v.Marque + (v.Type != "" ? ) "(" + v.Type+")",
-                    Id = v.Id
-                }).ToArray();
-                var reasonsList = _reasons.Select(v => new SpinnerItem
-                {
-                    Description = v.Name,
-                    Id = v.Id
-                }).ToArray();
-                //var reasons = reas
-
-                var reasonsAdapter = new SpinnerAdapter(this, Resource.String.select_spinner, reasonsList);
-                var vehicleAdapter = new SpinnerAdapter(this, Resource.String.select_vehicle, vehicleList);
-                //adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-                _spVehicles.Adapter = vehicleAdapter;
-                _spReasons.Adapter = reasonsAdapter;
-
-
-                if (IsNetworkConnected())
-                {
-                    _comment.Text = GetAddress(_latitude, _longitude);
-                    _comment.SetSelection(_comment.Text.Length);
-                }
-                else
-                {
-                    _comment.Text = String.Empty;
-                }
-
-
-
-
-                //Set Event's
-                btnRequestRescue.Click += BtnRequestRescue_Click;
-                //Button fadein = FindViewById<Button>(Resource.Id.fadein);
-                //fadein.Click += Btn_Click;
-
-
-
-
-                //btnRequestRescue.Click += async (sender, eventargs) =>
-                //{
-
-                //    Animation shake = AnimationUtils.LoadAnimation(this, Resource.Animation.outToBottom);
-                //    relativeLayout.StartAnimation(shake);
-                //    shake.FillAfter = true;
-                //    shake.FillEnabled = true;
-
-                //    shake.AnimationEnd += delegate
-                //    {
-                //        StartActivity(typeof(editProfileActivity));
-                //        OverridePendingTransition(Resource.Animation.inFromRight, Resource.Animation.outToLeft);
-                //    };
-                //};
-
-
+                _comment.Text = String.Empty;
             }
         }
         //public void Btn_Click(object sender, EventArgs e)
@@ -186,7 +141,7 @@ namespace RescueMe.Droid.Activities
             else
             if (selectedVehicle == 0)
             {
-                SetSpinnerError(_spVehicles, "Debe seleccionar un vehicle");
+                SetSpinnerError(_spVehicles, "Debe seleccionar un vehículo");
             }
             else
             {
@@ -211,8 +166,14 @@ namespace RescueMe.Droid.Activities
                         if (IsNetworkConnected())
                         {
                             request = _client.Post("Request/create", request).Result.JsonToObject<Request>();
-                            message = "Se ha enviado su solicitud";
-                           
+                            if (request != null)
+                            {
+                                message = "La solicitud esta " + request.Status.Name;
+                            }
+                            else
+                            {
+                                message = "Se ha enviado su solicitud";
+                            }
                         }
                         else
                         {
@@ -226,8 +187,6 @@ namespace RescueMe.Droid.Activities
 
                             sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
                             sms.SendTextMessage("8296370019", null, requestData, sentPI, null);
-                          
-
                         }
                     }
                     catch (Exception ex)
@@ -250,7 +209,6 @@ namespace RescueMe.Droid.Activities
                                 {
                                     this.Finish();
 
-                                 
                                 })
                                 //.SetDuration(8000)
                                 .SetActionTextColor(Android.Graphics.Color.Orange)
@@ -302,6 +260,33 @@ namespace RescueMe.Droid.Activities
                 mAddress = "Unable to determine the address.";
             }
             return mAddress;
+        }
+
+
+        protected override void OnStart()
+        {
+            var user = _context.GetUser();
+
+            if (String.IsNullOrEmpty(user.IdentificationCard))// || String.IsNullOrEmpty(user.TelephoneNumber))
+            {
+                // If User don't have user information
+                btnRequestRescue.Enabled = false;
+                Snackbar.Make(requestLayout, "Es necesario que tenga cédula registrado para la asistencia", Snackbar.LengthIndefinite)
+                             .SetAction("OK", (v) =>
+                             {
+                                 StartActivity(typeof(ProfileActivity));
+                             })
+                             //.SetDuration(8000)
+                             .SetActionTextColor(Android.Graphics.Color.Orange)
+                             .Show();
+
+            }
+            else
+            {
+                btnRequestRescue.Enabled = true;
+
+
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ using SQLite.Net;
 
 namespace RescueMe.Droid.Data
 {
-    public class DbContext 
+    public class DbContext
     {
         private static DbContext _instance;
         private SQLiteConnection _connection;
@@ -116,7 +116,7 @@ namespace RescueMe.Droid.Data
                 {
                     UpdateRequests(requests);
                 }
-           
+
             }
             catch (Exception e)
             {
@@ -168,12 +168,13 @@ namespace RescueMe.Droid.Data
         /// <param name="vehicles"></param>
         public void UpdateVehicles(List<Vehicle> vehicles)
         {
-            var vehicleSaved = vehicles.Select(v => new VehicleSaved()
-            {
-                Id = v.Id,
-                Marque = v.Marque,
-                Type = v.Type
-            }).ToList();
+            var vehicleSaved =vehicles.Select(v => new VehicleSaved()
+                {
+                    Id = v.Id,
+                    Marque = v.Marque,
+                    Type = v.Type
+                }).ToList();
+            
             var isSaved = _connection.UpdateAll(vehicleSaved) > 0;
             if (isSaved == false)
             {
@@ -191,9 +192,9 @@ namespace RescueMe.Droid.Data
                 Longitude = request.Longitude,
                 StatusID = request.StatusID,
                 Comments = request.Comments,
-                VehicleID = request.VehicleID,
+                VehicleID = request.VehicleID.HasValue ? request.VehicleID.Value : 0,
                 ReasonID = request.ReasonID
-                
+
             };
             if (IsNetworkConnected)
             {
@@ -222,7 +223,7 @@ namespace RescueMe.Droid.Data
                 Longitude = r.Longitude,
                 StatusID = r.StatusID,
                 Comments = r.Comments,
-                VehicleID = r.VehicleID,
+                VehicleID = r.VehicleID.HasValue ? r.VehicleID.Value : 0,
                 ReasonID = r.ReasonID,
                 Status = r.Status.Name
             }).ToList();
@@ -273,14 +274,14 @@ namespace RescueMe.Droid.Data
             var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);
             var status = getStatusList().FirstOrDefault(s => s.Name == "cancelado");
             request.StatusID = status.Id;
-            request.Status =status.Name;
+            request.Status = status.Name;
             _connection.Update(request);
 
         }
 
         public void CloseRequestStatus(int requestID)
         {
-            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);            
+            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestID);
             var status = getStatusList().FirstOrDefault(s => s.Name == "completado");
             request.StatusID = status.Id;
             request.Status = status.Name;
@@ -355,7 +356,7 @@ namespace RescueMe.Droid.Data
                                           User = GetUser().User,
                                           Status = new Status()
                                           {
-                                              Name = getStatusList().FirstOrDefault(s=>s.Id == r.StatusID).Name
+                                              Name = getStatusList().FirstOrDefault(s => s.Id == r.StatusID).Name
                                           }
                                       }).OrderByDescending(o => o.Id).ToList();
 

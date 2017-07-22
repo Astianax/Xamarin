@@ -25,7 +25,7 @@ namespace RescueMe.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     //[Activity(Label = "Leftdrawerlayout", Theme = "@style/Theme.DesignDemo", MainLauncher = true, Icon = "@drawable/icon")]
 
-    public class MainActivity : BaseActivity, View.IOnClickListener,
+    public class MainActivity : BaseActivity,
         GoogleApiClient.IConnectionCallbacks, GoogleApiClient.IOnConnectionFailedListener
     {
 
@@ -41,7 +41,7 @@ namespace RescueMe.Droid
         bool mIsResolving = false;
         bool mShouldResolve = false;
 
-        protected override void OnCreate(Bundle bundle)
+        protected async override void OnCreate(Bundle bundle)
         {
             //Informations
 
@@ -55,9 +55,17 @@ namespace RescueMe.Droid
             if (!GetString(Resource.String.google_app_id).Equals("1:851005322260:android:6288a966f5369538"))
                 throw new System.Exception("Invalid Json file");
 
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .AddConnectionCallbacks(this)
+                    .AddOnConnectionFailedListener(this)
+                    .AddApi(PlusClass.API)
+                    .AddScope(new Scope(Scopes.Profile))
+                    .Build();
+
 
             if (_context.GetUser() == null)
             {
+
                 SetContentView(Resource.Layout.Login);
                 //Controls
                 btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
@@ -66,13 +74,9 @@ namespace RescueMe.Droid
                 linkRegister.Click += linkRegister_click;
                 SetUp();
 
-
-
-                FindViewById<ImageButton>(Resource.Id.sign_in_button).SetOnClickListener(this);
-                //FindViewById<ImageButton>(Resource.Id.sign_in_button).SetSize(SignInButton.SizeWide);
-                FindViewById(Resource.Id.sign_in_button).Enabled = false;
-                //mStatus = FindViewById<TextView>(Resource.Id.status);
-
+                var SignInGoogle = FindViewById<ImageButton>(Resource.Id.sign_in_button);
+                SignInGoogle.Click += SignInGoogle_click;
+                FindViewById(Resource.Id.linkRegister).Enabled = true;
             }
             else
             {
@@ -81,33 +85,30 @@ namespace RescueMe.Droid
 
 
 
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .AddConnectionCallbacks(this)
-                .AddOnConnectionFailedListener(this)
-                .AddApi(PlusClass.API)
-                .AddScope(new Scope(Scopes.Profile))
-                .Build();
-
-
-
         }
 
+        private void SignInGoogle_click(object sender, EventArgs e)
+        {
+            mShouldResolve = true;
+            mGoogleApiClient.Connect();
+        }
 
         private void linkRegister_click(object sender, EventArgs e)
         {
+            FindViewById(Resource.Id.linkRegister).Enabled = false;
             StartActivity(new Intent(Application.Context, typeof(RegisterActivity)));
         }
 
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
+
+
             bool valid = true;
             var txtEmail = FindViewById<TextInputEditText>(Resource.Id.txtEmail);
             var emailLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.emaiLayout);
 
             var txtPassword = FindViewById<TextInputEditText>(Resource.Id.txtPassword);
             var passwordLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.passwordLayout);
-            //var loginLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.loginLayout);
-
 
             //var chkRememberMe = FindViewById<CheckBox>(Resource.Id.chkRememberMe);
             var userViewModel = new UserViewModel();
@@ -336,25 +337,11 @@ namespace RescueMe.Droid
                 var userViewModel = new UserViewModel();
                 var person = PlusClass.PeopleApi.GetCurrentPerson(mGoogleApiClient);
                 userViewModel.email = PlusClass.AccountApi.GetAccountName(mGoogleApiClient);
-                userViewModel.password = person.Id.Substring(0,8);
+                userViewModel.password = person.Id.Substring(0, 8);
                 userViewModel.name = person.DisplayName;
-
-                //mStatus.Text = string.Format(GetString(Resource.String.signed_in_fmt), name);
-
-                //FindViewById(Resource.Id.sign_in_button).Visibility = ViewStates.Gone;
-
-
                 SignIn(userViewModel, true);
 
 
-            }
-            else
-            {
-                if (_context.GetUser() == null)
-                {
-                    FindViewById(Resource.Id.sign_in_button).Enabled = true;
-                    FindViewById(Resource.Id.sign_in_button).Visibility = ViewStates.Visible;
-                }
             }
         }
 
@@ -362,7 +349,10 @@ namespace RescueMe.Droid
         protected override void OnStart()
         {
             base.OnStart();
-            mGoogleApiClient.Connect();
+            if (_context.GetUser() == null)
+            {
+                FindViewById(Resource.Id.linkRegister).Enabled = true;
+            }
         }
 
         protected override void OnStop()
@@ -444,38 +434,6 @@ namespace RescueMe.Droid
             Log.Warn(TAG, "onConnectionSuspended:" + cause);
         }
 
-        public void OnClick(View v)
-        {
-            switch (v.Id)
-            {
-                case Resource.Id.sign_in_button:
-                    //mStatus.Text = GetString(Resource.String.signing_in);
-                    mShouldResolve = true;
-                    mGoogleApiClient.Connect();
-                    //SetUp();
-                    //StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
-                    break;
-                    //case Resource.Id.sign_out_button:
-                    //    if (mGoogleApiClient.IsConnected)
-                    //    {
-                    //        PlusClass.AccountApi.ClearDefaultAccount(mGoogleApiClient);
-                    //        mGoogleApiClient.Disconnect();
-                    //    }
-                    //    UpdateUI(false);
-                    //    break;
-                    //case Resource.Id.disconnect_button:
-                    //    if (mGoogleApiClient.IsConnected)
-                    //    {
-                    //        PlusClass.AccountApi.ClearDefaultAccount(mGoogleApiClient);
-                    //        await PlusClass.AccountApi.RevokeAccessAndDisconnect(mGoogleApiClient);
-                    //        mGoogleApiClient.Disconnect();
-                    //    }
-                    //    UpdateUI(false);
-                    //break;
-            }
-        }
-
-
         class DialogInterfaceOnCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
         {
             public Action<IDialogInterface> OnCancelImpl { get; set; }
@@ -501,7 +459,7 @@ namespace RescueMe.Droid
             }
             else
             {
-                Log.Info(TAG,errorCode.ToString());
+                Log.Info(TAG, errorCode.ToString());
 
                 mShouldResolve = false;
                 UpdateUI(false);

@@ -16,6 +16,8 @@ using Android.Content.PM;
 using Android.Support.V7.Widget;
 using RescueMe.Droid.Adapters;
 using System.Threading.Tasks;
+using RescueMe.Droid.Data;
+using Android.Views.Animations;
 
 namespace RescueMe.Droid.Activities
 {
@@ -24,16 +26,17 @@ namespace RescueMe.Droid.Activities
     public class CarsActivity : BaseActivity
     {
 
-        TextInputEditText txType;
+        Spinner spType;
         TextInputEditText txtMarque;
 
-        Android.Support.Design.Widget.TextInputLayout typeLayout;
+        //Android.Support.Design.Widget.TextInputLayout typeLayout;
         Android.Support.Design.Widget.TextInputLayout marqueLayout;
 
         RecyclerView mRecyclerView;
         AdapterVehicle mAdapter;
         RecyclerView.LayoutManager mLayoutManager;
         string[] cardViewDataset;
+        string[] _typeList;
         UserProfile context;
         string message = "";
         ProgressDialog progressDialog;
@@ -53,13 +56,20 @@ namespace RescueMe.Droid.Activities
             //Controls
             var btnAddCars = FindViewById<Button>(Resource.Id.btnAddCars);
 
-            txType = FindViewById<TextInputEditText>(Resource.Id.txType);
+            spType = FindViewById<Spinner>(Resource.Id.ddType);
             txtMarque = FindViewById<TextInputEditText>(Resource.Id.txtMarque);
 
 
-            typeLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.typeLayout);
+            //typeLayout = FindViewById<Spinner>(Resource.Id.typeLayout);
             marqueLayout = FindViewById<Android.Support.Design.Widget.TextInputLayout>(Resource.Id.marqueLayout);
+            _typeList = new string[] { "Seleccionar", "Autobús", "Automovil", "Camión", "Camioneta", "Jeepeta", "Motocicleta" };
+            var typeListSpineer = _typeList.Select(v => new SpinnerItem
+            {
+                Description = v
 
+            }).ToArray();
+            var typeAdapter = new SpinnerAdapter(this, Resource.String.select_vehicle, typeListSpineer);
+            spType.Adapter = typeAdapter;
             btnAddCars.Click += BtnAddCars_click;
 
             btnAddCars.Visibility = ViewStates.Visible;
@@ -74,13 +84,17 @@ namespace RescueMe.Droid.Activities
 
             var userID = new
             {
-                UserID = context.Id
+                UserID = context.UserID
             };
             try
             {
                 if (IsNetworkConnected())
                 {
                     vehicles = _client.Get("Vehicle/vehicles", userID).Result.JsonToObject<List<Vehicle>>();
+                    if (vehicles.Count == 0)
+                    {
+                        vehicles = _context.GetVehicles();
+                    }
                 }
                 else
                 {
@@ -91,6 +105,7 @@ namespace RescueMe.Droid.Activities
             {
                 vehicles = null;
                 message = ex.Message;
+                vehicles = _context.GetVehicles();
             }
 
             return vehicles;
@@ -102,15 +117,21 @@ namespace RescueMe.Droid.Activities
         {
             bool valid = true;
 
-            if (string.IsNullOrWhiteSpace(txType.Text))
+            //if (string.IsNullOrWhiteSpace(txType.Text))
+            //{
+            //    typeLayout.ErrorEnabled = true;
+            //    typeLayout.Error = GetString(Resource.String.required_error_message);
+            //    valid = false;
+            //}
+            //else
+            //{
+            //    typeLayout.ErrorEnabled = false;
+            //}
+            var selectedType = spType.SelectedItemPosition;
+            if (selectedType == 0)
             {
-                typeLayout.ErrorEnabled = true;
-                typeLayout.Error = GetString(Resource.String.required_error_message);
+                SetSpinnerError(spType, "Debe seleccionar un tipo de vehículo");
                 valid = false;
-            }
-            else
-            {
-                typeLayout.ErrorEnabled = false;
             }
             if (string.IsNullOrWhiteSpace(txtMarque.Text))
             {
@@ -130,11 +151,11 @@ namespace RescueMe.Droid.Activities
                 Vehicle vehicle = new Vehicle();
 
                 vehicle.Marque = txtMarque.Text;
-                vehicle.Type = txType.Text;
-                vehicle.UserID = context.Id;
+                vehicle.Type = _typeList[selectedType];
+                vehicle.UserID = context.UserID;
                 var userID = new
                 {
-                    UserID = context.Id
+                    UserID = context.UserID
                 };
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
@@ -160,7 +181,7 @@ namespace RescueMe.Droid.Activities
                         message = ex.Message;
                     }
 
-                    if (vehicle != null)
+                    if (vehicle != null && vehicle.Id != 0)
                     {
                         listVehicles.Add(vehicle);
                         listVehicles = listVehicles.OrderByDescending(i => i.Id).ToList();
@@ -170,7 +191,8 @@ namespace RescueMe.Droid.Activities
                         Snackbar.Make(marqueLayout, message, Snackbar.LengthLong)
                                 .SetAction("OK", (v) =>
                                 {
-                                    txType.Text = String.Empty;
+                                    //txType.Text = String.Empty;
+                                    //spType.select
                                     txtMarque.Text = String.Empty;
                                 })
                                 .SetDuration(8000)
@@ -183,7 +205,7 @@ namespace RescueMe.Droid.Activities
                         SetRecyclerView(listVehicles);
                         progressDialog.Hide();
                         txtMarque.Text = String.Empty;
-                        txType.Text = String.Empty;
+                        //txType.Text = String.Empty;
 
                     });
 
@@ -192,7 +214,22 @@ namespace RescueMe.Droid.Activities
             }
 
         }
+        private void SetSpinnerError(Spinner element, string message)
+        {
+            View view = element.SelectedView;
+            //ImageView image = view.FindViewById<ImageView>(Resource.Id.setError);
+            TextView error = view.FindViewById<TextView>(Resource.Id.txtSpinner);
+            error.Text = message;
+            //error.SetBackgroundColor(Android.Graphics.Color.Red);
+            //error.
+            error.SetTextColor(Android.Graphics.Color.Red);
+            //error.SetTextColor(ContextCompat.GetColor(this, Resource.Color.my_purple));
+            //error.SetError(message, Resources.GetDrawable(Resource.Drawable.ic_delete));
+            error.RequestFocus();
+            Animation shake = AnimationUtils.LoadAnimation(this, Resource.Animation.shake);
+            element.StartAnimation(shake);
 
+        }
 
         private void SetRecyclerView(List<Vehicle> dataset)
         {
