@@ -122,11 +122,12 @@ namespace RescueMe.Agent.Data
                 {
                     UpdateStatus(status);
                 }
+                SaveUser(user);
                 if (requests != null)
                 {
                     UpdateRequests(requests);
                 }
-                SaveUser(user);
+               
             }
             catch (Exception e)
             {

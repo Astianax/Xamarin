@@ -123,37 +123,46 @@ namespace RescueMe.Agent
                     Android.Util.Log.Debug("TAG", "{0}. {1}", instanceId.Token, instanceId.GetToken(GetString(Resource.String.gcm_defaultSenderId),
                         Firebase.Messaging.FirebaseMessaging.InstanceIdScope));
 
-                  
-                    userViewModel.token = instanceId.Token;
-                    user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
-
-                    if (user != null)
+                    try
                     {
-                        //Save Database
-                        //_context.Save<UserSaved>(new UserSaved()
-                        //{
-                        //    Email = user.Email,
-                        //    Id = user.Id,
-                        //    FullName = user.Name,
-                        //    Password = user.User.PassworDigest
-                        //});
+                        userViewModel.token = instanceId.Token;
+                        user = _client.Post("Authentication/IsAuthenticated", userViewModel).Result.JsonToObject<UserProfile>();
 
-                        //Save Vehicles
-                        var rescues = _context.GetRescues(_client, user);
-                        var status = GetStatus();
-                        var reasons = GetReasons();
-                        _context.LogIn(user, reasons, rescues, status);
-                        _context.UpdateAvailability(true);
-                        Intent intent = new Intent(this, typeof(HomeActivity));
-                        StartActivity(intent);
-                    }
-                    else
+                        if (user != null)
+                        {
+                            //Save Database
+                            //_context.Save<UserSaved>(new UserSaved()
+                            //{
+                            //    Email = user.Email,
+                            //    Id = user.Id,
+                            //    FullName = user.Name,
+                            //    Password = user.User.PassworDigest
+                            //});
+
+                            //Save Vehicles
+                            var rescues = _context.GetRescues(_client, user);
+                            var status = GetStatus();
+                            var reasons = GetReasons();
+                            _context.LogIn(user, reasons, rescues, status);
+                            _context.UpdateAvailability(true);
+                            Intent intent = new Intent(this, typeof(HomeActivity));
+                            StartActivity(intent);
+                        }
+                        else
+                        {
+                            Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
+                                    .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
+                                    .SetDuration(8000)
+                                    .SetActionTextColor(Android.Graphics.Color.Orange)
+                                    .Show();
+                        }
+                    }catch(Exception ex)
                     {
-                        Snackbar.Make(passwordLayout, "Usuario o contraseña inválido.", Snackbar.LengthLong)
-                                .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
-                                .SetDuration(8000)
-                                .SetActionTextColor(Android.Graphics.Color.Orange)
-                                .Show();
+                        Snackbar.Make(passwordLayout, ex.Message, Snackbar.LengthLong)
+                                  .SetAction("OK", (v) => { txtPassword.Text = String.Empty; })
+                                  .SetDuration(8000)
+                                  .SetActionTextColor(Android.Graphics.Color.Orange)
+                                  .Show();
                     }
                     //HIDE PROGRESS DIALOG
                     RunOnUiThread(() => progressDialog.Hide());
