@@ -138,11 +138,10 @@ namespace RescueMe.Droid.Activities
                 userProfile.IdentificationCard = txtCedula.Text;
                 userProfile.TelephoneNumber = txTelefono.Text;
                 userProfile.Id = context.Id;
+                userProfile.UserID = context.UserID;
                 userProfile.Email = context.Email;
-                userProfile.User = new User
-                {
-                    PassworDigest = txtPassword.Text
-                };
+                userProfile.User = context.User;
+                userProfile.User.PassworDigest = txtPassword.Text;
 
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
@@ -215,7 +214,7 @@ namespace RescueMe.Droid.Activities
             var userViewModel = new UserViewModel();
             TelephonyManager mTelephonyMgr;
             mTelephonyMgr = (TelephonyManager)GetSystemService(TelephonyService);
-            var Number = mTelephonyMgr.Line1Number.Replace("+1","");
+            var Number = mTelephonyMgr.Line1Number.Replace("+1", "");
 
             userViewModel.email = profile.Email;
             userViewModel.password = profile.User.PassworDigest;

@@ -255,7 +255,7 @@ namespace RescueMe.Droid
                     //});
 
                     //Save Vehicles
-                    var vehicles = GetVehicles(user.Id);
+                    var vehicles = GetVehicles(user.User.Id);
                     var reasons = GetReasons();
                     var rescues = GetRescues(user);
                     var status = GetStatus();
@@ -289,20 +289,20 @@ namespace RescueMe.Droid
         public void RegisterToGoogle(UserViewModel profile)
         {
             UserProfile userProfile = new UserProfile();
-            User user = null;
 
-            userProfile.Name = profile.name;
-            userProfile.Email = profile.email;
-            userProfile.User = new User
-            {
-                PassworDigest = profile.password
-            };
+            //userProfile.Name = profile.name;
+            //userProfile.Email = profile.email;
+            //userProfile.User = new User
+            //{
+            //    PassworDigest = profile.password
+                
+            //};
 
             try
             {
                 if (IsNetworkConnected())
                 {
-                    user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<User>();
+                    userProfile = _client.Post("Authentication/create", profile).Result.JsonToObject<UserProfile>();
                 }
                 else
                 {
@@ -311,19 +311,18 @@ namespace RescueMe.Droid
             }
             catch (Exception ex)
             {
-                user = null;
+                userProfile = null;
                 Log.Info(TAG, ex.Message);
             }
 
 
-            if (user != null)
+            if (userProfile != null)
             {
                 //Set User generated
-                var vehicles = GetVehicles(user.Id);
+                var vehicles = GetVehicles(userProfile.UserID);
                 var reasons = GetReasons();
                 var rescues = GetRescues(userProfile);
                 var status = GetStatus();
-                userProfile.User = user;
                 _context.LogIn(userProfile, vehicles, reasons, rescues, status);
                 //_context.LogIn(userProfile, null, null);
                 Intent intent = new Intent(this, typeof(HomeActivity));

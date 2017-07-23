@@ -14,6 +14,7 @@ using Android.Support.Design.Widget;
 using RescueMe.Domain;
 using RescueMe.Droid.Data;
 using Android.Content.PM;
+using RescueMe.Api.ViewModel;
 
 namespace RescueMe.Droid.Activities
 {
@@ -136,15 +137,16 @@ namespace RescueMe.Droid.Activities
 
             if (valid)
             {
-                UserProfile userProfile = new UserProfile();
-                User user = null;
+                UserViewModel userProfile = new UserViewModel();
+                UserProfile user = null;
 
-                userProfile.Name = txtName.Text;
-                userProfile.Email = txtEmail.Text;
-                userProfile.User = new User
-                {
-                    PassworDigest = txtPassword.Text
-                };
+                userProfile.name = txtName.Text;
+                userProfile.email = txtEmail.Text;
+                userProfile.password = txtPassword.Text;
+                //userProfile.User = new User
+                //{
+                //    PassworDigest = txtPassword.Text
+                //};
 
 
                 var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "Validando Información...");
@@ -163,7 +165,7 @@ namespace RescueMe.Droid.Activities
                     {
                         if (IsNetworkConnected())
                         {
-                            user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<User>();
+                            user = _client.Post("Authentication/create", userProfile).Result.JsonToObject<UserProfile>();
                             message = "Iniciando sesión";
                         }
                         else
@@ -173,7 +175,7 @@ namespace RescueMe.Droid.Activities
                     }
                     catch (Exception ex)
                     {
-                        user = null;
+                        userProfile = null;
                         message = ex.Message;
                     }
 
@@ -181,8 +183,7 @@ namespace RescueMe.Droid.Activities
                     if (user != null)
                     {
                         //Set User generated
-                        userProfile.User = user;
-                        _context.LogIn(userProfile, null, null); //UpdateUser(userProfile);
+                        _context.LogIn(user, null, null); //UpdateUser(userProfile);
                         //Save Vehicles
 
                         Intent intent = new Intent(this, typeof(HomeActivity));

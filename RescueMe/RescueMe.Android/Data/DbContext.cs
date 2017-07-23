@@ -99,7 +99,9 @@ namespace RescueMe.Droid.Data
         {
             try
             {
+
                 SaveUser(user);
+
                 if (vehicles != null)
                 {
                     UpdateVehicles(vehicles);
@@ -116,7 +118,6 @@ namespace RescueMe.Droid.Data
                 {
                     UpdateRequests(requests);
                 }
-
             }
             catch (Exception e)
             {
