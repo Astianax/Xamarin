@@ -2606,28 +2606,31 @@ namespace RescueMe.Droid
 			public const int logoIcon = 2130837646;
 			
 			// aapt resource value: 0x7f02008f
-			public const int market = 2130837647;
+			public const int markerAgent = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int menu = 2130837648;
+			public const int market = 2130837648;
 			
 			// aapt resource value: 0x7f020091
-			public const int navigation_empty_icon = 2130837649;
+			public const int menu = 2130837649;
 			
 			// aapt resource value: 0x7f020092
-			public const int next = 2130837650;
-			
-			// aapt resource value: 0x7f020096
-			public const int notification_template_icon_bg = 2130837654;
+			public const int navigation_empty_icon = 2130837650;
 			
 			// aapt resource value: 0x7f020093
-			public const int save = 2130837651;
+			public const int next = 2130837651;
+			
+			// aapt resource value: 0x7f020097
+			public const int notification_template_icon_bg = 2130837655;
 			
 			// aapt resource value: 0x7f020094
-			public const int save_car = 2130837652;
+			public const int save = 2130837652;
 			
 			// aapt resource value: 0x7f020095
-			public const int sos = 2130837653;
+			public const int save_car = 2130837653;
+			
+			// aapt resource value: 0x7f020096
+			public const int sos = 2130837654;
 			
 			static Drawable()
 			{

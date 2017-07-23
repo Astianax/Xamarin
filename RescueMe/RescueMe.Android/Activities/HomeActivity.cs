@@ -29,6 +29,7 @@ using Android.Views.Animations;
 using Android.Animation;
 using Java.IO;
 using System.IO;
+using System.Threading;
 
 namespace RescueMe.Droid.Activities
 {
@@ -59,6 +60,9 @@ namespace RescueMe.Droid.Activities
         protected Location mCurrentLocation;
         private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
+        List<LatLng> latLngPoints;
+        Domain.Request pendingRequest;
+        LatLng agentLatLng;
 
         //Configuration Request
         protected const string TAG = "location-settings";
@@ -70,6 +74,7 @@ namespace RescueMe.Droid.Activities
 
         ImageButton request;
         private FrameLayout frameLayoutMenu;
+        int counter = 0;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -221,11 +226,17 @@ namespace RescueMe.Droid.Activities
                                                      .SetTitle("My Position")
                                                      ;
 
+                if (pendingRequest != null && agentLatLng != null)
+                {
+                    LatLng latlngAgent = new LatLng(agentLatLng.Latitude, agentLatLng.Longitude);
+                    MarkerOptions markerOptionsClient = new MarkerOptions()
+                                             .SetPosition(latlngAgent)
+                                              .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerAgent));
+
+                    mMap.AddMarker(markerOptionsClient);
+                }
 
 
-                //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
-                //Resource.Animation.jump);
-                //markerOptions.StartAnimation(anim);
 
 
                 mMap.AddMarker(markerOptions);
@@ -235,7 +246,14 @@ namespace RescueMe.Droid.Activities
                 });
 
                 mMap.MoveCamera(camera);
-                //AddMyCustomDrawnOverlayToMap();
+
+                if (latLngPoints != null)
+                {
+
+                    // Polylines are useful for marking paths and routes on the map.
+                    mMap.AddPolyline(new PolylineOptions().Geodesic(true)
+                            .Add(latLngPoints.ToArray()));
+                }
             }
         }
 
@@ -316,13 +334,13 @@ namespace RescueMe.Droid.Activities
             base.OnStart();
             mGoogleApiClient.Connect();
 
-            bool anyPendingRequest = _context.GetRequest().Any(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
+            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
 
-            if (anyPendingRequest)
+            if (pendingRequest != null)
             {
                 frameLayoutMenu.Visibility = ViewStates.Visible;
                 request.Visibility = ViewStates.Gone;
-
+                GetDirecions(pendingRequest);
             }
             else
             {
@@ -335,22 +353,6 @@ namespace RescueMe.Droid.Activities
         protected override async void OnResume()
         {
             base.OnResume();
-
-            //bool anyPendingRequest = _context.GetRequest().Any(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
-
-            //if (anyPendingRequest)
-            //{
-            //    frameLayoutMenu.Visibility = ViewStates.Visible;
-            //    request.Visibility = ViewStates.Gone;
-
-            //}
-            //else
-            //{
-            //    frameLayoutMenu.Visibility = ViewStates.Gone;
-            //    request.Visibility = ViewStates.Visible;
-            //}
-
-
 
             if (mGoogleApiClient.IsConnected)
             {
@@ -407,6 +409,46 @@ namespace RescueMe.Droid.Activities
         {
             mCurrentLocation = location;
             UpdateLocationUI();
+
+            if (counter == 5)
+            {
+                new Thread(new ThreadStart(delegate
+                {
+                    GetDirecions(pendingRequest);
+
+                })).Start();
+                counter = 0;
+
+            }
+            else
+            {
+                counter++;
+            }
+        }
+
+        public void GetDirecions(Domain.Request pendingRequest)
+        {
+            if (pendingRequest.Status.Name == "asignado")
+            {
+                try
+                {
+                    latLngPoints = _client.Get("Map/Directions", new
+                    {
+                        Id = pendingRequest.Id
+                    }).Result.JsonToObject<List<LatLng>>();
+                    agentLatLng = _client.Get("Request/CurrentAgent", new
+                    {
+                        Id = pendingRequest.Id
+                    }).Result.JsonToObject<LatLng>();
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
