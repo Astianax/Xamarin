@@ -117,7 +117,7 @@ namespace RescueMe.Agent.Activities
 
             var requestID = new
             {
-                agentId = _context.GetUser().Id
+                agentId = _context.GetUser().UserID
             };
 
             var progressDialog = ProgressDialog.Show(this, "Por favor espere...", "");
@@ -167,7 +167,7 @@ namespace RescueMe.Agent.Activities
 
             var agentLocation = new
             {
-                AgentID = _context.GetUser().Id,
+                AgentID = _context.GetUser().UserID,
                 City = city,
                 Location = new
                 {
@@ -460,10 +460,10 @@ namespace RescueMe.Agent.Activities
                 new Thread(new ThreadStart(delegate
                 {
                     SendAgentStatus(mCurrentLocation, mGeocoder);
-                    counter = 0;
+                   
 
                 })).Start();
-
+                counter = 0;
             }
             else
             {
@@ -660,8 +660,9 @@ namespace RescueMe.Agent.Activities
 
         public void SetButtonMenuHome()
         {
+            _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
             bool anyPendingRequest = _context.GetRequest().Any(s => s.AgentStatus.Name == "asignado");
-
+            
             if (anyPendingRequest)
             {
                 frameLayoutMenu.Visibility = ViewStates.Visible;

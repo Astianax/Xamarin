@@ -295,7 +295,7 @@ namespace RescueMe.Droid
             userProfile.Email = profile.email;
             userProfile.User = new User
             {
-                PassworDigest = profile.password.Substring(0, 8)
+                PassworDigest = profile.password
             };
 
             try
@@ -319,8 +319,13 @@ namespace RescueMe.Droid
             if (user != null)
             {
                 //Set User generated
+                var vehicles = GetVehicles(user.Id);
+                var reasons = GetReasons();
+                var rescues = GetRescues(userProfile);
+                var status = GetStatus();
                 userProfile.User = user;
-                _context.LogIn(userProfile, null, null);
+                _context.LogIn(userProfile, vehicles, reasons, rescues, status);
+                //_context.LogIn(userProfile, null, null);
                 Intent intent = new Intent(this, typeof(HomeActivity));
                 StartActivity(intent);
             }
@@ -337,7 +342,7 @@ namespace RescueMe.Droid
                 var userViewModel = new UserViewModel();
                 var person = PlusClass.PeopleApi.GetCurrentPerson(mGoogleApiClient);
                 userViewModel.email = PlusClass.AccountApi.GetAccountName(mGoogleApiClient);
-                userViewModel.password = person.Id.Substring(0, 8);
+                userViewModel.password = person.Id;
                 userViewModel.name = person.DisplayName;
                 SignIn(userViewModel, true);
 
