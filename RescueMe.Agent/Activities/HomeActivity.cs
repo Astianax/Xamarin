@@ -21,6 +21,7 @@ using Android.Graphics;
 using Java.IO;
 using System.IO;
 using System.Threading;
+using Android.Views.Animations;
 
 namespace RescueMe.Agent.Activities
 {
@@ -107,11 +108,6 @@ namespace RescueMe.Agent.Activities
             BuildGoogleApiClient();
             CreateLocationRequest();
             BuildLocationSettingsRequest();
-
-
-            // Load map from a portal item
-
-
         }
 
         private void UnAvailable_Click(object sender, EventArgs e)
@@ -616,17 +612,17 @@ namespace RescueMe.Agent.Activities
         //}
 
         private void Logout_Click(object sender, EventArgs e)
-        {          
-           unAvailable.CallOnClick();
+        {
+            unAvailable.CallOnClick();
 
             //RunOnUiThread(() =>
             //{
-                _context.LogOut();
-                this.Finish();
-                Intent intent = new Intent(this, typeof(MainActivity));
-                StartActivity(intent);
+            _context.LogOut();
+            this.Finish();
+            Intent intent = new Intent(this, typeof(MainActivity));
+            StartActivity(intent);
             //});
-            
+
         }
 
         public void OnSnapshotReady(Bitmap snapshot)

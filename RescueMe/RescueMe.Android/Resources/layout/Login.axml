@@ -8,8 +8,8 @@
     <ImageView
         android:src="@drawable/logoIcon"
         android:id="@+id/logo"
-        android:layout_width="235.0dp"
-        android:layout_height="220.0dp"
+        android:layout_width="220.0dp"
+        android:layout_height="200.0dp"
         android:gravity="bottom|start"
         android:layout_marginLeft="67dp"
         android:layout_marginTop="10dp" />
@@ -20,7 +20,7 @@
         android:layout_below="@id/logo"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="15dp">
         <android.support.design.widget.TextInputEditText
             android:inputType="textEmailAddress"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/emaiLayout"
         app:passwordToggleEnabled="true">
         <android.support.design.widget.TextInputEditText
@@ -54,7 +54,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_below="@id/passwordLayout"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:capitalize="words"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
@@ -69,19 +69,76 @@
         android:layout_marginLeft="120dp"
         android:layout_marginRight="90dp"
         android:layout_below="@id/btnLogin"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:textColor="@color/links_color"
         android:textColorLink="@color/links_color"
         android:inputType="textUri"
         android:textSize="13dp"
         android:linksClickable="true" />
+    <ImageButton
+        android:background="@drawable/ic_google"
+        android:id="@+id/sign_in_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/forgotPassword"
+        android:gravity="bottom|center"
+        android:layout_marginLeft="144.0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="visible" />
+    <ImageButton
+        android:background="@drawable/ic_facebook"
+        android:id="@+id/sign_in_btn_fb"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/forgotPassword"
+        android:layout_toRightOf="@id/sign_in_button"
+        android:gravity="bottom|center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="visible" />
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/sign_in_button"
+        android:layout_marginTop="12dp"
+        android:id="@+id/line1"
+        android:layout_marginLeft="153.5dp"
+        android:textSize="14dp"
+        android:src="@drawable/line"
+        android:textStyle="bold"
+        android:layout_marginBottom="0.0dp" />
+    <TextView
+        android:layout_width="9.5dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sign_in_button"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/line1"
+        android:id="@+id/or"
+        android:layout_marginLeft="0.0dp"
+        android:textSize="14dp"
+        android:text="O"
+        android:textStyle="bold" />
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/sign_in_button"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/or"
+        android:id="@+id/line2"
+        android:layout_marginLeft="0.5dp"
+        android:textSize="14dp"
+        android:src="@drawable/line"
+        android:textStyle="bold"
+        android:layout_marginBottom="0.0dp" />
     <TextView
         android:layout_width="90dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/forgotPassword"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/or"
+        android:layout_marginTop="20dp"
         android:id="@+id/textView2"
-        android:layout_marginLeft="101dp"
+        android:layout_marginLeft="100.0dp"
         android:textSize="12dp"
         android:text="No tengo cuenta" />
     <TextView
@@ -89,16 +146,16 @@
         android:layout_width="73.0dp"
         android:layout_height="wrap_content"
         android:id="@+id/linkRegister"
-        android:layout_marginRight="100dp"
+        android:layout_marginRight="80dp"
         android:layout_toRightOf="@id/textView2"
-        android:layout_below="@id/forgotPassword"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="3dp"
+        android:layout_below="@id/or"
+        android:layout_marginTop="20.0dp"
+        android:layout_marginLeft="4.0dp"
         android:textColor="@color/links_color"
         android:textColorLink="@color/links_color"
         android:textSize="12dp"
         android:autoLink="web" />
-    <!--<com.google.android.gms.common.SignInButton
+<!--<com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -108,8 +165,7 @@
         android:visibility="visible"
         android:minWidth="25px"
         android:minHeight="25px" />-->
-
-  <!--<TextView
+<!--<TextView
       android:id="@+id/status"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -117,15 +173,4 @@
       android:layout_below="@id/sign_in_button"
       android:layout_marginTop="10dp"
       android:textSize="@dimen/abc_text_size_small_material" />-->
-<ImageButton
-        android:background="@drawable/ic_google"
-        android:id="@+id/sign_in_button"
-        android:layout_width="40dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/linkRegister"
-        android:gravity="bottom|center"
-        android:layout_marginLeft="67dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:visibility="visible" />
 </RelativeLayout>
