@@ -90,11 +90,13 @@ namespace RescueMe.Agent.Data
         {
             //var user = _connection.Table<UserSaved>().FirstOrDefaultAsync().Result;
             //Remove(user);
+         
             _connection.DeleteAll<UserSaved>();
             _connection.DeleteAll<Settings>();
             _connection.CreateTable<StatusSaved>();
             _connection.DeleteAll<VehicleSaved>();
             _connection.DeleteAll<ReasonRequestSaved>();
+            _connection.DeleteAll<RequestSaved>();
         }
 
         /// <summary>
@@ -110,7 +112,7 @@ namespace RescueMe.Agent.Data
         {
             try
             {
-                SaveUser(user);
+               
                 if (reasons != null)
                 {
                     UpdateReasons(reasons);
@@ -124,6 +126,7 @@ namespace RescueMe.Agent.Data
                 {
                     UpdateRequests(requests);
                 }
+                SaveUser(user);
             }
             catch (Exception e)
             {
@@ -200,7 +203,7 @@ namespace RescueMe.Agent.Data
                 Longitude = request.Longitude,
                 StatusID = request.StatusID,
                 Comments = request.Comments,
-                VehicleID = request.VehicleID,
+                VehicleID = request.VehicleID.HasValue ? request.VehicleID.Value : 0,
                 ReasonID = request.ReasonID
             };
             if (IsNetworkConnected)
@@ -222,29 +225,41 @@ namespace RescueMe.Agent.Data
         }
         public async void UpdateRequests(List<Request> requests)
         {
-
-            var requestsSaved = requests.Select(r => new RequestSaved()
+            try
             {
-                Id = r.Id,
-                Latitude = r.Latitude,
-                Longitude = r.Longitude,
-                StatusID = r.AgentStatusID.HasValue ? r.AgentStatusID.Value : 0,
-                Comments = r.Comments,
-                VehicleID = r.VehicleID,
-                VehicleType = r.Vehicle.Type,
-                ReasonID = r.ReasonID,
-                Status = getStatusList().FirstOrDefault(s => s.Id == r.AgentStatusID).Name
-            }).ToList();
-
-            var isSaved = _connection.UpdateAll(requestsSaved) > 0;
-            if (isSaved == false)
+                var requestsSaved = requests.Select(r => new RequestSaved()
+                {
+                    Id = r.Id,
+                    Latitude = r.Latitude,
+                    Longitude = r.Longitude,
+                    StatusID = r.AgentStatusID.HasValue ? r.AgentStatusID.Value : 0,
+                    Comments = r.Comments,
+                    VehicleType = r.Vehicle.Type,
+                    VehicleID = r.VehicleID.HasValue ?
+                                  r.VehicleID.Value : 0,
+                    ReasonID = r.ReasonID,
+                    Status = getStatusList().FirstOrDefault(s => s.Id == r.AgentStatusID).Name
+                }).ToList();
+                //foreach
+                //for (int i = 0; i <= requests.Count; i++) {
+                //    requestsSaved[i].VehicleID =
+                //            requests[i].VehicleID.HasValue ? 
+                //                    requests[i].VehicleID.Value : 0;
+                //} 
+                _connection.DeleteAll<RequestSaved>();
+                var isSaved = _connection.UpdateAll(requestsSaved) > 0;
+                if (isSaved == false)
+                {
+                    _connection.InsertAll(requestsSaved);
+                }
+                //Download all image's
+                foreach (var request in requests)
+                {
+                    await GetImageBitmapFromRequest(request);
+                }
+            }catch(Exception e)
             {
-                _connection.InsertAll(requestsSaved);
-            }
-            //Download all image's
-            foreach (var request in requests)
-            {
-                await GetImageBitmapFromRequest(request);
+                throw e;
             }
         }
         public void UpdateStatus(List<Status> status)
@@ -354,10 +369,9 @@ namespace RescueMe.Agent.Data
                                           VehicleID = r.VehicleID,
                                           ReasonID = r.ReasonID,
                                           ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
-                                          Vehicle = new Vehicle
-                                          {
-                                              Type = r.VehicleType
-                                          },
+                                          Vehicle = GetVehicles().Where(v=>v.Id != 0).ToList().Count > 0 ?
+                                                GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID)
+                                                : new Vehicle() { Marque = "Vehículo de Tercero", Id = 0 },
                                           //Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
                                           User = GetUser().User,
                                           AgentStatus = new Status()
@@ -495,7 +509,25 @@ namespace RescueMe.Agent.Data
             }
 
         }
+        public List<Request> GetRescues(RestClient client, UserProfile user)
+        {
+            List<Request> requests;
+            try
+            {
+                requests = client.Get("Request/requests", new
+                {
+                    UserId = user.UserID,
+                    platform = "mobile"
+                }
+                        ).Result.JsonToObject<List<Request>>();
+            }
+            catch (Exception ex)
+            {
+                requests = null;
+            }
 
+            return requests;
+        }
 
     }
 }

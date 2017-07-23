@@ -15,6 +15,7 @@ using Android.Support.V4.App;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using RescueMe.Agent.Activities;
+using RescueMe.Agent.Data;
 
 namespace RescueMe.Agent.FireBaseServices
 {
@@ -22,15 +23,24 @@ namespace RescueMe.Agent.FireBaseServices
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class MessagingService : FirebaseMessagingService
     {
+      
         public override void OnMessageReceived(RemoteMessage message)
         {
             base.OnMessageReceived(message);
             SendNotification(message.GetNotification());
+          
         }
 
         private void SendNotification(RemoteMessage.Notification data)
         {
-            var intent = new Intent(this, typeof(MainActivity));
+            if (data.Tag.ToLower() == "asignado" || data.Tag.ToLower() == "cancelado")
+            {
+                var context = DbContext.Instance;
+                var client = new RestClient(BaseActivity.Url);
+                var rescues = context.GetRescues(client, context.GetUser());
+                context.UpdateRequests(rescues);
+            }
+            var intent = new Intent(this, typeof(HomeActivity));
             intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
 

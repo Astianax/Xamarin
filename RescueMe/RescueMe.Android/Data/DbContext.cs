@@ -352,7 +352,9 @@ namespace RescueMe.Droid.Data
                                           VehicleID = r.VehicleID,
                                           ReasonID = r.ReasonID,
                                           ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
-                                          Vehicle = GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID),
+                                          Vehicle = GetVehicles().Count > 0 ? 
+                                                GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID)
+                                                : new Vehicle() { Marque = "Vehículo de Tercero", Id = 0 },
                                           User = GetUser().User,
                                           Status = new Status()
                                           {
@@ -480,6 +482,8 @@ namespace RescueMe.Droid.Data
             }
 
         }
+
+       
 
 
     }

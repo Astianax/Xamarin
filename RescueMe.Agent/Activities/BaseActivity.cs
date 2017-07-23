@@ -31,11 +31,11 @@ namespace RescueMe.Agent.Activities
         protected DbContext _context;
         protected bool _isAllowed = true;
         ConnectivityManager connectivityManager;
-
+        public static string Url = "http://192.168.1.11:5000/api/";
         public BaseActivity()
         {
-            _client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
-            //_client = new RestClient("http://10.0.0.13:5000/api/");
+            //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
+            _client = new RestClient(Url);
 
             //_client = new RestClient("http://192.168.2.42:5000/api/");
 
@@ -63,8 +63,15 @@ namespace RescueMe.Agent.Activities
 
         protected void SetUp()
         {
-            var permissitionStatus = ShouldShowRequestPermissionRationale(Manifest.Permission.AccessFineLocation);
+            var permissitionStatus = false;//ShouldShowRequestPermissionRationale(Manifest.Permission.AccessFineLocation);
             var settings = _context.GetSettings();
+            if ((int)Build.VERSION.SdkInt >= 23)
+            {
+
+                permissitionStatus = ShouldShowRequestPermissionRationale(Manifest.Permission.AccessFineLocation);
+            }
+          
+          
 
             string[] PermissionsLocation =
             {
@@ -75,7 +82,10 @@ namespace RescueMe.Agent.Activities
             if (settings == null)
             {
 
-                RequestPermissions(PermissionsLocation, 0);
+                if ((int)Build.VERSION.SdkInt >= 23)
+                {
+                    RequestPermissions(PermissionsLocation, 0);
+                }
                 _context.SaveSetting(new Settings()
                 {
                     LocationPermission = true,
@@ -164,7 +174,7 @@ namespace RescueMe.Agent.Activities
 
             var agentLocation = new
             {
-                AgentID = _context.GetUser().Id,
+                AgentID = _context.GetUser().UserID,
                 City = city,
                 Location = new
                 {
@@ -178,11 +188,11 @@ namespace RescueMe.Agent.Activities
                 try
                 {
                     
-                    _client.Post("Agent/update", agentLocation).Result.JsonToBoolean().ToString();
+                    _client.Post("Agent/update", agentLocation).Result.ToString();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Log.Info("Conexion", "Conexion Problem");
+                    Log.Info("Conexion", "Conexion Problem : "+e.InnerException);
                 }
             }
         }

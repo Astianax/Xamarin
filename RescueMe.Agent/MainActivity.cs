@@ -105,7 +105,7 @@ namespace RescueMe.Agent
             if (valid)
             {
                 UserProfile user = null;
-                userViewModel.email = "firulaisp@gmail.com";//txtEmail.Text;
+                userViewModel.email = txtEmail.Text;// "firulaisp@gmail.com";//
                 userViewModel.password = "hello123456";//txtPassword.Text.ToString();
                 //userViewModel.token = token;
                 userViewModel.platform = "agent";
@@ -139,7 +139,7 @@ namespace RescueMe.Agent
                         //});
 
                         //Save Vehicles
-                        var rescues = GetRescues(user);
+                        var rescues = _context.GetRescues(_client, user);
                         var status = GetStatus();
                         var reasons = GetReasons();
                         _context.LogIn(user, reasons, rescues, status);
@@ -164,25 +164,7 @@ namespace RescueMe.Agent
 
         }
 
-        public List<Request> GetRescues(UserProfile user)
-        {
-            List<Request> requests;
-            try
-            {
-                requests = _client.Get("Request/requests", new
-                {
-                    UserId = user.UserID,
-                    platform = "mobile"
-                }
-                        ).Result.JsonToObject<List<Request>>();
-            }
-            catch (Exception ex)
-            {
-                requests = null;
-            }
-
-            return requests;
-        }
+       
         public List<ReasonRequest> GetReasons()
         {
             List<ReasonRequest> reasons;
