@@ -22,6 +22,7 @@ using Java.IO;
 using System.IO;
 using System.Threading;
 using Android.Views.Animations;
+using System.Collections.Generic;
 
 namespace RescueMe.Agent.Activities
 {
@@ -52,7 +53,8 @@ namespace RescueMe.Agent.Activities
         protected Location mCurrentLocation;
         private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
-
+        List<LatLng> latLngPoints;
+        Domain.Request pendingRequest;
         //Configuration Request
         protected const string TAG = "location-settings";
         protected const int REQUEST_CHECK_SETTINGS = 0x1;
@@ -272,6 +274,7 @@ namespace RescueMe.Agent.Activities
             {
                 mMap.Clear();
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
+                LatLng latlngClient = new LatLng(double.Parse(pendingRequest.Latitude.ToString()), double.Parse(pendingRequest.Longitude.ToString())); 
 
                 int intWidth = 100;
                 int intHeight = 100;
@@ -292,18 +295,22 @@ namespace RescueMe.Agent.Activities
                 CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
                 MarkerOptions markerOptions = new MarkerOptions()
                                                      .SetPosition(latlng)
-                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
-                                                     .SetTitle("My Position")
-                                                     ;
+                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.marker));
+
+                
+                MarkerOptions markerOptionsClient = new MarkerOptions()
+                                                     .SetPosition(latlngClient)
+                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerClient));
 
 
 
+                mMap.AddMarker(markerOptions);
+                mMap.AddMarker(markerOptionsClient);
                 //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
                 //Resource.Animation.jump);
                 //markerOptions.StartAnimation(anim);
 
 
-                mMap.AddMarker(markerOptions);
                 mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
                 {
                     IsNetworkConnected = IsNetworkConnected()
@@ -311,7 +318,20 @@ namespace RescueMe.Agent.Activities
                 mMap.UiSettings.ZoomControlsEnabled = true;
                 mMap.UiSettings.CompassEnabled = true;
                 mMap.MoveCamera(camera);
-                //AddMyCustomDrawnOverlayToMap();
+
+
+                if (latLngPoints != null)
+                {
+
+                    // Polylines are useful for marking paths and routes on the map.
+                    mMap.AddPolyline(new PolylineOptions().Geodesic(true)
+                            .Add(latLngPoints.ToArray()));
+                }
+
+
+
+
+
             }
         }
 
@@ -460,7 +480,7 @@ namespace RescueMe.Agent.Activities
                 new Thread(new ThreadStart(delegate
                 {
                     SendAgentStatus(mCurrentLocation, mGeocoder);
-                   
+
 
                 })).Start();
                 counter = 0;
@@ -530,8 +550,8 @@ namespace RescueMe.Agent.Activities
             //Resource _resources;
             mMap.UiSettings.ZoomControlsEnabled = true;
             mMap.UiSettings.ZoomGesturesEnabled = true;
-            mMap.SetMaxZoomPreference(17);
-            mMap.SetMinZoomPreference(14);
+            //mMap.SetMaxZoomPreference(17);
+            //mMap.SetMinZoomPreference(14);
             mMap.UiSettings.CompassEnabled = false;
             mMap.UiSettings.MyLocationButtonEnabled = true;
 
@@ -661,13 +681,33 @@ namespace RescueMe.Agent.Activities
         public void SetButtonMenuHome()
         {
             _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
-            bool anyPendingRequest = _context.GetRequest().Any(s => s.AgentStatus.Name == "asignado");
-            
-            if (anyPendingRequest)
+            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
+
+            if (pendingRequest != null)
             {
                 frameLayoutMenu.Visibility = ViewStates.Visible;
                 available.Visibility = ViewStates.Gone;
                 unAvailable.Visibility = ViewStates.Gone;
+
+
+                try
+                {
+                    latLngPoints = _client.Get("Map/Directions", null).Result.JsonToObject<List<LatLng>>();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+
+
+
+
+
+
+
+
 
             }
             else

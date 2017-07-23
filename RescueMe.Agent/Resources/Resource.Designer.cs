@@ -2591,28 +2591,31 @@ namespace RescueMe.Agent
 			public const int logoIcon = 2130837641;
 			
 			// aapt resource value: 0x7f02008a
-			public const int market = 2130837642;
+			public const int marker = 2130837642;
 			
 			// aapt resource value: 0x7f02008b
-			public const int menu = 2130837643;
+			public const int markerClient = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int navigation_empty_icon = 2130837644;
+			public const int menu = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int next = 2130837645;
-			
-			// aapt resource value: 0x7f020091
-			public const int notification_template_icon_bg = 2130837649;
+			public const int navigation_empty_icon = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int save = 2130837646;
+			public const int next = 2130837646;
+			
+			// aapt resource value: 0x7f020092
+			public const int notification_template_icon_bg = 2130837650;
 			
 			// aapt resource value: 0x7f02008f
-			public const int save_car = 2130837647;
+			public const int save = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int sos = 2130837648;
+			public const int save_car = 2130837648;
+			
+			// aapt resource value: 0x7f020091
+			public const int sos = 2130837649;
 			
 			static Drawable()
 			{
