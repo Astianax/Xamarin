@@ -19,6 +19,8 @@ using Android.Views;
 using Android.Gms.Plus;
 using Android.Util;
 using Android.Gms.Auth.Api;
+using Android.Graphics;
+
 namespace RescueMe.Droid
 {
     [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true,
@@ -71,7 +73,7 @@ namespace RescueMe.Droid
                 btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
                 var linkRegister = FindViewById<TextView>(Resource.Id.linkRegister);
                 btnLogin.Click += BtnLogin_Click;
-                linkRegister.Click += linkRegister_click;
+                linkRegister.Click += linkRegister_click;                
                 SetUp();
 
                 var SignInGoogle = FindViewById<ImageButton>(Resource.Id.sign_in_button);
