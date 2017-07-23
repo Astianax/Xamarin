@@ -85,8 +85,6 @@ namespace RescueMe.Droid
                 StartActivity(new Intent(Application.Context, typeof(HomeActivity)));
             }
 
-
-
         }
 
         private void SignInGoogle_click(object sender, EventArgs e)

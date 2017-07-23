@@ -128,6 +128,9 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f04001e
 			public const int shake = 2130968606;
 			
+			// aapt resource value: 0x7f04001f
+			public const int slide = 2130968607;
+			
 			static Animation()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
