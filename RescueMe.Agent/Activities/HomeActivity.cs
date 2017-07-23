@@ -274,7 +274,8 @@ namespace RescueMe.Agent.Activities
             {
                 mMap.Clear();
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
-                LatLng latlngClient = new LatLng(double.Parse(pendingRequest.Latitude.ToString()), double.Parse(pendingRequest.Longitude.ToString())); 
+          
+
 
                 int intWidth = 100;
                 int intHeight = 100;
@@ -297,15 +298,20 @@ namespace RescueMe.Agent.Activities
                                                      .SetPosition(latlng)
                                                       .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.marker));
 
-                
-                MarkerOptions markerOptionsClient = new MarkerOptions()
-                                                     .SetPosition(latlngClient)
-                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerClient));
+                if (pendingRequest != null)
+                {
+                    LatLng latlngClient = new LatLng(double.Parse(pendingRequest.Latitude.ToString()), double.Parse(pendingRequest.Longitude.ToString()));
+                    MarkerOptions markerOptionsClient = new MarkerOptions()
+                                             .SetPosition(latlngClient)
+                                              .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerClient));
+
+                    mMap.AddMarker(markerOptionsClient);
+                }
+
 
 
 
                 mMap.AddMarker(markerOptions);
-                mMap.AddMarker(markerOptionsClient);
                 //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
                 //Resource.Animation.jump);
                 //markerOptions.StartAnimation(anim);
@@ -327,11 +333,6 @@ namespace RescueMe.Agent.Activities
                     mMap.AddPolyline(new PolylineOptions().Geodesic(true)
                             .Add(latLngPoints.ToArray()));
                 }
-
-
-
-
-
             }
         }
 
@@ -680,51 +681,53 @@ namespace RescueMe.Agent.Activities
 
         public void SetButtonMenuHome()
         {
-            _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
-            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
 
-            if (pendingRequest != null)
+            new Thread(new ThreadStart(delegate
             {
-                frameLayoutMenu.Visibility = ViewStates.Visible;
-                available.Visibility = ViewStates.Gone;
-                unAvailable.Visibility = ViewStates.Gone;
 
+                _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
+                pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
 
-                try
-                {
-                    latLngPoints = _client.Get("Map/Directions", null).Result.JsonToObject<List<LatLng>>();
-                }
-                catch (Exception)
+                RunOnUiThread(() =>
                 {
 
-                    throw;
-                }
+                    if (pendingRequest != null)
+                    {
+                        frameLayoutMenu.Visibility = ViewStates.Visible;
+                        available.Visibility = ViewStates.Gone;
+                        unAvailable.Visibility = ViewStates.Gone;
+                        try
+                        {
+                            latLngPoints = _client.Get("Map/Directions", new { Id = pendingRequest.Id }).Result.JsonToObject<List<LatLng>>();
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+
+                    }
+                    else
+                    {
+                        frameLayoutMenu.Visibility = ViewStates.Gone;
+                        if (_context.GetSettings().AgentAvailability)
+                        {
+                            unAvailable.Visibility = ViewStates.Visible;
+                            available.Visibility = ViewStates.Gone;
+                        }
+                        else
+                        {
+                            unAvailable.Visibility = ViewStates.Gone;
+                            available.Visibility = ViewStates.Visible;
+
+                        }
+                    }
 
 
 
+                });
 
-
-
-
-
-
-
-            }
-            else
-            {
-                frameLayoutMenu.Visibility = ViewStates.Gone;
-                if (_context.GetSettings().AgentAvailability)
-                {
-                    unAvailable.Visibility = ViewStates.Visible;
-                    available.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    unAvailable.Visibility = ViewStates.Gone;
-                    available.Visibility = ViewStates.Visible;
-
-                }
-            }
+            })).Start();
 
         }
 
