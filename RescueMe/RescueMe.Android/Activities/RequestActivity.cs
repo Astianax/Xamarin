@@ -195,6 +195,7 @@ namespace RescueMe.Droid.Activities
                             else
                             {
                                 //SMS
+                                request.StatusID = _context.getStatusList().FirstOrDefault(s => s.Name.ToLower() == "pendiente").Id;
                                 message = "No tiene internet, se envió su solicitud por SMS";
                                 SmsManager sms = SmsManager.Default;
                                 PendingIntent sentPI;

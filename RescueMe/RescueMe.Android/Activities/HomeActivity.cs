@@ -336,7 +336,19 @@ namespace RescueMe.Droid.Activities
         {
             base.OnResume();
 
+            //bool anyPendingRequest = _context.GetRequest().Any(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
 
+            //if (anyPendingRequest)
+            //{
+            //    frameLayoutMenu.Visibility = ViewStates.Visible;
+            //    request.Visibility = ViewStates.Gone;
+
+            //}
+            //else
+            //{
+            //    frameLayoutMenu.Visibility = ViewStates.Gone;
+            //    request.Visibility = ViewStates.Visible;
+            //}
 
 
 
