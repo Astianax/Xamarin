@@ -428,17 +428,16 @@ namespace RescueMe.Agent.Activities
         protected override async void OnPause()
         {
             base.OnPause();
-
-            if (mGoogleApiClient.IsConnected)
-            {
-                await StopLocationUpdates();
-            }
+            //if (mGoogleApiClient.IsConnected)
+            //{
+            //    await StopLocationUpdates();
+            //}
         }
 
         protected override void OnStop()
         {
             base.OnStop();
-            mGoogleApiClient.Disconnect();
+            //mGoogleApiClient.Disconnect();
         }
 
         public void OnConnected(Bundle connectionHint)
@@ -476,7 +475,7 @@ namespace RescueMe.Agent.Activities
             mCurrentLocation = location;
             UpdateLocationUI();
 
-            if (counter == 5)
+            if (counter == 1)
             {
                 new Thread(new ThreadStart(delegate
                 {

@@ -45,9 +45,12 @@ namespace RescueMe.Droid.Activities
         NavigationView navigationView;
         private GoogleMap mMap;
         Bitmap bitmap;
+        public Marker agentMarker;
+        public Marker clientMarker;
+        public Polyline polyLine;
         //GoogleApiClient apiClient;
         //LocationRequest locRequest;
-
+        private Boolean isLocalActivity = false;
 
         //
         //Location currentLocation;
@@ -60,7 +63,7 @@ namespace RescueMe.Droid.Activities
         protected Location mCurrentLocation;
         private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
-        List<LatLng> latLngPoints;
+        public List<LatLng> latLngPoints;
         Domain.Request pendingRequest;
         LatLng agentLatLng;
 
@@ -140,6 +143,7 @@ namespace RescueMe.Droid.Activities
             //request.StartAnimation(anim);
 
             mMap.Snapshot(this);
+            isLocalActivity = true;
             StartActivity(intent);
 
         }
@@ -196,11 +200,11 @@ namespace RescueMe.Droid.Activities
             await HandleResult(result);
         }
 
-        void UpdateLocationUI()
+        public void UpdateLocationUI()
         {
             if (mCurrentLocation != null && mMap != null)
             {
-                mMap.Clear();
+                //mMap.Clear();
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
 
                 int intWidth = 100;
@@ -220,26 +224,71 @@ namespace RescueMe.Droid.Activities
                 }
 
                 CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
-                MarkerOptions markerOptions = new MarkerOptions()
-                                                     .SetPosition(latlng)
-                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
-                                                     .SetTitle("My Position")
-                                                     ;
-
-                if (pendingRequest != null && agentLatLng != null)
+                if (clientMarker == null)
                 {
-                    LatLng latlngAgent = new LatLng(agentLatLng.Latitude, agentLatLng.Longitude);
-                    MarkerOptions markerOptionsClient = new MarkerOptions()
-                                             .SetPosition(latlngAgent)
-                                              .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerAgent));
-
-                    mMap.AddMarker(markerOptionsClient);
+                    MarkerOptions markerOptions = new MarkerOptions()
+                                                         .SetPosition(latlng)
+                                                          .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
+                                                         .SetTitle("My Position")
+                                                         ;
+                    clientMarker = mMap.AddMarker(markerOptions);
+                }
+                else
+                {
+                    clientMarker.Position = latlng;
                 }
 
+                if (pendingRequest != null && agentLatLng != null && latLngPoints != null)
+                {
+                    LatLng latlngAgent = new LatLng(agentLatLng.Latitude, agentLatLng.Longitude);
+                    
+                    if (agentMarker == null && latlngAgent.Latitude != 0 && polyLine == null)
+                    {
+                        MarkerOptions markerOptionsClient = new MarkerOptions()
+                                             .SetPosition(latlngAgent)
+                                              .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerAgent));
+                        agentMarker = mMap.AddMarker(markerOptionsClient);
+
+                        polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
+                                .Add(latLngPoints.ToArray()));
+                    }
+                    else if (latLngPoints.FirstOrDefault().Latitude == 0)
+                    {
+                        //polyLine.Points.Clear();
+                        polyLine.Remove();
+                        agentMarker.Remove();
+                    }else
+                    {
+                        agentMarker.Position = latlngAgent;
+                        polyLine.Points = latLngPoints.ToArray();
+                    }
+
+                    //if (latLngPoints.FirstOrDefault().Latitude != 0 && agentLatLng.Latitude != 0)
+                    //{
+                    //    //polyLine.Remove();
+                    //    if (polyLine == null)
+                    //    {
+                    //        // Polylines are useful for marking paths and routes on the map.
+                    //        polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
+                    //                .Add(latLngPoints.ToArray()));
+                    //    }
+                    //    else
+                    //    {
+                    //        polyLine.Points = latLngPoints.ToArray();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    //mMap.Clear();
+                    //    polyLine.Remove();
+
+                    //}
+
+                }
+                
 
 
-
-                mMap.AddMarker(markerOptions);
+                
                 mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
                 {
                     IsNetworkConnected = IsNetworkConnected()
@@ -247,13 +296,7 @@ namespace RescueMe.Droid.Activities
 
                 mMap.MoveCamera(camera);
 
-                if (latLngPoints != null)
-                {
 
-                    // Polylines are useful for marking paths and routes on the map.
-                    mMap.AddPolyline(new PolylineOptions().Geodesic(true)
-                            .Add(latLngPoints.ToArray()));
-                }
             }
         }
 
@@ -332,6 +375,7 @@ namespace RescueMe.Droid.Activities
         protected override void OnStart()
         {
             base.OnStart();
+            isLocalActivity = false;
             mGoogleApiClient.Connect();
 
             pendingRequest = _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
@@ -340,6 +384,7 @@ namespace RescueMe.Droid.Activities
             {
                 frameLayoutMenu.Visibility = ViewStates.Visible;
                 request.Visibility = ViewStates.Gone;
+
                 GetDirecions(pendingRequest);
             }
             else
@@ -372,7 +417,10 @@ namespace RescueMe.Droid.Activities
         protected override void OnStop()
         {
             base.OnStop();
-            mGoogleApiClient.Disconnect();
+            if (isLocalActivity == false)
+            {
+                mGoogleApiClient.Disconnect();
+            }
         }
 
         public void OnConnected(Bundle connectionHint)
@@ -388,10 +436,6 @@ namespace RescueMe.Droid.Activities
                     SetUpMap();
                     UpdateLocationUI();
                 }
-
-
-
-
             }
         }
 
@@ -410,11 +454,14 @@ namespace RescueMe.Droid.Activities
             mCurrentLocation = location;
             UpdateLocationUI();
 
-            if (counter == 5)
+            if (counter == 2)
             {
                 new Thread(new ThreadStart(delegate
                 {
-                    GetDirecions(pendingRequest);
+                    if (pendingRequest != null)
+                    {
+                        GetDirecions(pendingRequest);
+                    }
 
                 })).Start();
                 counter = 0;
@@ -428,6 +475,7 @@ namespace RescueMe.Droid.Activities
 
         public void GetDirecions(Domain.Request pendingRequest)
         {
+            pendingRequest= _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
             if (pendingRequest.Status.Name == "asignado")
             {
                 try
@@ -439,7 +487,8 @@ namespace RescueMe.Droid.Activities
                     agentLatLng = _client.Get("Request/CurrentAgent", new
                     {
                         Id = pendingRequest.Id
-                    }).Result.JsonToObject<LatLng>();
+                    }).Result.JsonToObject<List<LatLng>>().FirstOrDefault();
+
 
                 }
                 catch (Exception)
@@ -552,6 +601,7 @@ namespace RescueMe.Droid.Activities
         {
             var menuItem = e.MenuItem;
             menuItem.SetChecked(!menuItem.IsChecked);
+            isLocalActivity = true;
             drawerLayout.CloseDrawer(GravityCompat.Start);
             Intent intent;
             switch (menuItem.ItemId)
@@ -582,6 +632,7 @@ namespace RescueMe.Droid.Activities
                     //StartActivity(intent);
                     break;
             }
+            
         }
 
         public override void OnBackPressed()
@@ -601,6 +652,7 @@ namespace RescueMe.Droid.Activities
         {
             var uri = Android.Net.Uri.Parse("tel:8296881000");
             Intent callIntent = new Intent(Intent.ActionDial, uri);
+            isLocalActivity = true;
             StartActivity(callIntent);
         }
 

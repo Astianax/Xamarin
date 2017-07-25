@@ -21,6 +21,7 @@ using Android;
 using RescueMe.Droid.Data;
 using System.Threading;
 using System.Text.RegularExpressions;
+using RescueMe.Droid.Activities;
 
 namespace RescueMe.Droid
 {
@@ -35,7 +36,7 @@ namespace RescueMe.Droid
 
         protected RestClient _client;
         protected DbContext _context;
-        
+
         public void Initialize(RestClient client, DbContext context)
         {
             _client = client;
@@ -43,7 +44,7 @@ namespace RescueMe.Droid
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-          
+
             return inflater.Inflate(Resource.Layout.menus_fragment, container, false);
         }
 
@@ -150,6 +151,12 @@ namespace RescueMe.Droid
                             }
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                             SetMainBtnBack(btnMenu);
+                            ((HomeActivity)this.Activity).latLngPoints.Clear();
+                            //((HomeActivity)this.Activity).agentMarker = null;
+                            ((HomeActivity)this.Activity).latLngPoints.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                            ((HomeActivity)this.Activity).UpdateLocationUI();
+
+
                         });
 
                     })).Start();
