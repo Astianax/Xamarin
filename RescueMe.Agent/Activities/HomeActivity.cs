@@ -319,12 +319,14 @@ namespace RescueMe.Agent.Activities
                         polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
                                 .Add(latLngPoints.ToArray()));
                     }
-                    else if (latLngPoints.FirstOrDefault().Latitude == 0)
+                    else if ((pendingRequest == null || latLngPoints.FirstOrDefault().Latitude == 0 )&& clientMarker != null && polyLine != null)
                     {
                         clientMarker.Remove();
                         polyLine.Remove();
+                        clientMarker = null;
+                        polyLine = null; ;
                     }
-                    else
+                    else if(polyLine != null)
                     {
                         polyLine.Points = latLngPoints.ToArray();
                     }
@@ -749,7 +751,7 @@ namespace RescueMe.Agent.Activities
         public void GetDirections()
         {
             pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
-            if (pendingRequest.AgentStatus.Name == "asignado")
+            if (pendingRequest != null && pendingRequest.AgentStatus.Name == "asignado")
             {
                 try
                 {
@@ -759,7 +761,7 @@ namespace RescueMe.Agent.Activities
                     }).Result.JsonToObject<List<LatLng>>();
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
                     throw;

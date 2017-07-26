@@ -16,6 +16,7 @@ using Android.Graphics;
 using System.Net;
 using System.Threading.Tasks;
 using SQLite.Net;
+using Android.Util;
 
 namespace RescueMe.Agent.Data
 {
@@ -325,11 +326,17 @@ namespace RescueMe.Agent.Data
                 //Save Local
                 webClient.DownloadDataCompleted += (s, e) =>
                 {
-                    var bytes = e.Result; // get the downloaded data
-                    string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                    string localFilename = $"{request.Id}_{GetUser().UserID}.png";
-                    string localPath = System.IO.Path.Combine(documentsPath, localFilename);
-                    File.WriteAllBytes(localPath, bytes); // writes to local storage
+                    try
+                    {
+                        var bytes = e.Result; // get the downloaded data
+                        string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                        string localFilename = $"{request.Id}_{GetUser().UserID}.png";
+                        string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+                        File.WriteAllBytes(localPath, bytes); // writes to local storage
+                    }catch(Exception ex)
+                    {
+                        Log.Error("RescueMe", ex.InnerException.ToString());
+                    }
                 };
                 webClient.DownloadDataAsync(new Uri($"http://rescueme-api.azurewebsites.net/api/Map?" +
                                        $"requestID={request.Id}&UserID={GetUser().UserID}"));

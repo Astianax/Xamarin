@@ -16,6 +16,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using RescueMe.Agent.Activities;
 using RescueMe.Agent.Data;
+using Android.Util;
 
 namespace RescueMe.Agent.FireBaseServices
 {
@@ -35,10 +36,16 @@ namespace RescueMe.Agent.FireBaseServices
         {
             if (data.Tag.ToLower() == "asignado" || data.Tag.ToLower() == "cancelado")
             {
-                var context = DbContext.Instance;
-                var client = new RestClient(BaseActivity.Url);
-                var rescues = context.GetRescues(client, context.GetUser());
-                context.UpdateRequests(rescues);
+                try
+                {
+                    var context = DbContext.Instance;
+                    var client = new RestClient(BaseActivity.Url);
+                    var rescues = context.GetRescues(client, context.GetUser());
+                    context.UpdateRequests(rescues);
+                }catch(Exception ex)
+                {
+                    Log.Info("RescueMe", "Error to trying saving..");
+                }
             }
             var intent = new Intent(this, typeof(HomeActivity));
             intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
