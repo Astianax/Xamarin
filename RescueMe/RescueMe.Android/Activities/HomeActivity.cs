@@ -203,7 +203,16 @@ namespace RescueMe.Droid.Activities
             if (mCurrentLocation != null && mMap != null)
             {
                 //mMap.Clear();
-                LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
+                LatLng latlng;
+                
+                if (pendingRequest == null) 
+                {
+                    latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
+                }
+                else
+                {
+                    latlng = new LatLng(Double.Parse(pendingRequest.Latitude.ToString()), Double.Parse(pendingRequest.Longitude.ToString()));
+                }
 
                 int intWidth = 100;
                 int intHeight = 100;
@@ -239,7 +248,7 @@ namespace RescueMe.Droid.Activities
                 if (pendingRequest != null && agentLatLng != null && latLngPoints != null)
                 {
                     LatLng latlngAgent = new LatLng(agentLatLng.Latitude, agentLatLng.Longitude);
-                    
+
                     if (agentMarker == null && latlngAgent.Latitude != 0 && polyLine == null)
                     {
                         MarkerOptions markerOptionsClient = new MarkerOptions()
@@ -250,22 +259,25 @@ namespace RescueMe.Droid.Activities
                         polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
                                 .Add(latLngPoints.ToArray()));
                     }
-                    else if (latLngPoints.FirstOrDefault().Latitude == 0)
+                    else if (latLngPoints.FirstOrDefault().Latitude == 0 && agentMarker != null && polyLine != null)
                     {
                         //polyLine.Points.Clear();
                         polyLine.Remove();
                         agentMarker.Remove();
-                    }else
+                        polyLine = null;
+                        agentMarker = null;
+                    }
+                    else if (agentMarker != null && polyLine != null)
                     {
                         agentMarker.Position = latlngAgent;
                         polyLine.Points = latLngPoints.ToArray();
                     }
-                    
+
                 }
-                
 
 
-                
+
+
                 mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
                 {
                     IsNetworkConnected = IsNetworkConnected()
@@ -452,30 +464,34 @@ namespace RescueMe.Droid.Activities
 
         public void GetDirections()
         {
-            pendingRequest= _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
-            if (pendingRequest.Status.Name == "asignado")
+            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
+
+            if (pendingRequest != null)
             {
-                try
+                if (pendingRequest.Status.Name == "asignado")
                 {
-                    latLngPoints = _client.Get("Map/Directions", new
+                    try
                     {
-                        Id = pendingRequest.Id
-                    }).Result.JsonToObject<List<LatLng>>();
+                        latLngPoints = _client.Get("Map/Directions", new
+                        {
+                            Id = pendingRequest.Id
+                        }).Result.JsonToObject<List<LatLng>>();
 
 
-                    agentLatLng = _client.Get("Request/CurrentAgent", new
+                        agentLatLng = _client.Get("Request/CurrentAgent", new
+                        {
+                            Id = pendingRequest.Id
+                        }).Result.JsonToObject<List<LatLng>>().FirstOrDefault();
+
+
+                    }
+                    catch (Exception)
                     {
-                        Id = pendingRequest.Id
-                    }).Result.JsonToObject<List<LatLng>>().FirstOrDefault();
 
+                        throw;
+                    }
 
                 }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-
             }
         }
 
@@ -611,7 +627,7 @@ namespace RescueMe.Droid.Activities
                     //StartActivity(intent);
                     break;
             }
-            
+
         }
 
         public override void OnBackPressed()
