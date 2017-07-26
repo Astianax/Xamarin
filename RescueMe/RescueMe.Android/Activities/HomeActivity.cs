@@ -48,8 +48,6 @@ namespace RescueMe.Droid.Activities
         public Marker agentMarker;
         public Marker clientMarker;
         public Polyline polyLine;
-        //GoogleApiClient apiClient;
-        //LocationRequest locRequest;
         private Boolean isLocalActivity = false;
 
         //
@@ -262,28 +260,7 @@ namespace RescueMe.Droid.Activities
                         agentMarker.Position = latlngAgent;
                         polyLine.Points = latLngPoints.ToArray();
                     }
-
-                    //if (latLngPoints.FirstOrDefault().Latitude != 0 && agentLatLng.Latitude != 0)
-                    //{
-                    //    //polyLine.Remove();
-                    //    if (polyLine == null)
-                    //    {
-                    //        // Polylines are useful for marking paths and routes on the map.
-                    //        polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
-                    //                .Add(latLngPoints.ToArray()));
-                    //    }
-                    //    else
-                    //    {
-                    //        polyLine.Points = latLngPoints.ToArray();
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    //mMap.Clear();
-                    //    polyLine.Remove();
-
-                    //}
-
+                    
                 }
                 
 
@@ -385,7 +362,7 @@ namespace RescueMe.Droid.Activities
                 frameLayoutMenu.Visibility = ViewStates.Visible;
                 request.Visibility = ViewStates.Gone;
 
-                GetDirecions(pendingRequest);
+                GetDirections();
             }
             else
             {
@@ -460,7 +437,7 @@ namespace RescueMe.Droid.Activities
                 {
                     if (pendingRequest != null)
                     {
-                        GetDirecions(pendingRequest);
+                        GetDirections();
                     }
 
                 })).Start();
@@ -473,7 +450,7 @@ namespace RescueMe.Droid.Activities
             }
         }
 
-        public void GetDirecions(Domain.Request pendingRequest)
+        public void GetDirections()
         {
             pendingRequest= _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
             if (pendingRequest.Status.Name == "asignado")
@@ -484,6 +461,8 @@ namespace RescueMe.Droid.Activities
                     {
                         Id = pendingRequest.Id
                     }).Result.JsonToObject<List<LatLng>>();
+
+
                     agentLatLng = _client.Get("Request/CurrentAgent", new
                     {
                         Id = pendingRequest.Id

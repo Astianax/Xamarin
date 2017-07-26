@@ -38,9 +38,10 @@ namespace RescueMe.Agent.Activities
         NavigationView navigationView;
         private GoogleMap mMap;
         Bitmap bitmap;
-        //GoogleApiClient apiClient;
-        //LocationRequest locRequest;
-
+        public Marker agentMarker;
+        public Marker clientMarker;
+        public Polyline polyLine;
+        private Boolean isLocalActivity = false;
 
         //
         //Location currentLocation;
@@ -101,7 +102,7 @@ namespace RescueMe.Agent.Activities
 
             //Load values of last instance
             UpdateValuesFromBundle(savedInstanceState);
-
+           
 
 
 
@@ -272,7 +273,7 @@ namespace RescueMe.Agent.Activities
         {
             if (mCurrentLocation != null && mMap != null)
             {
-                mMap.Clear();
+                //mMap.Clear();
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
           
 
@@ -294,24 +295,41 @@ namespace RescueMe.Agent.Activities
                 }
 
                 CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
-                MarkerOptions markerOptions = new MarkerOptions()
-                                                     .SetPosition(latlng)
-                                                      .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.marker));
-
-                if (pendingRequest != null)
+                if (agentMarker == null)
                 {
-                    LatLng latlngClient = new LatLng(double.Parse(pendingRequest.Latitude.ToString()), double.Parse(pendingRequest.Longitude.ToString()));
-                    MarkerOptions markerOptionsClient = new MarkerOptions()
-                                             .SetPosition(latlngClient)
-                                              .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerClient));
-
-                    mMap.AddMarker(markerOptionsClient);
+                    MarkerOptions markerOptions = new MarkerOptions()
+                                                         .SetPosition(latlng)
+                                                          .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.marker));
+                   agentMarker =  mMap.AddMarker(markerOptions);
                 }
-
-
-
-
-                mMap.AddMarker(markerOptions);
+                else
+                {
+                    agentMarker.Position = latlng;
+                }
+                if (pendingRequest != null && clientMarker == null && latLngPoints != null)
+                {
+                    if (latLngPoints.FirstOrDefault().Latitude != 0)
+                    {
+                        LatLng latlngClient = new LatLng(double.Parse(pendingRequest.Latitude.ToString()), double.Parse(pendingRequest.Longitude.ToString()));
+                        MarkerOptions markerOptionsClient = new MarkerOptions()
+                                                 .SetPosition(latlngClient)
+                                                  .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerClient));
+                        clientMarker = mMap.AddMarker(markerOptionsClient);
+                        // Polylines are useful for marking paths and routes on the map.
+                        polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
+                                .Add(latLngPoints.ToArray()));
+                    }
+                    else if (latLngPoints.FirstOrDefault().Latitude == 0)
+                    {
+                        clientMarker.Remove();
+                        polyLine.Remove();
+                    }
+                    else
+                    {
+                        polyLine.Points = latLngPoints.ToArray();
+                    }
+                    //Perrito verde
+                }
                 //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
                 //Resource.Animation.jump);
                 //markerOptions.StartAnimation(anim);
@@ -324,15 +342,6 @@ namespace RescueMe.Agent.Activities
                 mMap.UiSettings.ZoomControlsEnabled = true;
                 mMap.UiSettings.CompassEnabled = true;
                 mMap.MoveCamera(camera);
-
-
-                if (latLngPoints != null)
-                {
-
-                    // Polylines are useful for marking paths and routes on the map.
-                    mMap.AddPolyline(new PolylineOptions().Geodesic(true)
-                            .Add(latLngPoints.ToArray()));
-                }
             }
         }
 
@@ -481,6 +490,12 @@ namespace RescueMe.Agent.Activities
                 {
                     SendAgentStatus(mCurrentLocation, mGeocoder);
 
+                    if (pendingRequest != null)
+                    {
+                        GetDirections();
+                    }
+
+
 
                 })).Start();
                 counter = 0;
@@ -578,6 +593,7 @@ namespace RescueMe.Agent.Activities
 
         private void Menu_Click(object sender, EventArgs e)
         {
+            isLocalActivity = true;
             Intent intent = new Intent(this, typeof(RescueActivity));
             StartActivity(intent);
 
@@ -678,6 +694,7 @@ namespace RescueMe.Agent.Activities
 
         }
 
+
         public void SetButtonMenuHome()
         {
 
@@ -697,7 +714,7 @@ namespace RescueMe.Agent.Activities
                         unAvailable.Visibility = ViewStates.Gone;
                         try
                         {
-                            latLngPoints = _client.Get("Map/Directions", new { Id = pendingRequest.Id }).Result.JsonToObject<List<LatLng>>();
+                            GetDirections();
                         }
                         catch (Exception)
                         {
@@ -729,6 +746,27 @@ namespace RescueMe.Agent.Activities
             })).Start();
 
         }
+        public void GetDirections()
+        {
+            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
+            if (pendingRequest.AgentStatus.Name == "asignado")
+            {
+                try
+                {
+                    latLngPoints = _client.Get("Map/Directions", new
+                    {
+                        Id = pendingRequest.Id
+                    }).Result.JsonToObject<List<LatLng>>();
 
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
+        }
+
+        }
     }
-}
