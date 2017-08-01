@@ -151,9 +151,12 @@ namespace RescueMe.Droid
                             }
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                             SetMainBtnBack(btnMenu);
-                            ((HomeActivity)this.Activity).latLngPoints.Clear();
-                            //((HomeActivity)this.Activity).agentMarker = null;
-                            ((HomeActivity)this.Activity).latLngPoints.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                            if (((HomeActivity)this.Activity).latLngPoints != null)
+                            {
+                                ((HomeActivity)this.Activity).latLngPoints.Clear();
+                                //((HomeActivity)this.Activity).agentMarker = null;
+                                ((HomeActivity)this.Activity).latLngPoints.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                            }
                             ((HomeActivity)this.Activity).UpdateLocationUI();
 
 

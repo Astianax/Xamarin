@@ -496,9 +496,11 @@ namespace RescueMe.Agent.Activities
                     {
                         GetDirections();
                     }
-
-
-
+                    else 
+                    {
+                        _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
+                        pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
+                    }
                 })).Start();
                 counter = 0;
             }

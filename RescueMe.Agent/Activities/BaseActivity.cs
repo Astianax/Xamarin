@@ -32,14 +32,10 @@ namespace RescueMe.Agent.Activities
         protected bool _isAllowed = true;
         ConnectivityManager connectivityManager;
         public static string Url = "http://10.0.0.7:5000/api/";
-        
+        //public static string Url = "http://192.168.1.14:5000/api/";
         public BaseActivity()
         {
-            //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
             _client = new RestClient(Url);
-
-            //_client = new RestClient("http://192.168.2.42:5000/api/");
-
             _context = DbContext.Instance;
             _context.IsNetworkConnected = true;
         }
