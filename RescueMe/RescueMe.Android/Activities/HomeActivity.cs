@@ -47,6 +47,7 @@ namespace RescueMe.Droid.Activities
         Bitmap bitmap;
         public Marker agentMarker;
         public Marker clientMarker;
+        private List<Marker> agentsAvailables;
         public Polyline polyLine;
         private Boolean isLocalActivity = false;
 
@@ -64,6 +65,7 @@ namespace RescueMe.Droid.Activities
         public List<LatLng> latLngPoints;
         Domain.Request pendingRequest;
         LatLng agentLatLng;
+        public List<AgentLocation> agentsLatLngPoints;
 
         //Configuration Request
         protected const string TAG = "location-settings";
@@ -230,15 +232,17 @@ namespace RescueMe.Droid.Activities
                     }
                 }
 
-                CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
                 if (clientMarker == null)
                 {
+
+                    CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 15);
                     MarkerOptions markerOptions = new MarkerOptions()
                                                          .SetPosition(latlng)
                                                           .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
                                                          .SetTitle("My Position")
                                                          ;
                     clientMarker = mMap.AddMarker(markerOptions);
+                    mMap.MoveCamera(camera);
                 }
                 else
                 {
@@ -258,6 +262,15 @@ namespace RescueMe.Droid.Activities
 
                         polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
                                 .Add(latLngPoints.ToArray()));
+                        //Remove all Agents Availables 
+                        if (agentsAvailables != null && agentsAvailables.Count > 0)
+                        {
+                            foreach (var marker in agentsAvailables)
+                            {
+                                marker.Remove();
+                            }
+                            agentsAvailables = null;
+                        }
                     }
                     else if (latLngPoints.FirstOrDefault().Latitude == 0 && agentMarker != null && polyLine != null)
                     {
@@ -272,9 +285,79 @@ namespace RescueMe.Droid.Activities
                         agentMarker.Position = latlngAgent;
                         polyLine.Points = latLngPoints.ToArray();
                     }
-
                 }
 
+                //Get Agents availables markers
+                if (agentMarker == null && agentsAvailables == null)
+                {
+                 
+                    if (agentsLatLngPoints != null)
+                    {
+                        agentsAvailables = new List<Marker>();
+                        foreach (var agentPosition in agentsLatLngPoints)
+                        {
+                            MarkerOptions markerOptions = new MarkerOptions()
+                                                            .SetTitle(agentPosition.AgentId.ToString())
+                                                           .SetPosition(agentPosition.Location)
+                                                            .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerAgent))
+                                                           ;
+                            Marker mAgentMarker = mMap.AddMarker(markerOptions);
+                            agentsAvailables.Add(mAgentMarker);
+                        }
+                    }
+                    
+                }
+                else if (agentsAvailables  != null)
+                {
+                    //Get all news points about agents
+                    if (agentsLatLngPoints != null)
+                    {
+                        foreach (var agentPosition in agentsLatLngPoints)
+                        {
+                            //Get Agent marker
+                            var marker =
+                                agentsAvailables.FirstOrDefault(a => a.Title == agentPosition.AgentId.ToString());
+                            if (marker != null)
+                            {
+                                marker.Position = agentPosition.Location;
+                            }
+                            
+                            //else
+                            //{
+                            //    //Remove marker of Agent
+                            //    marker.Remove();
+                            //}
+                        }
+                        //Get all markers
+                        foreach (var marker in agentsAvailables)
+                        {
+                            var agent = agentsLatLngPoints.FirstOrDefault(f => f.AgentId.ToString() == marker.Title);
+                            if (agent == null)
+                            {
+                                marker.Remove();
+                            }
+                            marker.Position = agent.Location;
+                        }
+
+                        //Is not same count agents get excepts
+                        if (agentsAvailables.Count != agentsLatLngPoints.Count)
+                        {
+                            foreach (var agentPosition in agentsLatLngPoints)
+                            {
+                                if (!agentsAvailables.Any(a => a.Title == agentPosition.AgentId.ToString()))
+                                {
+                                    MarkerOptions markerOptions = new MarkerOptions()
+                                                         .SetTitle(agentPosition.AgentId.ToString())
+                                                        .SetPosition(agentPosition.Location)
+                                                         .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerAgent))
+                                                        ;
+                                    Marker mAgentMarker = mMap.AddMarker(markerOptions);
+                                    agentsAvailables.Add(mAgentMarker);
+                                }
+                            }
+                        }
+                    }
+                }
 
 
 
@@ -283,7 +366,7 @@ namespace RescueMe.Droid.Activities
                     IsNetworkConnected = IsNetworkConnected()
                 });
 
-                mMap.MoveCamera(camera);
+          
 
 
             }
@@ -451,6 +534,10 @@ namespace RescueMe.Droid.Activities
                     {
                         GetDirections();
                     }
+                    else
+                    {
+                        GetAgentsAvailables();
+                    }
 
                 })).Start();
                 counter = 0;
@@ -495,6 +582,30 @@ namespace RescueMe.Droid.Activities
             }
         }
 
+        private void GetAgentsAvailables()
+        {
+            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
+
+            if (pendingRequest == null)
+            {
+                try
+                {
+                    var address = 
+                        mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
+                    var cityName = address.FirstOrDefault().Locality;
+
+                    agentsLatLngPoints = _client.Get("Agent/Availables", new
+                    {
+                        city = cityName
+                    }).Result.JsonToObject<List<AgentLocation>>();
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+            }
+        }
         protected override void OnSaveInstanceState(Bundle outState)
         {
             outState.PutBoolean(KEY_REQUESTING_LOCATION_UPDATES, mRequestingLocationUpdates);
@@ -553,7 +664,7 @@ namespace RescueMe.Droid.Activities
             mMap.UiSettings.ZoomControlsEnabled = true;
             mMap.UiSettings.ZoomGesturesEnabled = true;
             mMap.SetMaxZoomPreference(17);
-            mMap.SetMinZoomPreference(14);
+            //mMap.SetMinZoomPreference(14);
             mMap.UiSettings.CompassEnabled = false;
             mMap.UiSettings.MyLocationButtonEnabled = true;
 
