@@ -138,29 +138,35 @@ namespace RescueMe.Agent.Activities
 
         public static string GetAddress(Location location, Geocoder mGeocoder)
         {
-            string mAddress;
-
-            //The Geocoder class retrieves a list of address from Google over the internet  
-            IList<Address> addressList = mGeocoder.GetFromLocationAsync(location.Latitude, location.Longitude, 10).Result;
-            Address addressCurrent = addressList.FirstOrDefault();
-
-            if (addressCurrent != null)
+            string mAddress = "";
+            try
             {
-                //StringBuilder deviceAddress = new StringBuilder();
+               
 
-                //for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
-                ////deviceAddress.Append(addressCurrent.GetAddressLine(i))
-                //.AppendLine(",");
+                //The Geocoder class retrieves a list of address from Google over the internet  
+                IList<Address> addressList = mGeocoder.GetFromLocationAsync(location.Latitude, location.Longitude, 10).Result;
+                Address addressCurrent = addressList.FirstOrDefault();
 
-                //mAddress = deviceAddress.ToString();
-                mAddress = addressCurrent.Locality;
-            }
-            else
+                if (addressCurrent != null)
+                {
+                    //StringBuilder deviceAddress = new StringBuilder();
+
+                    //for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+                    ////deviceAddress.Append(addressCurrent.GetAddressLine(i))
+                    //.AppendLine(",");
+
+                    //mAddress = deviceAddress.ToString();
+                    mAddress = addressCurrent.Locality;
+                }
+                else
+                {
+
+                    mAddress = "Unable to determine the address.";
+                }
+            }catch(Exception e)
             {
-
-                mAddress = "Unable to determine the address.";
+                //Error of Address
             }
-
             return mAddress;
         }
 

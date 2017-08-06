@@ -187,7 +187,7 @@ namespace RescueMe.Droid.Activities
                                         message = "No hay agentes disponibles, espere una notificación";
                                     }
                                 }
-                                else
+                                else 
                                 {
                                     message = "Se ha enviado su solicitud";
                                 }
@@ -203,8 +203,9 @@ namespace RescueMe.Droid.Activities
                                 string requestData = request.Latitude + "|" + request.Longitude + "|" + request.UserID + "|" + request.ReasonID
                                 + "|" + request.VehicleID + "|" + request.Comments;
 
+
                                 sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
-                                sms.SendTextMessage("8296370019", null, requestData, sentPI, null);
+                                sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
                             }
                         }
                         catch (Exception ex)

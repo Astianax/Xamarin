@@ -248,11 +248,17 @@ namespace RescueMe.Agent.Data
                 //            requests[i].VehicleID.HasValue ? 
                 //                    requests[i].VehicleID.Value : 0;
                 //} 
-                _connection.DeleteAll<RequestSaved>();
-                var isSaved = _connection.UpdateAll(requestsSaved) > 0;
-                if (isSaved == false)
+                try
                 {
-                    _connection.InsertAll(requestsSaved);
+                    _connection.DeleteAll<RequestSaved>();
+                    var isSaved = _connection.UpdateAll(requestsSaved) > 0;
+                    if (isSaved == false)
+                    {
+                        _connection.InsertAll(requestsSaved);
+                    }
+                }catch(Exception e)
+                {
+                    Log.Error("RescueMe", "Database busy");
                 }
                 //Download all image's
                 foreach (var request in requests)
@@ -347,22 +353,28 @@ namespace RescueMe.Agent.Data
         }
         public async Task<Bitmap> GetImageBitmapFromRequest(Request request)
         {
-            Stream fileImage;
-            Bitmap imageBitmap = null;
-            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            string localFilename = $"{request.Id}_{GetUser().UserID}.png";
-            string localPath = System.IO.Path.Combine(documentsPath, localFilename);
-            //Return Local image or 
-            if (System.IO.File.Exists(localPath))
+            try
             {
-                fileImage = System.IO.File.OpenRead(localPath);
-                imageBitmap = BitmapFactory.DecodeStream(fileImage);
-            }
-            else if (IsNetworkConnected)
+                Stream fileImage;
+                Bitmap imageBitmap = null;
+                string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                string localFilename = $"{request.Id}_{GetUser().UserID}.png";
+                string localPath = System.IO.Path.Combine(documentsPath, localFilename);
+                //Return Local image or 
+                if (System.IO.File.Exists(localPath))
+                {
+                    fileImage = System.IO.File.OpenRead(localPath);
+                    imageBitmap = BitmapFactory.DecodeStream(fileImage);
+                }
+                else if (IsNetworkConnected)
+                {
+                    await GetImageBitmapFromUrl(request);
+                }
+                return imageBitmap;
+            }catch(Exception e)
             {
-                await GetImageBitmapFromUrl(request);
+                return null;
             }
-            return imageBitmap;
         }
         public List<Request> GetRequest()
         {

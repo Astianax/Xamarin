@@ -324,13 +324,20 @@ namespace RescueMe.Agent.Activities
                         clientMarker.Remove();
                         polyLine.Remove();
                         clientMarker = null;
-                        polyLine = null; ;
+                        polyLine = null; 
                     }
                     else if(polyLine != null)
                     {
                         polyLine.Points = latLngPoints.ToArray();
                     }
                     //Perrito verde
+                }
+                else if (clientMarker != null && polyLine  != null && pendingRequest == null)
+                {
+                    clientMarker.Remove();
+                    polyLine.Remove();
+                    clientMarker = null;
+                    polyLine = null; 
                 }
                 //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
                 //Resource.Animation.jump);
@@ -496,12 +503,12 @@ namespace RescueMe.Agent.Activities
                     {
                         GetDirections();
                     }
-                    else 
+                    RunOnUiThread(() =>
                     {
-                        _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
-                        pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
-                    }
+                        SetButtonMenuHome();
+                    });
                 })).Start();
+                
                 counter = 0;
             }
             else
