@@ -277,7 +277,15 @@ namespace RescueMe.Droid.Data
             request.StatusID = status.Id;
             request.Status = status.Name;
             _connection.Update(request);
-
+        }
+        public void UpdateRequest(Request requestToUpdate,  int requestId, int statusId)
+        {
+            var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestToUpdate.Id);
+            var status = getStatusList().FirstOrDefault(s => s.Id == statusId);
+            request.StatusID = status.Id;
+            request.Id = requestId;
+            request.Status = status.Name;
+            _connection.Update(request);
         }
 
         public void CloseRequestStatus(int requestID)

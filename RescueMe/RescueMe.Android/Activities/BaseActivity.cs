@@ -123,7 +123,10 @@ namespace RescueMe.Droid.Activities
                 iNetRequest.Timeout = 5000;
                 WebResponse iNetResponse = iNetRequest.GetResponse();
                 iNetResponse.Close();
-
+                if (iNetResponse.ContentLength == -1)
+                {
+                    return false;
+                }
                 return true;
 
             }

@@ -20,6 +20,7 @@ using Android.Gms.Plus;
 using Android.Util;
 using Android.Gms.Auth.Api;
 using Android.Graphics;
+using RescueMe.Droid.SMS;
 
 namespace RescueMe.Droid
 {
@@ -42,12 +43,13 @@ namespace RescueMe.Droid
         //TextView mStatus;
         bool mIsResolving = false;
         bool mShouldResolve = false;
-
+        private SMSReceiver _receiver = new SMSReceiver();
         protected async override void OnCreate(Bundle bundle)
         {
             //Informations
 
             base.OnCreate(bundle);
+         //   RegisterReceiver(_receiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
             if (bundle != null)
             {
                 mIsResolving = bundle.GetBoolean(KEY_IS_RESOLVING);

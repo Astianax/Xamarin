@@ -456,8 +456,10 @@ namespace RescueMe.Droid.Activities
             {
                 frameLayoutMenu.Visibility = ViewStates.Visible;
                 request.Visibility = ViewStates.Gone;
-
-                GetDirections();
+                if (IsNetworkConnected())
+                {
+                    GetDirections();
+                }
             }
             else
             {
@@ -526,7 +528,7 @@ namespace RescueMe.Droid.Activities
             mCurrentLocation = location;
             UpdateLocationUI();
 
-            if (counter == 2)
+            if (counter == 2 && IsNetworkConnected())
             {
                 new Thread(new ThreadStart(delegate
                 {
