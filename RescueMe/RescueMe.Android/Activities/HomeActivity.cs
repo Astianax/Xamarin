@@ -118,12 +118,6 @@ namespace RescueMe.Droid.Activities
             BuildGoogleApiClient();
             CreateLocationRequest();
             BuildLocationSettingsRequest();
-
-
-
-
-
-
         }
 
 
@@ -239,7 +233,7 @@ namespace RescueMe.Droid.Activities
                     MarkerOptions markerOptions = new MarkerOptions()
                                                          .SetPosition(latlng)
                                                           .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
-                                                         .SetTitle("My Position")
+                                                        // .SetTitle("My Position")
                                                          ;
                     clientMarker = mMap.AddMarker(markerOptions);
                     mMap.MoveCamera(camera);
@@ -257,7 +251,9 @@ namespace RescueMe.Droid.Activities
                     {
                         MarkerOptions markerOptionsClient = new MarkerOptions()
                                              .SetPosition(latlngAgent)
+                                                .SetTitle(pendingRequest.UpdatedBy.ToString())
                                               .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.markerAgent));
+
                         agentMarker = mMap.AddMarker(markerOptionsClient);
 
                         polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)

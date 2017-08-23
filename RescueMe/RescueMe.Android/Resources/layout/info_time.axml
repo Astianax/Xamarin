@@ -29,7 +29,7 @@
       android:id="@+id/layoutLine"
       android:orientation="vertical">
     <TextView
-        android:id="@+id/txtAddress"
+        android:id="@+id/txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -38,8 +38,8 @@
         android:layout_toStartOf="@+id/layoutLine"
         android:textAppearance="?android:textAppearanceLarge"/>
     <TextView
-          android:id="@+id/City"
-          android:layout_below="@+id/txtAddress"
+          android:id="@+id/txtDistance"
+          android:layout_below="@+id/txtTime"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_alignParentLeft="true"

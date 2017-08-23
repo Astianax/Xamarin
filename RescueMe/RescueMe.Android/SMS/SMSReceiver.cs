@@ -25,7 +25,7 @@ namespace RescueMe.Droid.SMS
         public static readonly string IntentAction = "android.provider.Telephony.SMS_RECEIVED";
         public override void OnReceive(Context context, Intent intent)
         {
-            context.SendOrderedBroadcast(intent, IntentAction);
+            //context.SendOrderedBroadcast(intent, IntentAction);
             InvokeAbortBroadcast();
             try
             {

@@ -34,7 +34,7 @@ namespace RescueMe.Droid.Activities
         {
             //_client = new RestClient("http://rescueme-api.azurewebsites.net/api/");
             //_client = new RestClient("http://192.168.2.49:5000/api/");
-            _client = new RestClient("http://10.0.0.7:5000/api/");
+            _client = new RestClient("http://10.0.0.6:5000/api/");
             //_client = new RestClient("http://10.0.0.7:5000/api/");
 
 
@@ -123,10 +123,10 @@ namespace RescueMe.Droid.Activities
                 iNetRequest.Timeout = 5000;
                 WebResponse iNetResponse = iNetRequest.GetResponse();
                 iNetResponse.Close();
-                if (iNetResponse.ContentLength == -1)
-                {
-                    return false;
-                }
+                //if (iNetResponse.ContentLength == -1)
+                //{
+                //    return false;
+                //}
                 return true;
 
             }

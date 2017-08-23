@@ -16,6 +16,15 @@
 	<uses-permission android:name="RescueMe.RescueMe.permission.MAPS_RECIEVE" android:protectionLevel="signature" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<user-features android:glEsVersion="0x00020000" android:required="true" />
+	<!--Sms-->
+	<uses-permission android:name="android.permission.SEND_SMS" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.READ_SMS" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.WRITE_SMS" />
+	<uses-permission android:name="android.permission.BROADCAST_SMS" />
 	<application android:label="Rescue Me" android:theme="@style/MyCustomTheme" android:icon="@drawable/logoIcon" android:screenOrientation="portrait">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="@string/GoogleKey" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
@@ -29,11 +38,4 @@
 			</intent-filter>
 		</receiver>
 	</application>
-	<!--Sms-->
-	<uses-permission android:name="android.permission.SEND_SMS" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-	<uses-permission android:name="android.permission.READ_SMS" />
-	<uses-permission android:name="android.permission.RECEIVE_SMS" />
 </manifest>
