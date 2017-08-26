@@ -169,13 +169,13 @@ namespace RescueMe.Droid.Data
         /// <param name="vehicles"></param>
         public void UpdateVehicles(List<Vehicle> vehicles)
         {
-            var vehicleSaved =vehicles.Select(v => new VehicleSaved()
-                {
-                    Id = v.Id,
-                    Marque = v.Marque,
-                    Type = v.Type
-                }).ToList();
-            
+            var vehicleSaved = vehicles.Select(v => new VehicleSaved()
+            {
+                Id = v.Id,
+                Marque = v.Marque,
+                Type = v.Type
+            }).ToList();
+
             var isSaved = _connection.UpdateAll(vehicleSaved) > 0;
             if (isSaved == false)
             {
@@ -194,7 +194,9 @@ namespace RescueMe.Droid.Data
                 StatusID = request.StatusID,
                 Comments = request.Comments,
                 VehicleID = request.VehicleID.HasValue ? request.VehicleID.Value : 0,
-                ReasonID = request.ReasonID
+                ReasonID = request.ReasonID,
+                AgentName = request.AgentProfile.Name,
+                Time = request.CreatedAt.ToString()
 
             };
             if (IsNetworkConnected)
@@ -226,7 +228,9 @@ namespace RescueMe.Droid.Data
                 Comments = r.Comments,
                 VehicleID = r.VehicleID.HasValue ? r.VehicleID.Value : 0,
                 ReasonID = r.ReasonID,
-                Status = r.Status.Name
+                Status = r.Status.Name,
+                AgentName = r.AgentProfile.Name,
+                Time = r.CreatedAt.ToString()
             }).ToList();
 
             var isSaved = _connection.UpdateAll(requestsSaved) > 0;
@@ -278,13 +282,14 @@ namespace RescueMe.Droid.Data
             request.Status = status.Name;
             _connection.Update(request);
         }
-        public void UpdateRequest(Request requestToUpdate,  int requestId, int statusId)
+        public void UpdateRequest(Request requestToUpdate, int requestId, int statusId)
         {
             var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestToUpdate.Id);
             var status = getStatusList().FirstOrDefault(s => s.Id == statusId);
             request.StatusID = status.Id;
             request.Id = requestId;
             request.Status = status.Name;
+            request.AgentName = requestToUpdate.AgentProfile.Name;
             _connection.Update(request);
         }
 
@@ -361,14 +366,20 @@ namespace RescueMe.Droid.Data
                                           VehicleID = r.VehicleID,
                                           ReasonID = r.ReasonID,
                                           ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
-                                          Vehicle = GetVehicles().Count > 0 ? 
+                                          Vehicle = GetVehicles().Count > 0 ?
                                                 GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID)
                                                 : new Vehicle() { Marque = "Vehículo de Tercero", Id = 0 },
                                           User = GetUser().User,
                                           Status = new Status()
                                           {
                                               Name = getStatusList().FirstOrDefault(s => s.Id == r.StatusID).Name
-                                          }
+                                          },
+                                          AgentProfile = new UserProfile()
+                                          {
+                                              Name = r.AgentName
+                                          },
+                                          CreatedAt = DateTime.Parse(r.Time)
+
                                       }).OrderByDescending(o => o.Id).ToList();
 
             return requests;
@@ -492,7 +503,7 @@ namespace RescueMe.Droid.Data
 
         }
 
-       
+
 
 
     }

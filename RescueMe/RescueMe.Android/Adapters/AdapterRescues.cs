@@ -56,6 +56,8 @@ namespace RescueMe.Droid.Adapters
             holder.Type.Text = request.Vehicle.Type;
             holder.Marque.Text = request.Vehicle.Marque;
             holder.Status.Text = request.Status.Name;
+            holder.AgentName.Text = request.AgentProfile.Name;
+            holder.Time.Text = request.CreatedAt.ToString();
             //Get and validate if image exist 
             var imageBitmap = _context.GetImageBitmapFromRequest(request).Result;
             holder.Map.SetImageBitmap(imageBitmap);
@@ -127,6 +129,8 @@ namespace RescueMe.Droid.Adapters
         public TextView Status { get; set; }
         public TextView Type { get; set; }
         public TextView Marque { get; set; }
+        public TextView AgentName { get; set; }
+        public TextView Time { get; set; }
         public ImageView Map { get; set; }
 
 
@@ -141,6 +145,8 @@ namespace RescueMe.Droid.Adapters
             Marque = itemView.FindViewById<TextView>(Resource.Id.marque);
             Map = itemView.FindViewById<ImageView>(Resource.Id.map);
             Status = itemView.FindViewById<TextView>(Resource.Id.status);
+            AgentName = itemView.FindViewById<TextView>(Resource.Id.agentName);
+            Time = itemView.FindViewById<TextView>(Resource.Id.time);
 
 
             //Status.Click += (sender, e) => clickListener(new AdapterRescuesClickEventArgs

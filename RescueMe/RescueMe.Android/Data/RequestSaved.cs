@@ -20,6 +20,8 @@ namespace RescueMe.Droid.Data
         public int StatusID { get; set; }
         public int ReasonID { get; set; }
         public int VehicleID { get; set; }
+        public string AgentName { get; set; }
+        public string Time { get; set; }
         [PrimaryKey]
         public int Id { get; set; }
         public decimal Latitude { get; set; }
