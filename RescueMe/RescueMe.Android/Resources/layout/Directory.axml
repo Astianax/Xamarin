@@ -12,11 +12,18 @@
         android:text="Mi Directorio"
         android:layout_width="0dp"
         android:layout_height="0dp" />
-
-  <ExpandableListView
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:id="@+id/expandableListView"
-     android:layout_below="@id/titleText"
-     android:layout_marginTop="50dp"/>
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/expandableListView"
+        android:layout_below="@id/titleText"
+        android:layout_marginTop="50dp" />
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@drawable/edit_text_style"
+        android:hint="Search Friends"
+        android:textColor="#000"
+        android:visibility="invisible" />
 </RelativeLayout>
