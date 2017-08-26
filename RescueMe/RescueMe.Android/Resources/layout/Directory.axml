@@ -5,10 +5,18 @@
     android:minHeight="25dp"
     android:minWidth="25dp">
     <include
-        layout="@layout/ToolBar" />
+        layout="@layout/ToolBar"
+        android:id="@+id/toolbar" />
     <TextView
         android:id="@+id/titleText"
-        android:text="Directorio"
+        android:text="Mi Directorio"
         android:layout_width="0dp"
         android:layout_height="0dp" />
+
+  <ExpandableListView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/expandableListView"
+     android:layout_below="@id/titleText"
+     android:layout_marginTop="50dp"/>
 </RelativeLayout>

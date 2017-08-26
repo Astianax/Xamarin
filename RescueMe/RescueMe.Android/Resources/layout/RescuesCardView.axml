@@ -36,6 +36,19 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#333333"
+                android:text="status"
+                android:id="@+id/status"
+                android:inputType="textCapWords"
+                android:layout_below="@id/type"
+                android:gravity="right"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="4dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#333333"
                 android:text="marque"
                 android:id="@+id/marque"
                 android:layout_below="@id/type"
@@ -46,13 +59,23 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#333333"
-                android:text="status"
-                android:id="@+id/status"
-                android:layout_below="@id/type"
+                android:textSize="14dp"
+                android:text="time"
+                android:id="@+id/time"
+                android:layout_below="@id/status"
                 android:gravity="right"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="0.0dp"
                 android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#333333"
+                android:text="Agente"
+                android:id="@+id/agentName"
+                android:layout_below="@id/marque"
+                android:layout_marginLeft="4dp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>
