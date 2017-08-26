@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Content.PM;
 using RescueMe.Droid.Adapters;
+using RescueMe.Domain;
 
 namespace RescueMe.Droid.Activities
 {
@@ -21,7 +22,7 @@ namespace RescueMe.Droid.Activities
         ExpandableListViewAdapter mAdapter;
         ExpandableListView expandableListView;
         List<string> group = new List<string>();
-        Dictionary<string, List<string>> dicMyMap = new Dictionary<string, List<string>>();
+        Dictionary<string, List<SoSDirectory>> dicMyMap = new Dictionary<string, List<SoSDirectory>>();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,7 +39,10 @@ namespace RescueMe.Droid.Activities
             expandableListView.SetAdapter(mAdapter);
 
             expandableListView.ChildClick += (s, e) => {
-                Toast.MakeText(this, "Clicked : " + mAdapter.GetChild(e.GroupPosition, e.ChildPosition), ToastLength.Short).Show();
+                //Toast.MakeText(this, "Clicked : " + mAdapter.GetBusiness(e.GroupPosition, e.ChildPosition).TelephoneNumber, ToastLength.Short).Show();
+                 var uri = Android.Net.Uri.Parse("tel:" + mAdapter.GetBusiness(e.GroupPosition, e.ChildPosition).TelephoneNumber);
+                Intent callIntent = new Intent(Intent.ActionDial, uri);
+                StartActivity(callIntent);
             };
 
 
@@ -48,22 +52,14 @@ namespace RescueMe.Droid.Activities
 
         private void SetData(out ExpandableListViewAdapter mAdapter)
         {
-            List<string> groupA = new List<string>();
-            groupA.Add("A-1");
-            groupA.Add("A-2");
-            groupA.Add("A-3");
+            var list = _client.Get("Directory", null).Result.JsonToObject<List<SoSDirectory>>();
 
-            List<string> groupB = new List<string>();
-            groupB.Add("B-1");
-            groupB.Add("B-2");
-            groupB.Add("B-3");
-
-            group.Add("Group A");
-            group.Add("Group B");
-
-            dicMyMap.Add(group[0], groupA);
-            dicMyMap.Add(group[1], groupB);
-
+            var groups = list.GroupBy(g => g.Category);
+            foreach (var category in groups)
+            {
+                group.Add(category.Key);
+                dicMyMap.Add(category.Key, category.ToList());
+            }
             mAdapter = new ExpandableListViewAdapter(this, group, dicMyMap);
 
         }

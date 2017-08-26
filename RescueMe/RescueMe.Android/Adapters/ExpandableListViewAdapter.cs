@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using RescueMe.Domain;
 
 namespace RescueMe.Droid.Adapters
 {
@@ -17,9 +18,9 @@ namespace RescueMe.Droid.Adapters
     {
         private Context context;
         private List<string> listGroup;
-        private Dictionary<string, List<string>> lstChild;
+        private Dictionary<string, List<SoSDirectory>> lstChild;
 
-        public ExpandableListViewAdapter(Context context,List<string> listGroup,Dictionary<string,List<string>> lstChild)
+        public ExpandableListViewAdapter(Context context,List<string> listGroup,Dictionary<string,List<SoSDirectory>> lstChild)
         {
             this.context = context;
             this.listGroup = listGroup;
@@ -44,7 +45,15 @@ namespace RescueMe.Droid.Adapters
 
         public override Java.Lang.Object GetChild(int groupPosition, int childPosition)
         {
-            var result = new List<string>();
+            //var result = new List<SoSDirectory>();
+            //lstChild.TryGetValue(listGroup[groupPosition], out result);
+            //return result[childPosition];
+            return null;
+        }
+        public SoSDirectory GetBusiness(int groupPosition, int childPosition)
+        {
+
+            var result = new List<SoSDirectory>();
             lstChild.TryGetValue(listGroup[groupPosition], out result);
             return result[childPosition];
         }
@@ -56,7 +65,7 @@ namespace RescueMe.Droid.Adapters
 
         public override int GetChildrenCount(int groupPosition)
         {
-            var result = new List<string>();
+            var result = new List<SoSDirectory>();
             lstChild.TryGetValue(listGroup[groupPosition], out result);
             return result.Count;
         }
@@ -69,7 +78,7 @@ namespace RescueMe.Droid.Adapters
                 convertView = inflater.Inflate(Resource.Layout.item_layout, null);
             }
             TextView textViewItem = convertView.FindViewById<TextView>(Resource.Id.item);
-            string content = (string)GetChild(groupPosition, childPosition);
+            string content = GetBusiness(groupPosition, childPosition).Name; //is Name
             textViewItem.Text = content;
             return convertView;
         }
