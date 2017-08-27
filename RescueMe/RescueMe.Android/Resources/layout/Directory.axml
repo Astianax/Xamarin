@@ -1,29 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:minHeight="25dp"
-    android:minWidth="25dp">
-    <include
-        layout="@layout/ToolBar"
-        android:id="@+id/toolbar" />
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+  <Toolbar
+       android:minHeight="?android:attr/actionBarSize"
+       android:minWidth="25px"
+       android:layout_width="match_parent"
+       android:layout_height="48.5dp"
+       android:background="@color/main_color"
+       android:id="@+id/toolbar">
+    <Button
+        android:id="@+id/back"
+        android:layout_height="20dp"
+        android:background="@drawable/back"
+        android:layout_width="20dp"
+        android:drawablePadding="12dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingStart="20dp" />
     <TextView
-        android:id="@+id/titleText"
         android:text="Mi Directorio"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="110dp"
+        android:id="@+id/titleID"
+        android:gravity="start"
+        android:textStyle="normal"
+        android:textColor="@android:color/background_light"
+        android:textSize="20dp" />
+    <Button
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_action_search"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:id="@+id/search"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+  </Toolbar>
+  <LinearLayout
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:id="@+id/llContainer"
+      android:layout_below="@id/toolbar"
+       android:layout_marginTop="50dp">
     <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/expandableListView"
-        android:layout_below="@id/titleText"
-        android:layout_marginTop="50dp" />
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@drawable/edit_text_style"
-        android:hint="Search Friends"
-        android:textColor="#000"
-        android:visibility="invisible" />
-</RelativeLayout>
+        android:dividerHeight="1dp" 
+            />
+  </LinearLayout>
+  <EditText
+      android:id="@+id/etSearch"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"      
+      android:layout_below="@id/toolbar"      
+       android:layout_marginTop="60dp"
+      android:hint="Buscar "
+      android:textColor="#000"
+      android:visibility="invisible" />
+</FrameLayout>

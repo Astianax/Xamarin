@@ -11,16 +11,16 @@ using Android.Views;
 using Android.Widget;
 using Android.Views.Animations;
 
-namespace AnimationTutorial
+namespace RescueMe.Droid
 {
-    class MyAnimation : Animation
+    class SearchAnimation : Animation
     {
         private View mView;
         private int mOriginalHeight;
         private int mTargetHeight;
         private int mGrowBy;
 
-        public MyAnimation(View view, int targetHeight)
+        public SearchAnimation(View view, int targetHeight)
         {
             mView = view;
             mOriginalHeight = view.Height;
