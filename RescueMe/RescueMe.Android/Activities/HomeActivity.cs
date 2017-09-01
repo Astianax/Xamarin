@@ -63,6 +63,7 @@ namespace RescueMe.Droid.Activities
         private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
         public List<LatLng> latLngPoints;
+        public Directions directions;
         Domain.Request pendingRequest;
         LatLng agentLatLng;
         public List<AgentLocation> agentsLatLngPoints;
@@ -243,7 +244,8 @@ namespace RescueMe.Droid.Activities
                     clientMarker.Position = latlng;
                 }
 
-                if (pendingRequest != null && agentLatLng != null && latLngPoints != null)
+                //if (pendingRequest != null && agentLatLng != null && latLngPoints != null)
+                if (pendingRequest != null && agentLatLng != null && directions.Points != null)
                 {
                     LatLng latlngAgent = new LatLng(agentLatLng.Latitude, agentLatLng.Longitude);
 
@@ -257,7 +259,8 @@ namespace RescueMe.Droid.Activities
                         agentMarker = mMap.AddMarker(markerOptionsClient);
 
                         polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
-                                .Add(latLngPoints.ToArray()));
+                                //.Add(latLngPoints.ToArray()));
+                                .Add(directions.Points.ToArray()));
                         //Remove all Agents Availables 
                         if (agentsAvailables != null && agentsAvailables.Count > 0)
                         {
@@ -268,7 +271,8 @@ namespace RescueMe.Droid.Activities
                             agentsAvailables = null;
                         }
                     }
-                    else if (latLngPoints.FirstOrDefault().Latitude == 0 && agentMarker != null && polyLine != null)
+                    //else if (latLngPoints.FirstOrDefault().Latitude == 0 && agentMarker != null && polyLine != null)
+                    else if (directions.Points.FirstOrDefault().Latitude == 0 && agentMarker != null && polyLine != null)
                     {
                         //polyLine.Points.Clear();
                         polyLine.Remove();
@@ -279,7 +283,8 @@ namespace RescueMe.Droid.Activities
                     else if (agentMarker != null && polyLine != null)
                     {
                         agentMarker.Position = latlngAgent;
-                        polyLine.Points = latLngPoints.ToArray();
+                        //polyLine.Points = latLngPoints.ToArray();
+                        polyLine.Points = directions.Points.ToArray();
                     }
                 }
 
@@ -357,7 +362,7 @@ namespace RescueMe.Droid.Activities
 
 
 
-                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation)
+                mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation, directions)
                 {
                     IsNetworkConnected = IsNetworkConnected()
                 });
@@ -557,11 +562,15 @@ namespace RescueMe.Droid.Activities
                 {
                     try
                     {
-                        latLngPoints = _client.Get("Map/Directions", new
+                        //latLngPoints = _client.Get("Map/Directions", new
+                        //{
+                        //    Id = pendingRequest.Id
+                        //}).Result.JsonToObject<List<LatLng>>();
+
+                        directions = _client.Get("Map/Directions", new
                         {
                             Id = pendingRequest.Id
-                        }).Result.JsonToObject<List<LatLng>>();
-
+                        }).Result.JsonToObject<Directions>();
 
                         agentLatLng = _client.Get("Request/CurrentAgent", new
                         {

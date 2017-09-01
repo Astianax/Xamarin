@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Android.Gms.Maps;
 using Android.Locations;
+using RescueMe.Droid.Data;
 
 namespace RescueMe.Droid.Adapters
 {
@@ -14,14 +15,16 @@ namespace RescueMe.Droid.Adapters
         private LayoutInflater _layoutInflater = null;
         private Location mCurrentLocation;
         private Geocoder mGeocoder;
+        private Directions _directions;
         public bool IsNetworkConnected { get; set; }
 
-        public MarkerInfoAdapter(LayoutInflater inflater, Geocoder geocoder, Location location)
+        public MarkerInfoAdapter(LayoutInflater inflater, Geocoder geocoder, Location location, Directions directions)
         {
             //This constructor does hit a breakpoint and executes
             _layoutInflater = inflater;
             mCurrentLocation = location;
             mGeocoder = geocoder;
+            _directions = directions;
         }
 
         public View GetInfoContents(Marker marker)
@@ -32,11 +35,11 @@ namespace RescueMe.Droid.Adapters
         public View GetInfoWindow(Marker marker)
         {
             View view;
-            if (!string.IsNullOrEmpty(marker.Title)) //Show time and Distance
+            if (!string.IsNullOrEmpty(marker.Title) && marker.Title != "My position") //Show time and Distance
             {
                 view = _layoutInflater.Inflate(Resource.Layout.info_time, null, false);
-                view.FindViewById<TextView>(Resource.Id.txtTime).Text = "9 min";
-                view.FindViewById<TextView>(Resource.Id.txtDistance).Text = "1.9 km";
+                view.FindViewById<TextView>(Resource.Id.txtTime).Text = _directions.Duration;
+                view.FindViewById<TextView>(Resource.Id.txtDistance).Text = _directions.Distance;
             }
             else
             {
@@ -48,7 +51,7 @@ namespace RescueMe.Droid.Adapters
 
                     //The Geocoder class retrieves a list of address from Google over the internet  
                     IList<Address> addressList = mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
-                    Address addressCurrent = addressList.FirstOrDefault();
+                    Address addressCurrent = addressList.FirstOrDefault(m => m.MaxAddressLineIndex > 0);
 
                     if (addressCurrent != null)
                     {

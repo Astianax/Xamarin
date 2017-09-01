@@ -2630,11 +2630,11 @@ namespace RescueMe.Agent
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f090090
-			public const int City = 2131296400;
+			// aapt resource value: 0x7f090092
+			public const int City = 2131296402;
 			
-			// aapt resource value: 0x7f09009f
-			public const int action0 = 2131296415;
+			// aapt resource value: 0x7f0900a1
+			public const int action0 = 2131296417;
 			
 			// aapt resource value: 0x7f09006b
 			public const int action_bar = 2131296363;
@@ -2660,8 +2660,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f09006c
 			public const int action_context_bar = 2131296364;
 			
-			// aapt resource value: 0x7f0900a3
-			public const int action_divider = 2131296419;
+			// aapt resource value: 0x7f0900a5
+			public const int action_divider = 2131296421;
 			
 			// aapt resource value: 0x7f090003
 			public const int action_menu_divider = 2131296259;
@@ -2702,8 +2702,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090016
 			public const int auto = 2131296278;
 			
-			// aapt resource value: 0x7f0900af
-			public const int back = 2131296431;
+			// aapt resource value: 0x7f0900b1
+			public const int back = 2131296433;
 			
 			// aapt resource value: 0x7f090028
 			public const int beginning = 2131296296;
@@ -2711,17 +2711,17 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090030
 			public const int bottom = 2131296304;
 			
-			// aapt resource value: 0x7f0900b1
-			public const int btnAddCars = 2131296433;
+			// aapt resource value: 0x7f0900b3
+			public const int btnAddCars = 2131296435;
 			
 			// aapt resource value: 0x7f090089
 			public const int btnAvailable = 2131296393;
 			
-			// aapt resource value: 0x7f090098
-			public const int btnLogin = 2131296408;
-			
 			// aapt resource value: 0x7f09009a
-			public const int btnMenu = 2131296410;
+			public const int btnLogin = 2131296410;
+			
+			// aapt resource value: 0x7f09009c
+			public const int btnMenu = 2131296412;
 			
 			// aapt resource value: 0x7f09008a
 			public const int btnUnavailable = 2131296394;
@@ -2729,11 +2729,11 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090054
 			public const int buttonPanel = 2131296340;
 			
-			// aapt resource value: 0x7f09009b
-			public const int cancelRescue = 2131296411;
+			// aapt resource value: 0x7f09009d
+			public const int cancelRescue = 2131296413;
 			
-			// aapt resource value: 0x7f0900a0
-			public const int cancel_action = 2131296416;
+			// aapt resource value: 0x7f0900a2
+			public const int cancel_action = 2131296418;
 			
 			// aapt resource value: 0x7f09008d
 			public const int carIcon = 2131296397;
@@ -2750,8 +2750,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090062
 			public const int checkbox = 2131296354;
 			
-			// aapt resource value: 0x7f0900a6
-			public const int chronometer = 2131296422;
+			// aapt resource value: 0x7f0900a8
+			public const int chronometer = 2131296424;
 			
 			// aapt resource value: 0x7f090040
 			public const int clip_horizontal = 2131296320;
@@ -2762,8 +2762,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f09002c
 			public const int collapseActionView = 2131296300;
 			
-			// aapt resource value: 0x7f09009c
-			public const int completeRescue = 2131296412;
+			// aapt resource value: 0x7f09009e
+			public const int completeRescue = 2131296414;
 			
 			// aapt resource value: 0x7f09005a
 			public const int contentPanel = 2131296346;
@@ -2807,14 +2807,14 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f09006d
 			public const int edit_query = 2131296365;
 			
-			// aapt resource value: 0x7f090094
-			public const int emaiLayout = 2131296404;
+			// aapt resource value: 0x7f090096
+			public const int emaiLayout = 2131296406;
 			
 			// aapt resource value: 0x7f090029
 			public const int end = 2131296297;
 			
-			// aapt resource value: 0x7f0900ab
-			public const int end_padder = 2131296427;
+			// aapt resource value: 0x7f0900ad
+			public const int end_padder = 2131296429;
 			
 			// aapt resource value: 0x7f090032
 			public const int enterAlways = 2131296306;
@@ -2846,8 +2846,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090046
 			public const int @fixed = 2131296326;
 			
-			// aapt resource value: 0x7f090099
-			public const int forgotPassword = 2131296409;
+			// aapt resource value: 0x7f09009b
+			public const int forgotPassword = 2131296411;
 			
 			// aapt resource value: 0x7f090088
 			public const int fragment = 2131296392;
@@ -2879,8 +2879,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f09004f
 			public const int image = 2131296335;
 			
-			// aapt resource value: 0x7f0900aa
-			public const int info = 2131296426;
+			// aapt resource value: 0x7f0900ac
+			public const int info = 2131296428;
 			
 			// aapt resource value: 0x7f090000
 			public const int item_touch_helper_previous_elevation = 2131296256;
@@ -2894,11 +2894,11 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090018
 			public const int light = 2131296280;
 			
-			// aapt resource value: 0x7f0900a4
-			public const int line1 = 2131296420;
+			// aapt resource value: 0x7f0900a6
+			public const int line1 = 2131296422;
 			
-			// aapt resource value: 0x7f0900a8
-			public const int line3 = 2131296424;
+			// aapt resource value: 0x7f0900aa
+			public const int line3 = 2131296426;
 			
 			// aapt resource value: 0x7f090019
 			public const int listMode = 2131296281;
@@ -2906,11 +2906,11 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090051
 			public const int list_item = 2131296337;
 			
-			// aapt resource value: 0x7f090092
-			public const int loginLayout = 2131296402;
+			// aapt resource value: 0x7f090094
+			public const int loginLayout = 2131296404;
 			
-			// aapt resource value: 0x7f090093
-			public const int logo = 2131296403;
+			// aapt resource value: 0x7f090095
+			public const int logo = 2131296405;
 			
 			// aapt resource value: 0x7f09008b
 			public const int logout = 2131296395;
@@ -2921,8 +2921,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090048
 			public const int marquee = 2131296328;
 			
-			// aapt resource value: 0x7f0900a2
-			public const int media_actions = 2131296418;
+			// aapt resource value: 0x7f0900a4
+			public const int media_actions = 2131296420;
 			
 			// aapt resource value: 0x7f090086
 			public const int menuIcon = 2131296390;
@@ -2939,8 +2939,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090022
 			public const int multiply = 2131296290;
 			
-			// aapt resource value: 0x7f09009e
-			public const int my_recycler_view = 2131296414;
+			// aapt resource value: 0x7f0900a0
+			public const int my_recycler_view = 2131296416;
 			
 			// aapt resource value: 0x7f09007e
 			public const int navigation_header_container = 2131296382;
@@ -2960,8 +2960,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090056
 			public const int parentPanel = 2131296342;
 			
-			// aapt resource value: 0x7f090096
-			public const int passwordLayout = 2131296406;
+			// aapt resource value: 0x7f090098
+			public const int passwordLayout = 2131296408;
 			
 			// aapt resource value: 0x7f09003f
 			public const int pin = 2131296319;
@@ -2975,8 +2975,8 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090064
 			public const int radio = 2131296356;
 			
-			// aapt resource value: 0x7f0900ac
-			public const int reason = 2131296428;
+			// aapt resource value: 0x7f0900ae
+			public const int reason = 2131296430;
 			
 			// aapt resource value: 0x7f09003c
 			public const int right = 2131296316;
@@ -3077,11 +3077,11 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f09003d
 			public const int start = 2131296317;
 			
-			// aapt resource value: 0x7f0900ad
-			public const int status = 2131296429;
+			// aapt resource value: 0x7f0900af
+			public const int status = 2131296431;
 			
-			// aapt resource value: 0x7f0900a1
-			public const int status_bar_latest_event_content = 2131296417;
+			// aapt resource value: 0x7f0900a3
+			public const int status_bar_latest_event_content = 2131296419;
 			
 			// aapt resource value: 0x7f090065
 			public const int submenuarrow = 2131296357;
@@ -3095,11 +3095,11 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090010
 			public const int terrain = 2131296272;
 			
-			// aapt resource value: 0x7f0900a9
-			public const int text = 2131296425;
+			// aapt resource value: 0x7f0900ab
+			public const int text = 2131296427;
 			
-			// aapt resource value: 0x7f0900a7
-			public const int text2 = 2131296423;
+			// aapt resource value: 0x7f0900a9
+			public const int text2 = 2131296425;
 			
 			// aapt resource value: 0x7f09005d
 			public const int textSpacerNoButtons = 2131296349;
@@ -3107,23 +3107,23 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f090083
 			public const int text_input_password_toggle = 2131296387;
 			
-			// aapt resource value: 0x7f0900a5
-			public const int time = 2131296421;
+			// aapt resource value: 0x7f0900a7
+			public const int time = 2131296423;
 			
 			// aapt resource value: 0x7f090053
 			public const int title = 2131296339;
 			
-			// aapt resource value: 0x7f0900b0
-			public const int titleID = 2131296432;
+			// aapt resource value: 0x7f0900b2
+			public const int titleID = 2131296434;
 			
-			// aapt resource value: 0x7f09009d
-			public const int titleText = 2131296413;
+			// aapt resource value: 0x7f09009f
+			public const int titleText = 2131296415;
 			
 			// aapt resource value: 0x7f090058
 			public const int title_template = 2131296344;
 			
-			// aapt resource value: 0x7f0900ae
-			public const int toolbar = 2131296430;
+			// aapt resource value: 0x7f0900b0
+			public const int toolbar = 2131296432;
 			
 			// aapt resource value: 0x7f090031
 			public const int top = 2131296305;
@@ -3134,17 +3134,23 @@ namespace RescueMe.Agent
 			// aapt resource value: 0x7f09007a
 			public const int touch_outside = 2131296378;
 			
-			// aapt resource value: 0x7f09008f
-			public const int txtAddress = 2131296399;
+			// aapt resource value: 0x7f090091
+			public const int txtAddress = 2131296401;
 			
-			// aapt resource value: 0x7f090095
-			public const int txtEmail = 2131296405;
+			// aapt resource value: 0x7f090090
+			public const int txtDistance = 2131296400;
 			
 			// aapt resource value: 0x7f090097
-			public const int txtPassword = 2131296407;
+			public const int txtEmail = 2131296407;
 			
-			// aapt resource value: 0x7f090091
-			public const int type = 2131296401;
+			// aapt resource value: 0x7f090099
+			public const int txtPassword = 2131296409;
+			
+			// aapt resource value: 0x7f09008f
+			public const int txtTime = 2131296399;
+			
+			// aapt resource value: 0x7f090093
+			public const int type = 2131296403;
 			
 			// aapt resource value: 0x7f090009
 			public const int up = 2131296265;
@@ -3335,61 +3341,64 @@ namespace RescueMe.Agent
 			public const int HomeContainer = 2130903079;
 			
 			// aapt resource value: 0x7f030028
-			public const int info_window = 2130903080;
+			public const int info_time = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public const int Login = 2130903081;
+			public const int info_window = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
-			public const int Main = 2130903082;
+			public const int Login = 2130903082;
 			
 			// aapt resource value: 0x7f03002b
-			public const int menus_fragment = 2130903083;
+			public const int Main = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public const int MyRescues = 2130903084;
+			public const int menus_fragment = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public const int notification_media_action = 2130903085;
+			public const int MyRescues = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public const int notification_media_cancel_action = 2130903086;
+			public const int notification_media_action = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int notification_template_big_media = 2130903087;
+			public const int notification_media_cancel_action = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int notification_template_big_media_narrow = 2130903088;
+			public const int notification_template_big_media = 2130903088;
 			
 			// aapt resource value: 0x7f030031
-			public const int notification_template_lines = 2130903089;
+			public const int notification_template_big_media_narrow = 2130903089;
 			
 			// aapt resource value: 0x7f030032
-			public const int notification_template_media = 2130903090;
+			public const int notification_template_lines = 2130903090;
 			
 			// aapt resource value: 0x7f030033
-			public const int notification_template_part_chronometer = 2130903091;
+			public const int notification_template_media = 2130903091;
 			
 			// aapt resource value: 0x7f030034
-			public const int notification_template_part_time = 2130903092;
+			public const int notification_template_part_chronometer = 2130903092;
 			
 			// aapt resource value: 0x7f030035
-			public const int RescuesCardView = 2130903093;
+			public const int notification_template_part_time = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int select_dialog_item_material = 2130903094;
+			public const int RescuesCardView = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int select_dialog_multichoice_material = 2130903095;
+			public const int select_dialog_item_material = 2130903095;
 			
 			// aapt resource value: 0x7f030038
-			public const int select_dialog_singlechoice_material = 2130903096;
+			public const int select_dialog_multichoice_material = 2130903096;
 			
 			// aapt resource value: 0x7f030039
-			public const int support_simple_spinner_dropdown_item = 2130903097;
+			public const int select_dialog_singlechoice_material = 2130903097;
 			
 			// aapt resource value: 0x7f03003a
-			public const int ToolBar = 2130903098;
+			public const int support_simple_spinner_dropdown_item = 2130903098;
+			
+			// aapt resource value: 0x7f03003b
+			public const int ToolBar = 2130903099;
 			
 			static Layout()
 			{

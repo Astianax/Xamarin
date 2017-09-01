@@ -176,6 +176,7 @@
     <Compile Include="Data\AgentLocation.cs" />
     <Compile Include="Data\DbContext.cs" />
     <Compile Include="Adapters\SpinnerAdapter.cs" />
+    <Compile Include="Data\Directions.cs" />
     <Compile Include="Data\RequestSaved.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\ReasonRequestSaved.cs" />
