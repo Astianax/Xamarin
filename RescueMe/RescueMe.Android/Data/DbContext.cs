@@ -353,6 +353,7 @@ namespace RescueMe.Droid.Data
             }
             return imageBitmap;
         }
+       
         public List<Request> GetRequest()
         {
             var requests = _connection.Table<RequestSaved>().ToList()
@@ -366,9 +367,7 @@ namespace RescueMe.Droid.Data
                                           VehicleID = r.VehicleID,
                                           ReasonID = r.ReasonID,
                                           ReasonRequest = GetReasons().FirstOrDefault(l => l.Id == r.ReasonID),
-                                          Vehicle = GetVehicles().Count > 0 ?
-                                                GetVehicles().FirstOrDefault(v => v.Id == r.VehicleID)
-                                                : new Vehicle() { Marque = "Vehículo de Tercero", Id = 0 },
+                                          Vehicle = GetVehicleByRequest(r.VehicleID),
                                           User = GetUser().User,
                                           Status = new Status()
                                           {
@@ -384,7 +383,21 @@ namespace RescueMe.Droid.Data
 
             return requests;
         }
+        private Vehicle GetVehicleByRequest(int VehicleID)
+        {
+            Vehicle vehicle;
+            if (GetVehicles().Count > 0 &&
+                    GetVehicles().FirstOrDefault(v => v.Id == VehicleID) != null)
+            {
+                vehicle = GetVehicles().FirstOrDefault(v => v.Id == VehicleID);
+            }
+            else
+            {
+                vehicle = new Vehicle() { Marque = "Vehículo de Tercero", Id = 0 };
+            }
 
+            return vehicle;
+        }
         /// <summary>
         /// Return All Vehicles
         /// </summary>

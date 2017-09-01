@@ -52,7 +52,10 @@ namespace RescueMe.Droid.Adapters
             // Replace the contents of the view with that element
             var holder = viewHolder as AdapterRescuesViewHolder;
 
-
+            if (request.Vehicle == null)
+            {
+                request.Vehicle = new Vehicle();
+            }
             holder.Type.Text = request.Vehicle.Type;
             holder.Marque.Text = request.Vehicle.Marque;
             holder.Status.Text = request.Status.Name;

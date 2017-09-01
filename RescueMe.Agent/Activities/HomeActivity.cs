@@ -55,7 +55,8 @@ namespace RescueMe.Agent.Activities
         protected Location mCurrentLocation;
         private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
-        private Directions latLngPoints;
+        private List<LatLng> latLngPoints;
+        private Directions directions;
         Domain.Request pendingRequest;
         
         //Configuration Request
@@ -310,7 +311,7 @@ namespace RescueMe.Agent.Activities
                 }
                 if (pendingRequest != null && clientMarker == null && latLngPoints != null)
                 {
-                    if (latLngPoints.Points.FirstOrDefault().Latitude != 0)
+                    if (latLngPoints.FirstOrDefault().Latitude != 0)
                     {
                         LatLng latlngClient = new LatLng(double.Parse(pendingRequest.Latitude.ToString()), double.Parse(pendingRequest.Longitude.ToString()));
                         MarkerOptions markerOptionsClient = new MarkerOptions()
@@ -319,9 +320,9 @@ namespace RescueMe.Agent.Activities
                         clientMarker = mMap.AddMarker(markerOptionsClient);
                         // Polylines are useful for marking paths and routes on the map.
                         polyLine = mMap.AddPolyline(new PolylineOptions().Geodesic(true)
-                                .Add(latLngPoints.Points.ToArray()));
+                                .Add(latLngPoints.ToArray()));
                     }
-                    else if ((pendingRequest == null || latLngPoints.Points.FirstOrDefault().Latitude == 0 )
+                    else if ((pendingRequest == null || latLngPoints.FirstOrDefault().Latitude == 0 )
                                 && clientMarker != null && polyLine != null)
                     {
                         clientMarker.Remove();
@@ -331,7 +332,7 @@ namespace RescueMe.Agent.Activities
                     }
                     else if(polyLine != null)
                     {
-                        polyLine.Points = latLngPoints.Points.ToArray();
+                        polyLine.Points = latLngPoints.ToArray();
                     }
                     //Perrito verde
                 }
@@ -772,12 +773,13 @@ namespace RescueMe.Agent.Activities
                         Id = pendingRequest.Id,
                         app = "beta"
                     }).Result;
-                    latLngPoints = result.JsonToObject<Directions>();
+                    latLngPoints = result.JsonToObject<List<LatLng>>();
 
                 }
                 catch (Exception e)
                 {
 
+                    //latLngPoints = new Directions();
                     throw;
                 }
 
