@@ -311,7 +311,7 @@ namespace RescueMe.Agent.Activities
                     agentMarker.Position = latlng;
                 }
 
-                if (pendingRequest != null && clientMarker == null && directions.Points != null)
+                if (pendingRequest != null && clientMarker == null && directions != null && directions.Points != null)
                 //if (pendingRequest != null && clientMarker == null && latLngPoints != null)
                 {
                     //if (latLngPoints.FirstOrDefault().Latitude != 0)
