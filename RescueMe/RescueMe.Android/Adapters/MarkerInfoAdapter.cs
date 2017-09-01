@@ -51,17 +51,17 @@ namespace RescueMe.Droid.Adapters
 
                     //The Geocoder class retrieves a list of address from Google over the internet  
                     IList<Address> addressList = mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
-                    Address addressCurrent = addressList.FirstOrDefault(m => m.MaxAddressLineIndex > 0);
+                    Address addressCurrent = addressList.FirstOrDefault();
 
                     if (addressCurrent != null)
                     {
                         StringBuilder deviceAddress = new StringBuilder();
 
-                        for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
-                            deviceAddress.Append(addressCurrent.GetAddressLine(i))
-                                .AppendLine(",");
-
-                        mAddress = deviceAddress.ToString();
+                        //for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+                        //    deviceAddress.Append(addressCurrent.GetAddressLine(i))
+                        //        .AppendLine(",");
+                        deviceAddress.Append(addressCurrent.FeatureName + ", " + addressCurrent.Locality);
+                       mAddress = deviceAddress.ToString();
                     }
                     else
                     {

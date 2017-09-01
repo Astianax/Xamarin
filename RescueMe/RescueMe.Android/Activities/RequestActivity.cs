@@ -271,10 +271,10 @@ namespace RescueMe.Droid.Activities
                 {
                     StringBuilder deviceAddress = new StringBuilder();
 
-                    for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
-                        deviceAddress.Append(addressCurrent.GetAddressLine(i))
-                            .AppendLine(",");
-
+                    //for (int i = 0; i < addressCurrent.MaxAddressLineIndex; i++)
+                    //    deviceAddress.Append(addressCurrent.GetAddressLine(i))
+                    //        .AppendLine(",");
+                    deviceAddress.Append(addressCurrent.FeatureName + ", " + addressCurrent.Locality);
                     mAddress = deviceAddress.ToString();
                 }
                 else
