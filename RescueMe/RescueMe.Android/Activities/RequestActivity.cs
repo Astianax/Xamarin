@@ -186,6 +186,10 @@ namespace RescueMe.Droid.Activities
                                         message = "Nuestros agentes estan ocupados, se le notificara cuando este disponible";
                                         message = "No hay agentes disponibles, espere una notificación";
                                     }
+                                    else if (request.Status.Name.ToLower() == "asignado")
+                                    {
+                                        message = "Se ha asignado su solicitud a una unidad";
+                                    }
                                 }
                                 else 
                                 {
@@ -227,7 +231,6 @@ namespace RescueMe.Droid.Activities
                                     .SetAction("OK", (v) =>
                                     {
                                         this.Finish();
-
                                     })
                                     //.SetDuration(8000)
                                     .SetActionTextColor(Android.Graphics.Color.Orange)

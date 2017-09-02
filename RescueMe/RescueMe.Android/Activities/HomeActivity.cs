@@ -30,6 +30,7 @@ using Android.Animation;
 using Java.IO;
 using System.IO;
 using System.Threading;
+using Clans.Fab;
 
 namespace RescueMe.Droid.Activities
 {
@@ -89,7 +90,7 @@ namespace RescueMe.Droid.Activities
             {
                 //SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, new MenusFragment()).Commit();
                 var menuFragment = new MenusFragment();
-                _context.IsNetworkConnected = IsNetworkConnected(); 
+                _context.IsNetworkConnected = IsNetworkConnected();
                 menuFragment.Initialize(_client, _context);
                 SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, menuFragment).Commit();
             }
@@ -202,8 +203,8 @@ namespace RescueMe.Droid.Activities
             {
                 //mMap.Clear();
                 LatLng latlng;
-                
-                if (pendingRequest == null) 
+
+                if (pendingRequest == null)
                 {
                     latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
                 }
@@ -235,7 +236,7 @@ namespace RescueMe.Droid.Activities
                     MarkerOptions markerOptions = new MarkerOptions()
                                                          .SetPosition(latlng)
                                                           .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.market))
-                                                        // .SetTitle("My Position")
+                                                         // .SetTitle("My Position")
                                                          ;
                     clientMarker = mMap.AddMarker(markerOptions);
                     mMap.MoveCamera(camera);
@@ -292,7 +293,7 @@ namespace RescueMe.Droid.Activities
                 //Get Agents availables markers
                 if (agentMarker == null && agentsAvailables == null)
                 {
-                 
+
                     if (agentsLatLngPoints != null)
                     {
                         agentsAvailables = new List<Marker>();
@@ -307,9 +308,9 @@ namespace RescueMe.Droid.Activities
                             agentsAvailables.Add(mAgentMarker);
                         }
                     }
-                    
+
                 }
-                else if (agentsAvailables  != null)
+                else if (agentsAvailables != null)
                 {
                     //Get all news points about agents
                     if (agentsLatLngPoints != null)
@@ -323,7 +324,7 @@ namespace RescueMe.Droid.Activities
                             {
                                 marker.Position = agentPosition.Location;
                             }
-                            
+
                             //else
                             //{
                             //    //Remove marker of Agent
@@ -443,35 +444,27 @@ namespace RescueMe.Droid.Activities
         {
             base.OnStart();
             isLocalActivity = false;
-            mGoogleApiClient.Connect();
-
-            pendingRequest = _context.GetRequest().FirstOrDefault(s => s.Status.Name == "pendiente" || s.Status.Name == "asignado" || s.Status.Name == "no disponible");
-
-            if (pendingRequest != null)
-            {
-                frameLayoutMenu.Visibility = ViewStates.Visible;
-                request.Visibility = ViewStates.Gone;
-                if (IsNetworkConnected())
-                {
-                    GetDirections();
-                }
-            }
-            else
-            {
-                frameLayoutMenu.Visibility = ViewStates.Gone;
-                request.Visibility = ViewStates.Visible;
-            }
+            mGoogleApiClient.Connect(); 
         }
 
 
         protected override async void OnResume()
         {
             base.OnResume();
-
+            //RequestStatusChanged(); // Validate status request
             if (mGoogleApiClient.IsConnected)
             {
                 await StartLocationUpdates();
             }
+            new Thread(new ThreadStart(delegate
+            {
+                //Thread.Sleep(1000);
+                this.RunOnUiThread(() =>
+                {
+                    RequestStatusChanged(); // Validate status request
+                });
+            })).Start();
+
         }
 
         protected override async void OnPause()
@@ -591,7 +584,7 @@ namespace RescueMe.Droid.Activities
             {
                 try
                 {
-                    var address = 
+                    var address =
                         mGeocoder.GetFromLocation(mCurrentLocation.Latitude, mCurrentLocation.Longitude, 10);
                     var cityName = address.FirstOrDefault().Locality;
 
@@ -795,5 +788,66 @@ namespace RescueMe.Droid.Activities
             }
 
         }
+
+        public void RequestStatusChanged(int id = -1)
+        {
+            //var pendingRequest = _context.GetRequest().FirstOrDefault(p => p.Status.Name == "pendiente"
+            //                                                     || p.Status.Name == "asignado" || p.Status.Name == "no disponible");
+            Domain.Request statusRequest = null;
+            if (id == -1)
+            {
+                statusRequest = _context.GetRequest().FirstOrDefault(p => p.Status.Name == "pendiente"
+                                                                  || p.Status.Name == "asignado" || p.Status.Name == "no disponible");
+            }
+            else
+            {
+                statusRequest = _context.GetRequest().FirstOrDefault(r => r.Id == id);
+            }
+
+            //Menu
+            var btnMenu = FindViewById<FloatingActionMenu>(Resource.Id.btnMenu);
+           
+            if (statusRequest != null)
+            {
+                switch (statusRequest.Status.Name.ToLower())
+                {
+                    case "pendiente":
+                    case "asignado":
+                    case "no disponible":
+                        if (IsNetworkConnected())
+                        {
+                            GetDirections();
+                        }
+                        frameLayoutMenu.Visibility = ViewStates.Visible;
+                        btnMenu.Visibility = ViewStates.Visible;
+                        request.Visibility = ViewStates.Gone;
+                        break;
+                    case "cancelado":
+                    case "completado":
+                     
+                        if (directions != null && directions.Points != null)
+                        {
+                            directions.Points.Clear();
+                            directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                        }
+                        UpdateLocationUI();
+                        btnMenu.Visibility = ViewStates.Gone;
+                        request.Visibility = ViewStates.Visible;
+
+                        break;
+                        //default:
+                        //    frameLayoutMenu.Visibility = ViewStates.Gone;
+                        //    request.Visibility = ViewStates.Visible;
+                        //    break;
+
+                }
+            }
+            else
+            {
+                frameLayoutMenu.Visibility = ViewStates.Gone;
+                request.Visibility = ViewStates.Visible;
+            }
+        }
+
     }
 }

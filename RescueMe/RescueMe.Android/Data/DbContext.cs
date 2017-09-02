@@ -284,7 +284,7 @@ namespace RescueMe.Droid.Data
             //_connection.Update(request);
             _connection.Execute($@"UPDATE RequestSaved 
                                     SET StatusID = {status.Id}, 
-                                        Status = '{status.Name}', 
+                                        Status = '{status.Name}'
                                     WHERE Id = {request.Id}");
         }
         /// <summary>
@@ -320,7 +320,7 @@ namespace RescueMe.Droid.Data
             request.Status = status.Name;
             _connection.Execute($@"UPDATE RequestSaved 
                                     SET StatusID = {status.Id}, 
-                                        Status = '{status.Name}', 
+                                        Status = '{status.Name}'
                                     WHERE Id = {request.Id}");
 
         }

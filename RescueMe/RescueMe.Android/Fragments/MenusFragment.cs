@@ -154,15 +154,16 @@ namespace RescueMe.Droid
                                     _context.CancelRequestStatus(requestID.Id);
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                                SetMainBtnBack(btnMenu);
-                                var directions = ((HomeActivity)this.Activity).directions;
-                                if (directions != null && directions.Points != null)
-                                {
-                                    ((HomeActivity)this.Activity).directions.Points.Clear(); //Aqui se supone que va Directions
-                                    //((HomeActivity)this.Activity).agentMarker = null;
-                                    ((HomeActivity)this.Activity).directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
-                                }
-                                ((HomeActivity)this.Activity).UpdateLocationUI();
+                                ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
+                                //SetMainBtnBack(btnMenu);
+                                //var directions = ((HomeActivity)this.Activity).directions;
+                                //if (directions != null && directions.Points != null)
+                                //{
+                                //    ((HomeActivity)this.Activity).directions.Points.Clear(); //Aqui se supone que va Directions
+                                //    //((HomeActivity)this.Activity).agentMarker = null;
+                                //    ((HomeActivity)this.Activity).directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                                //}
+                                //((HomeActivity)this.Activity).UpdateLocationUI();
 
 
                             });
@@ -173,8 +174,6 @@ namespace RescueMe.Droid
                     {
                         _context.CancelRequestStatus(requestID.Id);
                         Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                        SetMainBtnBack(btnMenu);
-                        ((HomeActivity)this.Activity).UpdateLocationUI();
                         //Se envia un SMS cancelando la peticion de rescate
                         message = "No tiene internet, se envió la cancelación por SMS";
                         SmsManager sms = SmsManager.Default;
@@ -183,6 +182,7 @@ namespace RescueMe.Droid
                         string requestData = request.Id + "**cancel**";
                         sentPI = PendingIntent.GetBroadcast(this.Context, 0, new Intent(requestData), 0);
                         sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
+                        ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
                     }
                 }
                 else if (fabButton.Id == Resource.Id.completeRescue)
@@ -194,10 +194,8 @@ namespace RescueMe.Droid
                         {
                             new Thread(new ThreadStart(delegate
                             {
-
                                 try
                                 {
-
                                     status = _client.Post("Request/close", requestID).Result.ToString();
                                 }
                                 catch (Exception ex)
@@ -212,7 +210,7 @@ namespace RescueMe.Droid
                                         _context.CloseRequestStatus(requestID.Id);
                                     }
                                     Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                                    SetMainBtnBack(btnMenu);
+                                    ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
                                 });
 
                             })).Start();
@@ -221,15 +219,16 @@ namespace RescueMe.Droid
                         {
                             _context.CloseRequestStatus(requestID.Id);
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                            SetMainBtnBack(btnMenu);
-                            var directions = ((HomeActivity)this.Activity).directions;
-                            if (directions != null && directions.Points != null)
-                            {
-                                ((HomeActivity)this.Activity).directions.Points.Clear(); //Aqui se supone que va Directions
-                                                                                         //((HomeActivity)this.Activity).agentMarker = null;
-                                ((HomeActivity)this.Activity).directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
-                            }
-                                ((HomeActivity)this.Activity).UpdateLocationUI();
+                            //SetMainBtnBack(btnMenu);
+                            //var directions = ((HomeActivity)this.Activity).directions;
+                            //if (directions != null && directions.Points != null)
+                            //{
+                            //    ((HomeActivity)this.Activity).directions.Points.Clear(); //Aqui se supone que va Directions
+                            //                                                             //((HomeActivity)this.Activity).agentMarker = null;
+                            //    ((HomeActivity)this.Activity).directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                            //}
+                            //    ((HomeActivity)this.Activity).UpdateLocationUI();
+                            ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
                         }
                     }
                     else
