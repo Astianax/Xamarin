@@ -62,7 +62,7 @@ namespace RescueMe.Droid.Activities
         protected Location mCurrentLocation;
         private Geocoder mGeocoder;
         protected Boolean mRequestingLocationUpdates;
-        public List<LatLng> latLngPoints;
+        //public List<LatLng> latLngPoints;
         public Directions directions;
         Domain.Request pendingRequest;
         LatLng agentLatLng;
@@ -360,17 +360,10 @@ namespace RescueMe.Droid.Activities
                         }
                     }
                 }
-
-
-
                 mMap.SetInfoWindowAdapter(new Adapters.MarkerInfoAdapter(LayoutInflater, mGeocoder, mCurrentLocation, directions)
                 {
                     IsNetworkConnected = IsNetworkConnected()
                 });
-
-          
-
-
             }
         }
 

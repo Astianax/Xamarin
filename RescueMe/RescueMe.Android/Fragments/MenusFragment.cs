@@ -155,11 +155,12 @@ namespace RescueMe.Droid
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                                 SetMainBtnBack(btnMenu);
-                                if (((HomeActivity)this.Activity).latLngPoints != null)
+                                var directions = ((HomeActivity)this.Activity).directions;
+                                if (directions != null && directions.Points != null)
                                 {
-                                    ((HomeActivity)this.Activity).latLngPoints.Clear(); //Aqui se supone que va Directions
+                                    ((HomeActivity)this.Activity).directions.Points.Clear(); //Aqui se supone que va Directions
                                     //((HomeActivity)this.Activity).agentMarker = null;
-                                    ((HomeActivity)this.Activity).latLngPoints.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                                    ((HomeActivity)this.Activity).directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
                                 }
                                 ((HomeActivity)this.Activity).UpdateLocationUI();
 
@@ -221,6 +222,14 @@ namespace RescueMe.Droid
                             _context.CloseRequestStatus(requestID.Id);
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                             SetMainBtnBack(btnMenu);
+                            var directions = ((HomeActivity)this.Activity).directions;
+                            if (directions != null && directions.Points != null)
+                            {
+                                ((HomeActivity)this.Activity).directions.Points.Clear(); //Aqui se supone que va Directions
+                                                                                         //((HomeActivity)this.Activity).agentMarker = null;
+                                ((HomeActivity)this.Activity).directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                            }
+                                ((HomeActivity)this.Activity).UpdateLocationUI();
                         }
                     }
                     else

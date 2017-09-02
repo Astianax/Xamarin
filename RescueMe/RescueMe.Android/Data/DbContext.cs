@@ -281,7 +281,11 @@ namespace RescueMe.Droid.Data
             var status = getStatusList().FirstOrDefault(s => s.Name == "cancelado");
             request.StatusID = status.Id;
             request.Status = status.Name;
-            _connection.Update(request);
+            //_connection.Update(request);
+            _connection.Execute($@"UPDATE RequestSaved 
+                                    SET StatusID = {status.Id}, 
+                                        Status = '{status.Name}', 
+                                    WHERE Id = {request.Id}");
         }
         /// <summary>
         /// Update Id of Request from API
@@ -314,7 +318,10 @@ namespace RescueMe.Droid.Data
             var status = getStatusList().FirstOrDefault(s => s.Name == "completado");
             request.StatusID = status.Id;
             request.Status = status.Name;
-            _connection.Update(request);
+            _connection.Execute($@"UPDATE RequestSaved 
+                                    SET StatusID = {status.Id}, 
+                                        Status = '{status.Name}', 
+                                    WHERE Id = {request.Id}");
 
         }
 
