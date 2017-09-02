@@ -723,11 +723,19 @@ namespace RescueMe.Droid.Activities
                     StartActivity(intent);
                     break;
                 case Resource.Id.nav_logOut:
-                    _context.LogOut();
-                    mGoogleApiClient.Disconnect();
-                    this.Finish();
-                    intent = new Intent(this, typeof(MainActivity));
-                    StartActivity(intent);
+                    if (IsNetworkConnected())
+                    {
+                        _context.LogOut();
+                        mGoogleApiClient.Disconnect();
+                        this.Finish();
+                        intent = new Intent(this, typeof(MainActivity));
+                        StartActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, "No puede desloguearse sin conexión a internet.", ToastLength.Long).Show();
+                    }
+                  
                     //intent = new Intent(this, typeof(ProfileActivity));
                     //StartActivity(intent);
                     break;

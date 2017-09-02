@@ -24,7 +24,7 @@ using RescueMe.Droid.SMS;
 
 namespace RescueMe.Droid
 {
-    [Activity(Label = "Rescate Vial", Icon = "@drawable/appIcon", MainLauncher = true,
+    [Activity(Label = "RD Vial", Icon = "@drawable/appIcon", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     //[Activity(Label = "Leftdrawerlayout", Theme = "@style/Theme.DesignDemo", MainLauncher = true, Icon = "@drawable/icon")]
 
