@@ -27,6 +27,7 @@ namespace RescueMe.Droid.SMS
         {
             //context.SendOrderedBroadcast(intent, IntentAction);
             InvokeAbortBroadcast();
+            var db = DbContext.Instance;
             try
             {
                 if (intent.Action != IntentAction) return;
@@ -37,10 +38,12 @@ namespace RescueMe.Droid.SMS
                     if (message.OriginatingAddress.Contains("78500")) {
                         //Status messages
                         var values = message.MessageBody.Split('-');
-                        var db = DbContext.Instance;
-                        var request = db.GetRequest().Where(s => s.Status.Name.ToLower() == "pendiente").FirstOrDefault();
-                        //.Where(r => r.Id == 0).FirstOrDefault();
+                        var allRequest = db.GetRequest().ToList();
+                        var request = db.GetRequest().Where(s => s.Status.Name.ToLower() == "pendiente" || 
+                                                    s.Status.Name.ToLower() == "no disponible").FirstOrDefault();
+
                         db.UpdateRequest(request, int.Parse(values[1]), int.Parse(values[2]));
+
                         if (values[3] == "")
                         {
                             string statusName = db.getStatusList().Where(s => s.Id == int.Parse(values[2])).FirstOrDefault().Name;
@@ -61,26 +64,28 @@ namespace RescueMe.Droid.SMS
                         }
                     }
                 }
+               // var validationRequests = db.GetRequest().ToList();
 
             }
             catch (Exception ex)
             {
                 Toast.MakeText(context, ex.Message, ToastLength.Long).Show();
             }
-           
-          
-
         }
 
         private void SendNotification(string body, Context context)
         {
 
             var defaultSoundUri = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
+            var intent = new Intent(context, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.ClearTop);
+            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
             var notificationBuilder = new NotificationCompat.Builder(context)
                 .SetSmallIcon(Resource.Drawable.Icon)
                 .SetContentTitle("Actualización de Status")
                 .SetContentText(body)
                 .SetAutoCancel(true)
+               .SetContentIntent(pendingIntent)
                 .SetSound(defaultSoundUri);
 
             var notificationManager = NotificationManager.FromContext(context);

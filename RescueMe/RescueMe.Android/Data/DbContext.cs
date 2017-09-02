@@ -195,7 +195,7 @@ namespace RescueMe.Droid.Data
                 Comments = request.Comments,
                 VehicleID = request.VehicleID.HasValue ? request.VehicleID.Value : 0,
                 ReasonID = request.ReasonID,
-                AgentName = request.AgentProfile.Name,
+                AgentName = request.AgentProfile == null ? "" : request.AgentProfile.Name,
                 Time = request.CreatedAt.ToString()
 
             };
@@ -210,6 +210,7 @@ namespace RescueMe.Droid.Data
                 if (lastRequested != null)
                 {
                     requestSaved.Id = lastRequested.Id + 1;
+                    requestSaved.Type = "offline";
                 }
                 _connection.Insert(requestSaved);
 
@@ -282,6 +283,12 @@ namespace RescueMe.Droid.Data
             request.Status = status.Name;
             _connection.Update(request);
         }
+        /// <summary>
+        /// Update Id of Request from API
+        /// </summary>
+        /// <param name="requestToUpdate"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusId"></param>
         public void UpdateRequest(Request requestToUpdate, int requestId, int statusId)
         {
             var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == requestToUpdate.Id);
@@ -290,7 +297,15 @@ namespace RescueMe.Droid.Data
             request.Id = requestId;
             request.Status = status.Name;
             request.AgentName = requestToUpdate.AgentProfile.Name;
-            _connection.Update(request);
+            //_connection.Update(request);
+            //_connection.trans
+            _connection.Execute($@"UPDATE RequestSaved 
+                                    SET StatusID = {status.Id}, 
+                                        Status = '{status.Name}', 
+                                        AgentName = '{requestToUpdate.AgentProfile.Name}',  
+                                        Id = {requestId} 
+                                    WHERE Id = {requestToUpdate.Id}");
+          
         }
 
         public void CloseRequestStatus(int requestID)

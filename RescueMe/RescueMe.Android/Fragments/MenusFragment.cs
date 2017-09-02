@@ -22,6 +22,7 @@ using RescueMe.Droid.Data;
 using System.Threading;
 using System.Text.RegularExpressions;
 using RescueMe.Droid.Activities;
+using Android.Telephony;
 
 namespace RescueMe.Droid
 {
@@ -129,69 +130,98 @@ namespace RescueMe.Droid
 
                 if (fabButton.Id == Resource.Id.cancelRescue)
                 {
-                    new Thread(new ThreadStart(delegate
-                    {
-                        try
-                        {
-
-                            status = _client.Post("Request/cancel", requestID).Result.ToString();
-                            message = "Se ha cancelado su solicitud";
-                        }
-                        catch (Exception ex)
-                        {
-                            message = ex.Message;
-                        }
-
-                        this.Activity.RunOnUiThread(() =>
-                        {
-                            ///DB Update 
-                            if (status.ToLower() == "true")
-                            {
-                                _context.CancelRequestStatus(requestID.Id);
-                            }
-                            Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                            SetMainBtnBack(btnMenu);
-                            if (((HomeActivity)this.Activity).latLngPoints != null)
-                            {
-                                ((HomeActivity)this.Activity).latLngPoints.Clear();
-                                //((HomeActivity)this.Activity).agentMarker = null;
-                                ((HomeActivity)this.Activity).latLngPoints.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
-                            }
-                            ((HomeActivity)this.Activity).UpdateLocationUI();
-
-
-                        });
-
-                    })).Start();
-                }
-                else if (fabButton.Id == Resource.Id.completeRescue)
-                {
-                    if (request.Status.Name == "asignado")
+                    message = "Se ha cancelado su solicitud";
+                    if (_context.IsNetworkConnected)
                     {
                         new Thread(new ThreadStart(delegate
                         {
                             try
                             {
 
-                                status = _client.Post("Request/close", requestID).Result.ToString();
-                                message = "Se ha completado su solicitud";
+                                status = _client.Post("Request/cancel", requestID).Result.ToString();
+                             
                             }
                             catch (Exception ex)
                             {
                                 message = ex.Message;
                             }
+
                             this.Activity.RunOnUiThread(() =>
                             {
-                                ///DB Update
+                                ///DB Update 
                                 if (status.ToLower() == "true")
                                 {
-                                    _context.CloseRequestStatus(requestID.Id);
+                                    _context.CancelRequestStatus(requestID.Id);
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
                                 SetMainBtnBack(btnMenu);
+                                if (((HomeActivity)this.Activity).latLngPoints != null)
+                                {
+                                    ((HomeActivity)this.Activity).latLngPoints.Clear(); //Aqui se supone que va Directions
+                                    //((HomeActivity)this.Activity).agentMarker = null;
+                                    ((HomeActivity)this.Activity).latLngPoints.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                                }
+                                ((HomeActivity)this.Activity).UpdateLocationUI();
+
+
                             });
 
                         })).Start();
+                    }
+                    else
+                    {
+                        _context.CancelRequestStatus(requestID.Id);
+                        Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                        SetMainBtnBack(btnMenu);
+                        ((HomeActivity)this.Activity).UpdateLocationUI();
+                        //Se envia un SMS cancelando la peticion de rescate
+                        message = "No tiene internet, se envió la cancelación por SMS";
+                        SmsManager sms = SmsManager.Default;
+                        PendingIntent sentPI;
+
+                        string requestData = request.Id + "**cancel**";
+                        sentPI = PendingIntent.GetBroadcast(this.Context, 0, new Intent(requestData), 0);
+                        sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
+                    }
+                }
+                else if (fabButton.Id == Resource.Id.completeRescue)
+                {
+                    if (request.Status.Name == "asignado")
+                    {
+                        message = "Se ha completado su solicitud";
+                        if (_context.IsNetworkConnected)
+                        {
+                            new Thread(new ThreadStart(delegate
+                            {
+
+                                try
+                                {
+
+                                    status = _client.Post("Request/close", requestID).Result.ToString();
+                                }
+                                catch (Exception ex)
+                                {
+                                    message = ex.Message;
+                                }
+                                this.Activity.RunOnUiThread(() =>
+                                {
+                                    ///DB Update
+                                    if (status.ToLower() == "true")
+                                    {
+                                        _context.CloseRequestStatus(requestID.Id);
+                                    }
+                                    Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                                    SetMainBtnBack(btnMenu);
+                                });
+
+                            })).Start();
+                        }
+                        else
+                        {
+                            _context.CloseRequestStatus(requestID.Id);
+                            Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
+                            SetMainBtnBack(btnMenu);
+                        }
                     }
                     else
                     {

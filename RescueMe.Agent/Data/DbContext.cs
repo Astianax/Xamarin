@@ -531,22 +531,29 @@ namespace RescueMe.Agent.Data
         }
         public List<Request> GetRescues(RestClient client, UserProfile user)
         {
-            List<Request> requests;
-            try
+            if (IsNetworkConnected)
             {
-                requests = client.Get("Request/requests", new
+                List<Request> requests;
+                try
                 {
-                    UserId = user.UserID,
-                    platform = "mobile"
+                    requests = client.Get("Request/requests", new
+                    {
+                        UserId = user.UserID,
+                        platform = "mobile"
+                    }
+                            ).Result.JsonToObject<List<Request>>();
                 }
-                        ).Result.JsonToObject<List<Request>>();
-            }
-            catch (Exception ex)
-            {
-                requests = null;
-            }
+                catch (Exception ex)
+                {
+                    requests = null;
+                }
 
-            return requests;
+                return requests;
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

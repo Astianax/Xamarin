@@ -89,6 +89,7 @@ namespace RescueMe.Droid.Activities
             {
                 //SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, new MenusFragment()).Commit();
                 var menuFragment = new MenusFragment();
+                _context.IsNetworkConnected = IsNetworkConnected(); 
                 menuFragment.Initialize(_client, _context);
                 SupportFragmentManager.BeginTransaction().Add(Resource.Id.fragment, menuFragment).Commit();
             }

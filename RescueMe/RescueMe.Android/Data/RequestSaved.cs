@@ -26,5 +26,6 @@ namespace RescueMe.Droid.Data
         public int Id { get; set; }
         public decimal Latitude { get; set; }
         public string Status { get; set; }
+        public string Type { get; set; } //Offline or Online
     }
 }
