@@ -20,6 +20,7 @@ using RescueMe.Agent.Data;
 using System.Threading;
 using System.Text.RegularExpressions;
 using Clans.Fab;
+using RescueMe.Agent.Activities;
 
 namespace RescueMe.Agent
 {
@@ -146,7 +147,8 @@ namespace RescueMe.Agent
                                 _context.CancelRequestStatus(requestID.Id);
                             }
                             Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                            SetMainBtnBack(btnMenu);
+                            //Cancel Request or Complete Request (Remove all points, and change button)
+                            ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
                         });
 
                     })).Start();
@@ -175,7 +177,8 @@ namespace RescueMe.Agent
                                     _context.CloseRequestStatus(requestID.Id);
                                 }
                                 Toast.MakeText(this.Activity, message, ToastLength.Long).Show();
-                                SetMainBtnBack(btnMenu);
+                                //SetMainBtnBack(btnMenu);
+                                ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
                             });
 
                         })).Start();

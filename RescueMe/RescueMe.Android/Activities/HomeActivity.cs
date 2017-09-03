@@ -832,7 +832,6 @@ namespace RescueMe.Droid.Activities
                         break;
                     case "cancelado":
                     case "completado":
-                     
                         if (directions != null && directions.Points != null)
                         {
                             directions.Points.Clear();

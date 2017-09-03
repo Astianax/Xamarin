@@ -24,6 +24,7 @@ using System.Threading;
 using Android.Views.Animations;
 using System.Collections.Generic;
 using RescueMe.Agent.Data;
+using Clans.Fab;
 
 namespace RescueMe.Agent.Activities
 {
@@ -59,7 +60,7 @@ namespace RescueMe.Agent.Activities
         //Directions and Time new implementation
         private Directions directions;
         Domain.Request pendingRequest;
-        
+
         //Configuration Request
         protected const string TAG = "location-settings";
         protected const int REQUEST_CHECK_SETTINGS = 0x1;
@@ -106,7 +107,7 @@ namespace RescueMe.Agent.Activities
 
             //Load values of last instance
             UpdateValuesFromBundle(savedInstanceState);
-           
+
 
 
 
@@ -279,7 +280,7 @@ namespace RescueMe.Agent.Activities
             {
                 //mMap.Clear();
                 LatLng latlng = new LatLng(mCurrentLocation.Latitude, mCurrentLocation.Longitude);
-          
+
 
 
                 int intWidth = 100;
@@ -304,7 +305,7 @@ namespace RescueMe.Agent.Activities
                     MarkerOptions markerOptions = new MarkerOptions()
                                                          .SetPosition(latlng)
                                                           .InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.marker));
-                   agentMarker =  mMap.AddMarker(markerOptions);
+                    agentMarker = mMap.AddMarker(markerOptions);
                 }
                 else
                 {
@@ -334,21 +335,21 @@ namespace RescueMe.Agent.Activities
                         clientMarker.Remove();
                         polyLine.Remove();
                         clientMarker = null;
-                        polyLine = null; 
+                        polyLine = null;
                     }
-                    else if(polyLine != null)
+                    else if (polyLine != null)
                     {
                         //polyLine.Points = latLngPoints.ToArray();
                         polyLine.Points = directions.Points.ToArray();
                     }
                     //Perrito verde
                 }
-                else if (clientMarker != null && polyLine  != null && pendingRequest == null)
+                else if (clientMarker != null && polyLine != null && pendingRequest == null)
                 {
                     clientMarker.Remove();
                     polyLine.Remove();
                     clientMarker = null;
-                    polyLine = null; 
+                    polyLine = null;
                 }
                 //Animation anim = AnimationUtils.LoadAnimation(ApplicationContext,
                 //Resource.Animation.jump);
@@ -441,7 +442,7 @@ namespace RescueMe.Agent.Activities
         {
             base.OnStart();
             mGoogleApiClient.Connect();
-            SetButtonMenuHome();
+            RequestStatusChanged();
         }
 
         protected override async void OnResume()
@@ -450,7 +451,7 @@ namespace RescueMe.Agent.Activities
             if (mGoogleApiClient.IsConnected)
             {
                 await StartLocationUpdates();
-                SetButtonMenuHome();
+                RequestStatusChanged();
             }
         }
 
@@ -482,10 +483,6 @@ namespace RescueMe.Agent.Activities
                     SetUpMap();
                     UpdateLocationUI();
                 }
-
-
-
-
             }
         }
 
@@ -504,22 +501,17 @@ namespace RescueMe.Agent.Activities
             mCurrentLocation = location;
             UpdateLocationUI();
 
-            if (counter == 1)
+            if (counter == 1) // 1 is original value
             {
                 new Thread(new ThreadStart(delegate
                 {
                     SendAgentStatus(mCurrentLocation, mGeocoder);
-
-                    if (pendingRequest != null)
-                    {
-                        GetDirections();
-                    }
                     RunOnUiThread(() =>
                     {
-                        SetButtonMenuHome();
+                        RequestStatusChanged();
                     });
                 })).Start();
-                
+
                 counter = 0;
             }
             else
@@ -536,10 +528,7 @@ namespace RescueMe.Agent.Activities
             outState.PutParcelable(KEY_LOCATION, mCurrentLocation);
             base.OnSaveInstanceState(outState);
         }
-
-
-
-
+        
         public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
 
@@ -569,10 +558,6 @@ namespace RescueMe.Agent.Activities
                     break;
             }
         }
-
-
-
-
         private void SetUpMap()
         {
             if (mMap == null)
@@ -610,8 +595,6 @@ namespace RescueMe.Agent.Activities
             Bitmap objBitmap = Bitmap.CreateBitmap(pintWidth, pintHeight, Bitmap.Config.Argb8888);
             return objBitmap;
         }
-
-
 
         private void Menu_Click(object sender, EventArgs e)
         {
@@ -711,62 +694,113 @@ namespace RescueMe.Agent.Activities
             }
             catch (Exception e)
             {
-                throw e;
+                //throw e;
+                Log.Error("Agent", e.Message);
             }
 
         }
 
 
-        public void SetButtonMenuHome()
+        public void RequestStatusChanged(int id =-1)
         {
-
-            new Thread(new ThreadStart(delegate
-            {
-
-                _context.UpdateRequests(_context.GetRescues(_client, _context.GetUser()));
-                pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
-
-                RunOnUiThread(() =>
+            if (id == -1) {
+                //Only for Pending Requests
+                new Thread(new ThreadStart(delegate
                 {
-
-                    if (pendingRequest != null)
+                    //First validate if have pending request local
+                    pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
+                    if (pendingRequest == null)
                     {
-                        frameLayoutMenu.Visibility = ViewStates.Visible;
-                        available.Visibility = ViewStates.Gone;
-                        unAvailable.Visibility = ViewStates.Gone;
-                        try
-                        {
-                            GetDirections();
-                        }
-                        catch (Exception)
-                        {
-
-                            throw;
-                        }
-
+                        //Validate if have pending Request Online
+                        var requestAssign = _context.GetPendingRescues(_client, _context.GetUser());
+                        _context.InsertLastPending(requestAssign);
                     }
                     else
                     {
-                        frameLayoutMenu.Visibility = ViewStates.Gone;
-                        if (_context.GetSettings().AgentAvailability)
+                        //api/Agent/requestStatus
+                        var status = _context.GetStatusRescue(_client, pendingRequest.Id, _context.GetUser());
+                        if (status != pendingRequest.AgentStatusID && status != -1)
                         {
-                            unAvailable.Visibility = ViewStates.Visible;
+                            _context.UpdateRequestStatus(pendingRequest.Id, status);
+                        }
+                        //_context.InsertLastPending(requestAssign);
+                    }
+                    //Repeat again local request
+                    pendingRequest = _context.GetRequest().FirstOrDefault(s => s.AgentStatus.Name == "asignado");
+
+                    RunOnUiThread(() =>
+                    {
+                        //If Pending Request is assign so Show Button is not hidden
+                        if (pendingRequest != null)
+                        {
+                            frameLayoutMenu.Visibility = ViewStates.Visible;
                             available.Visibility = ViewStates.Gone;
+                            unAvailable.Visibility = ViewStates.Gone;
+                            try
+                            {
+                                GetDirections();
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Error("DirectionsButtonHome", e.Message);
+                            }
+
                         }
                         else
                         {
-                            unAvailable.Visibility = ViewStates.Gone;
-                            available.Visibility = ViewStates.Visible;
+                            frameLayoutMenu.Visibility = ViewStates.Gone;
+                            if (_context.GetSettings().AgentAvailability)
+                            {
+                                unAvailable.Visibility = ViewStates.Visible;
+                                available.Visibility = ViewStates.Gone;
+                            }
+                            else
+                            {
+                                unAvailable.Visibility = ViewStates.Gone;
+                                available.Visibility = ViewStates.Visible;
 
+                            }
                         }
-                    }
+                    });
 
+                })).Start();
+            }
+            else if (id > 0)
+            {
+                var statusRequest = _context.GetRequest().FirstOrDefault(s => s.Id == id);
+                //Validate state of Request.
+                switch (statusRequest.AgentStatus.Name.ToLower())
+                {
+                    case "completado":
+                    case "cancelado":
+                        var btnMenu = FindViewById<FloatingActionMenu>(Resource.Id.btnMenu);
+                        if (directions != null && directions.Points != null)
+                        {
+                            directions.Points.Clear();
+                            directions.Points.Add(new Android.Gms.Maps.Model.LatLng(0, 0));
+                        }
+                        UpdateLocationUI();
+                        btnMenu.Visibility = ViewStates.Gone;
+                        unAvailable.Visibility = ViewStates.Visible;
+                        available.Visibility = ViewStates.Gone;
+                        break;
+                }
+            }
+            else
+            {
+                frameLayoutMenu.Visibility = ViewStates.Gone;
+                if (_context.GetSettings().AgentAvailability)
+                {
+                    unAvailable.Visibility = ViewStates.Visible;
+                    available.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    unAvailable.Visibility = ViewStates.Gone;
+                    available.Visibility = ViewStates.Visible;
 
-
-                });
-
-            })).Start();
-
+                }
+            }
         }
         public void GetDirections()
         {
@@ -788,11 +822,12 @@ namespace RescueMe.Agent.Activities
                 {
 
                     //latLngPoints = new Directions();
-                    throw;
+                    //throw;
+                    Log.Error("Directions", e.Message);
                 }
 
             }
         }
 
-        }
     }
+}

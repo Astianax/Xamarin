@@ -41,7 +41,8 @@ namespace RescueMe.Agent.Data
             catch (Exception e)
             {
 
-                throw;
+                //throw;
+                Log.Error("Dbcontext", "Instance dbcontext" + e.Message);
             }
 
 
@@ -80,7 +81,8 @@ namespace RescueMe.Agent.Data
             }
             catch (Exception e)
             {
-                throw e;
+                //throw e;
+                Log.Error("dbcontext", "Created database");
             }
         }
 
@@ -132,7 +134,8 @@ namespace RescueMe.Agent.Data
             }
             catch (Exception e)
             {
-                throw e;
+                ///*throw*/ e;
+                Log.Error("dbcontext", "Update all Tables");
             }
         }
 
@@ -225,6 +228,42 @@ namespace RescueMe.Agent.Data
             }
 
         }
+        public async void InsertLastPending(List<Request> requests)
+        {
+            if (requests.Count > 0)
+            {
+                try
+                {
+                    var requestsSaved = requests.Select(r => new RequestSaved()
+                    {
+                        Id = r.Id,
+                        Latitude = r.Latitude,
+                        Longitude = r.Longitude,
+                        StatusID = r.AgentStatusID.HasValue ? r.AgentStatusID.Value : 0,
+                        Comments = r.Comments,
+                        VehicleType = r.Vehicle.Type,
+                        VehicleID = r.VehicleID.HasValue ?
+                                      r.VehicleID.Value : 0,
+                        ReasonID = r.ReasonID,
+                        Status = getStatusList().FirstOrDefault(s => s.Id == r.AgentStatusID).Name
+                    }).ToList();
+
+                    try
+                    {
+                        var isSaved = _connection.InsertAll(requestsSaved) > 0;
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("RescueMe", "Database busy");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Dbcontext", "Inserted lasted");
+                }
+            }
+        }
         public async void UpdateRequests(List<Request> requests)
         {
             try
@@ -267,8 +306,27 @@ namespace RescueMe.Agent.Data
                 }
             }catch(Exception e)
             {
-                throw e;
+                //throw e;
+                Log.Error("Dbcontext", "Get trying images and records dbContext");
             }
+        }
+        public void UpdateRequestStatus(int id, int statusId)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    var request = _connection.Table<RequestSaved>().FirstOrDefault(r => r.Id == id);
+                    var status = getStatusList().FirstOrDefault(s => s.Id == statusId);
+                    request.Status = status.Name;
+                    request.StatusID = status.Id;
+                    _connection.Update(request);
+                }
+            }catch(Exception e)
+            {
+                Log.Error("Dbcontext", "Trying update status");
+            }
+
         }
         public void UpdateStatus(List<Status> status)
         {
@@ -423,7 +481,8 @@ namespace RescueMe.Agent.Data
             }
             catch (Exception e)
             {
-                throw e;
+                // throw e;
+                Log.Error("Dbcontext", "Get vehicles");
             }
             return vehicles;
         }
@@ -482,7 +541,8 @@ namespace RescueMe.Agent.Data
             }
             catch (Exception e)
             {
-                throw e;
+                //throw e;
+                Log.Error("Dbcontext", "Get settings " + e.Message);
             }
 
             return setting;
@@ -555,6 +615,62 @@ namespace RescueMe.Agent.Data
                 return null;
             }
         }
+        public List<Request> GetPendingRescues(RestClient client, UserProfile user)
+        {
+            if (IsNetworkConnected)
+            {
+                List<Request> requests;
+                try
+                {
+                    requests = client.Get("Request/pendingRequests", new
+                    {
+                        UserId = user.UserID,
+                        platform = "mobile"
+                    }
+                            ).Result.JsonToObject<List<Request>>();
+                }
+                catch (Exception ex)
+                {
+                    requests = null;
+                }
 
+                return requests;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public int GetStatusRescue(RestClient client, int id, UserProfile user)
+        {
+            int statusId = -1;
+            if (IsNetworkConnected)
+            {
+
+                try
+                {
+                    statusId = int.Parse(client.Get("Agent/requestStatus", new
+                    {
+                        Id = id
+                    }
+                            ).Result.ToString());
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return statusId;
+            }
+            else
+            {
+                return statusId;
+            }
+        }
+
+        internal void UpdateStatus(int id, List<Request> status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
