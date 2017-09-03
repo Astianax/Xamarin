@@ -374,7 +374,7 @@ namespace RescueMe.Agent.Activities
             {
                 case CommonStatusCodes.Success:
                     Log.Info(TAG, "All location settings are satisfied.");
-                    await StartLocationUpdates();
+                     StartLocationUpdates();
                     break;
                 case CommonStatusCodes.ResolutionRequired:
                     Log.Info(TAG, "Location settings are not satisfied. Show the user a dialog to" +
@@ -405,7 +405,7 @@ namespace RescueMe.Agent.Activities
                     {
                         case Result.Ok:
                             Log.Info(TAG, "User agreed to make required location settings changes.");
-                            await StartLocationUpdates();
+                            StartLocationUpdates();
                             break;
                         case Result.Canceled:
                             Log.Info(TAG, "User chose not to make required location settings changes.");
@@ -416,9 +416,9 @@ namespace RescueMe.Agent.Activities
         }
 
 
-        protected async Task StartLocationUpdates()
+        protected void StartLocationUpdates()
         {
-            await LocationServices.FusedLocationApi.RequestLocationUpdates(
+             LocationServices.FusedLocationApi.RequestLocationUpdates(
                 mGoogleApiClient,
                 mLocationRequest,
                 this
@@ -441,8 +441,13 @@ namespace RescueMe.Agent.Activities
         protected override void OnStart()
         {
             base.OnStart();
-            mGoogleApiClient.Connect();
-            RequestStatusChanged();
+
+            if (!mGoogleApiClient.IsConnected)
+            {
+                mGoogleApiClient.Connect();
+            }
+
+            //RequestStatusChanged();
         }
 
         protected override async void OnResume()
@@ -450,8 +455,9 @@ namespace RescueMe.Agent.Activities
             base.OnResume();
             if (mGoogleApiClient.IsConnected)
             {
-                await StartLocationUpdates();
                 RequestStatusChanged();
+                StartLocationUpdates();
+              
             }
         }
 
@@ -467,6 +473,7 @@ namespace RescueMe.Agent.Activities
         protected override void OnStop()
         {
             base.OnStop();
+            //mCurrentLocation = null;
             //mGoogleApiClient.Disconnect();
         }
 
@@ -721,7 +728,7 @@ namespace RescueMe.Agent.Activities
                         var status = _context.GetStatusRescue(_client, pendingRequest.Id, _context.GetUser());
                         if (status != pendingRequest.AgentStatusID && status != -1)
                         {
-                            _context.UpdateRequestStatus(pendingRequest.Id, status);
+                            _context.UpdateRequestStatus(pendingRequest.Id, status).ConfigureAwait(false);
                         }
                         //_context.InsertLastPending(requestAssign);
                     }

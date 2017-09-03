@@ -209,7 +209,9 @@ namespace RescueMe.Droid.Activities
 
 
                                 sentPI = PendingIntent.GetBroadcast(this, 0, new Intent(requestData), 0);
-                                sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
+                                //14848044354 
+                                //sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
+                                sms.SendTextMessage("14848044354", null, requestData, sentPI, null);
                             }
                         }
                         catch (Exception ex)

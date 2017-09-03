@@ -310,7 +310,7 @@ namespace RescueMe.Agent.Data
                 Log.Error("Dbcontext", "Get trying images and records dbContext");
             }
         }
-        public void UpdateRequestStatus(int id, int statusId)
+        public async Task UpdateRequestStatus(int id, int statusId)
         {
             try
             {
@@ -321,6 +321,7 @@ namespace RescueMe.Agent.Data
                     request.Status = status.Name;
                     request.StatusID = status.Id;
                     _connection.Update(request);
+                    await GetImageBitmapFromUrl(new Request() { Id = request.Id });
                 }
             }catch(Exception e)
             {

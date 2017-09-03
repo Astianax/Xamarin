@@ -18,5 +18,6 @@ namespace RescueMe.Agent.Data
         public List<LatLng> Points { get; set; }
         public string Distance { get; set; }
         public string Duration { get; set; }
+        public string Name { get; set; }
     }
 }

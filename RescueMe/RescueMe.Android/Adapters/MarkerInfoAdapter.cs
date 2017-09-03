@@ -43,6 +43,7 @@ namespace RescueMe.Droid.Adapters
                     
                     view.FindViewById<TextView>(Resource.Id.txtTime).Text = _directions.Duration;
                     view.FindViewById<TextView>(Resource.Id.txtDistance).Text = _directions.Distance;
+                    view.FindViewById<TextView>(Resource.Id.txtName).Text = _directions.Name;
                 }
             }
             else

@@ -2648,8 +2648,8 @@ namespace RescueMe.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0900a3
-			public const int City = 2131296419;
+			// aapt resource value: 0x7f0900a4
+			public const int City = 2131296420;
 			
 			// aapt resource value: 0x7f0900de
 			public const int RequestRescue = 2131296478;
@@ -2657,8 +2657,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090095
 			public const int abouttxt = 2131296405;
 			
-			// aapt resource value: 0x7f0900bd
-			public const int action0 = 2131296445;
+			// aapt resource value: 0x7f0900be
+			public const int action0 = 2131296446;
 			
 			// aapt resource value: 0x7f09006b
 			public const int action_bar = 2131296363;
@@ -2684,8 +2684,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09006c
 			public const int action_context_bar = 2131296364;
 			
-			// aapt resource value: 0x7f0900c1
-			public const int action_divider = 2131296449;
+			// aapt resource value: 0x7f0900c2
+			public const int action_divider = 2131296450;
 			
 			// aapt resource value: 0x7f090003
 			public const int action_menu_divider = 2131296259;
@@ -2747,11 +2747,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900d1
 			public const int btnCars = 2131296465;
 			
-			// aapt resource value: 0x7f0900ac
-			public const int btnLogin = 2131296428;
+			// aapt resource value: 0x7f0900ad
+			public const int btnLogin = 2131296429;
 			
-			// aapt resource value: 0x7f0900b5
-			public const int btnMenu = 2131296437;
+			// aapt resource value: 0x7f0900b6
+			public const int btnMenu = 2131296438;
 			
 			// aapt resource value: 0x7f0900d6
 			public const int btnRegister = 2131296470;
@@ -2765,14 +2765,14 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090054
 			public const int buttonPanel = 2131296340;
 			
-			// aapt resource value: 0x7f0900a5
-			public const int call = 2131296421;
+			// aapt resource value: 0x7f0900a6
+			public const int call = 2131296422;
 			
-			// aapt resource value: 0x7f0900b6
-			public const int cancelRescue = 2131296438;
+			// aapt resource value: 0x7f0900b7
+			public const int cancelRescue = 2131296439;
 			
-			// aapt resource value: 0x7f0900be
-			public const int cancel_action = 2131296446;
+			// aapt resource value: 0x7f0900bf
+			public const int cancel_action = 2131296447;
 			
 			// aapt resource value: 0x7f09007b
 			public const int carIcon = 2131296379;
@@ -2795,8 +2795,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090062
 			public const int checkbox = 2131296354;
 			
-			// aapt resource value: 0x7f0900c3
-			public const int chronometer = 2131296451;
+			// aapt resource value: 0x7f0900c4
+			public const int chronometer = 2131296452;
 			
 			// aapt resource value: 0x7f090040
 			public const int clip_horizontal = 2131296320;
@@ -2807,8 +2807,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09002c
 			public const int collapseActionView = 2131296300;
 			
-			// aapt resource value: 0x7f0900b7
-			public const int completeRescue = 2131296439;
+			// aapt resource value: 0x7f0900b8
+			public const int completeRescue = 2131296440;
 			
 			// aapt resource value: 0x7f09005a
 			public const int contentPanel = 2131296346;
@@ -2825,8 +2825,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900d9
 			public const int ddReasons = 2131296473;
 			
-			// aapt resource value: 0x7f0900b9
-			public const int ddType = 2131296441;
+			// aapt resource value: 0x7f0900ba
+			public const int ddType = 2131296442;
 			
 			// aapt resource value: 0x7f0900db
 			public const int ddVehicles = 2131296475;
@@ -2864,8 +2864,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09006d
 			public const int edit_query = 2131296365;
 			
-			// aapt resource value: 0x7f0900a8
-			public const int emaiLayout = 2131296424;
+			// aapt resource value: 0x7f0900a9
+			public const int emaiLayout = 2131296425;
 			
 			// aapt resource value: 0x7f0900d3
 			public const int emailALayout = 2131296467;
@@ -2873,8 +2873,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090029
 			public const int end = 2131296297;
 			
-			// aapt resource value: 0x7f0900c8
-			public const int end_padder = 2131296456;
+			// aapt resource value: 0x7f0900c9
+			public const int end_padder = 2131296457;
 			
 			// aapt resource value: 0x7f090032
 			public const int enterAlways = 2131296306;
@@ -2912,8 +2912,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090046
 			public const int @fixed = 2131296326;
 			
-			// aapt resource value: 0x7f0900ad
-			public const int forgotPassword = 2131296429;
+			// aapt resource value: 0x7f0900ae
+			public const int forgotPassword = 2131296430;
 			
 			// aapt resource value: 0x7f09009d
 			public const int fragment = 2131296413;
@@ -2954,11 +2954,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09004f
 			public const int image = 2131296335;
 			
-			// aapt resource value: 0x7f0900c7
-			public const int info = 2131296455;
+			// aapt resource value: 0x7f0900c8
+			public const int info = 2131296456;
 			
-			// aapt resource value: 0x7f0900a4
-			public const int item = 2131296420;
+			// aapt resource value: 0x7f0900a5
+			public const int item = 2131296421;
 			
 			// aapt resource value: 0x7f090000
 			public const int item_touch_helper_previous_elevation = 2131296256;
@@ -2978,17 +2978,17 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090018
 			public const int light = 2131296280;
 			
-			// aapt resource value: 0x7f0900b0
-			public const int line1 = 2131296432;
+			// aapt resource value: 0x7f0900b1
+			public const int line1 = 2131296433;
 			
-			// aapt resource value: 0x7f0900b2
-			public const int line2 = 2131296434;
+			// aapt resource value: 0x7f0900b3
+			public const int line2 = 2131296435;
 			
-			// aapt resource value: 0x7f0900c5
-			public const int line3 = 2131296453;
+			// aapt resource value: 0x7f0900c6
+			public const int line3 = 2131296454;
 			
-			// aapt resource value: 0x7f0900b4
-			public const int linkRegister = 2131296436;
+			// aapt resource value: 0x7f0900b5
+			public const int linkRegister = 2131296437;
 			
 			// aapt resource value: 0x7f090019
 			public const int listMode = 2131296281;
@@ -2999,11 +2999,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09008e
 			public const int llContainer = 2131296398;
 			
-			// aapt resource value: 0x7f0900a6
-			public const int loginLayout = 2131296422;
-			
 			// aapt resource value: 0x7f0900a7
-			public const int logo = 2131296423;
+			public const int loginLayout = 2131296423;
+			
+			// aapt resource value: 0x7f0900a8
+			public const int logo = 2131296424;
 			
 			// aapt resource value: 0x7f09009a
 			public const int map = 2131296410;
@@ -3011,14 +3011,14 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09007e
 			public const int marque = 2131296382;
 			
-			// aapt resource value: 0x7f0900ba
-			public const int marqueLayout = 2131296442;
+			// aapt resource value: 0x7f0900bb
+			public const int marqueLayout = 2131296443;
 			
 			// aapt resource value: 0x7f090048
 			public const int marquee = 2131296328;
 			
-			// aapt resource value: 0x7f0900c0
-			public const int media_actions = 2131296448;
+			// aapt resource value: 0x7f0900c1
+			public const int media_actions = 2131296449;
 			
 			// aapt resource value: 0x7f09009b
 			public const int menuIcon = 2131296411;
@@ -3035,11 +3035,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090022
 			public const int multiply = 2131296290;
 			
-			// aapt resource value: 0x7f0900bc
-			public const int my_recycler_view = 2131296444;
+			// aapt resource value: 0x7f0900bd
+			public const int my_recycler_view = 2131296445;
 			
-			// aapt resource value: 0x7f0900ca
-			public const int nameLayout = 2131296458;
+			// aapt resource value: 0x7f0900cb
+			public const int nameLayout = 2131296459;
 			
 			// aapt resource value: 0x7f0900eb
 			public const int nav_about = 2131296491;
@@ -3071,8 +3071,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09000e
 			public const int normal = 2131296270;
 			
-			// aapt resource value: 0x7f0900b1
-			public const int or = 2131296433;
+			// aapt resource value: 0x7f0900b2
+			public const int or = 2131296434;
 			
 			// aapt resource value: 0x7f09003e
 			public const int parallax = 2131296318;
@@ -3083,8 +3083,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900d4
 			public const int passwordConfirmLayout = 2131296468;
 			
-			// aapt resource value: 0x7f0900aa
-			public const int passwordLayout = 2131296426;
+			// aapt resource value: 0x7f0900ab
+			public const int passwordLayout = 2131296427;
 			
 			// aapt resource value: 0x7f09003f
 			public const int pin = 2131296319;
@@ -3125,8 +3125,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09005c
 			public const int scrollView = 2131296348;
 			
-			// aapt resource value: 0x7f0900c9
-			public const int scrollView1 = 2131296457;
+			// aapt resource value: 0x7f0900ca
+			public const int scrollView1 = 2131296458;
 			
 			// aapt resource value: 0x7f090047
 			public const int scrollable = 2131296327;
@@ -3179,11 +3179,11 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f09001f
 			public const int showTitle = 2131296287;
 			
-			// aapt resource value: 0x7f0900af
-			public const int sign_in_btn_fb = 2131296431;
+			// aapt resource value: 0x7f0900b0
+			public const int sign_in_btn_fb = 2131296432;
 			
-			// aapt resource value: 0x7f0900ae
-			public const int sign_in_button = 2131296430;
+			// aapt resource value: 0x7f0900af
+			public const int sign_in_button = 2131296431;
 			
 			// aapt resource value: 0x7f090083
 			public const int snackbar_action = 2131296387;
@@ -3203,8 +3203,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900da
 			public const int spinerVechicleLayout = 2131296474;
 			
-			// aapt resource value: 0x7f0900b8
-			public const int spinertxType = 2131296440;
+			// aapt resource value: 0x7f0900b9
+			public const int spinertxType = 2131296441;
 			
 			// aapt resource value: 0x7f090008
 			public const int split_action_bar = 2131296264;
@@ -3227,8 +3227,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900df
 			public const int status = 2131296479;
 			
-			// aapt resource value: 0x7f0900bf
-			public const int status_bar_latest_event_content = 2131296447;
+			// aapt resource value: 0x7f0900c0
+			public const int status_bar_latest_event_content = 2131296448;
 			
 			// aapt resource value: 0x7f090065
 			public const int submenuarrow = 2131296357;
@@ -3251,23 +3251,23 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f090010
 			public const int terrain = 2131296272;
 			
-			// aapt resource value: 0x7f0900c6
-			public const int text = 2131296454;
+			// aapt resource value: 0x7f0900c7
+			public const int text = 2131296455;
 			
-			// aapt resource value: 0x7f0900c4
-			public const int text2 = 2131296452;
+			// aapt resource value: 0x7f0900c5
+			public const int text2 = 2131296453;
 			
 			// aapt resource value: 0x7f09005d
 			public const int textSpacerNoButtons = 2131296349;
 			
-			// aapt resource value: 0x7f0900b3
-			public const int textView2 = 2131296435;
+			// aapt resource value: 0x7f0900b4
+			public const int textView2 = 2131296436;
 			
 			// aapt resource value: 0x7f090089
 			public const int text_input_password_toggle = 2131296393;
 			
-			// aapt resource value: 0x7f0900c2
-			public const int time = 2131296450;
+			// aapt resource value: 0x7f0900c3
+			public const int time = 2131296451;
 			
 			// aapt resource value: 0x7f090053
 			public const int title = 2131296339;
@@ -3296,8 +3296,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900cf
 			public const int txTelefono = 2131296463;
 			
-			// aapt resource value: 0x7f0900a2
-			public const int txtAddress = 2131296418;
+			// aapt resource value: 0x7f0900a3
+			public const int txtAddress = 2131296419;
 			
 			// aapt resource value: 0x7f0900cd
 			public const int txtCedula = 2131296461;
@@ -3305,20 +3305,20 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900dd
 			public const int txtComment = 2131296477;
 			
-			// aapt resource value: 0x7f0900a1
-			public const int txtDistance = 2131296417;
+			// aapt resource value: 0x7f0900a2
+			public const int txtDistance = 2131296418;
 			
-			// aapt resource value: 0x7f0900a9
-			public const int txtEmail = 2131296425;
+			// aapt resource value: 0x7f0900aa
+			public const int txtEmail = 2131296426;
 			
-			// aapt resource value: 0x7f0900bb
-			public const int txtMarque = 2131296443;
+			// aapt resource value: 0x7f0900bc
+			public const int txtMarque = 2131296444;
 			
-			// aapt resource value: 0x7f0900cb
-			public const int txtName = 2131296459;
+			// aapt resource value: 0x7f0900a0
+			public const int txtName = 2131296416;
 			
-			// aapt resource value: 0x7f0900ab
-			public const int txtPassword = 2131296427;
+			// aapt resource value: 0x7f0900ac
+			public const int txtPassword = 2131296428;
 			
 			// aapt resource value: 0x7f0900d5
 			public const int txtPasswordConfirm = 2131296469;
@@ -3326,8 +3326,8 @@ namespace RescueMe.Droid
 			// aapt resource value: 0x7f0900e5
 			public const int txtSpinner = 2131296485;
 			
-			// aapt resource value: 0x7f0900a0
-			public const int txtTime = 2131296416;
+			// aapt resource value: 0x7f0900a1
+			public const int txtTime = 2131296417;
 			
 			// aapt resource value: 0x7f09007d
 			public const int type = 2131296381;

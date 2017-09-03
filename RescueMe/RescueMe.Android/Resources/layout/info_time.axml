@@ -29,7 +29,17 @@
       android:id="@+id/layoutLine"
       android:orientation="vertical">
     <TextView
+      android:id="@+id/txtName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_toLeftOf="@+id/layoutLine"
+      android:layout_toStartOf="@+id/layoutLine"
+      android:textAppearance="?android:textAppearanceLarge"/>
+    <TextView
         android:id="@+id/txtTime"
+         android:layout_below="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

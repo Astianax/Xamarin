@@ -181,7 +181,8 @@ namespace RescueMe.Droid
 
                         string requestData = request.Id + "**cancel**";
                         sentPI = PendingIntent.GetBroadcast(this.Context, 0, new Intent(requestData), 0);
-                        sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
+                        //sms.SendTextMessage("13345819944", null, requestData, sentPI, null);
+                        sms.SendTextMessage("14848044354", null, requestData, sentPI, null);
                         ((HomeActivity)this.Activity).RequestStatusChanged(requestID.Id);
                     }
                 }
