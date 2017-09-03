@@ -36,11 +36,13 @@ namespace RescueMe.Agent.Adapters
         {
             View view = _layoutInflater.Inflate(Resource.Layout.info_window, null, false);
             string mAddress;
-
-            view = _layoutInflater.Inflate(Resource.Layout.info_time, null, false);
-            view.FindViewById<TextView>(Resource.Id.txtTime).Text = _directions.Duration;
-            view.FindViewById<TextView>(Resource.Id.txtDistance).Text = _directions.Distance;
-
+            if (_directions != null && !string.IsNullOrEmpty(_directions.Duration)
+                && !string.IsNullOrEmpty(_directions.Distance))
+            {
+                view = _layoutInflater.Inflate(Resource.Layout.info_time, null, false);
+                view.FindViewById<TextView>(Resource.Id.txtTime).Text = _directions.Duration;
+                view.FindViewById<TextView>(Resource.Id.txtDistance).Text = _directions.Distance;
+            }
           
             //if (IsNetworkConnected == true)
             //{

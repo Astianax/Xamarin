@@ -48,7 +48,7 @@ namespace RescueMe.Droid.Activities
             
 
             mSearch = FindViewById<EditText>(Resource.Id.etSearch);
-
+            var btnBack = FindViewById(Resource.Id.back);
 
 
 
@@ -57,7 +57,7 @@ namespace RescueMe.Droid.Activities
             mContainer.BringToFront();
             mSearch.TextChanged += mSearch_TextChanged;
             btnSearch.Click += btnSearch_click;
-
+            btnBack.Click += BtnBack_click;
             //Set Data
             SetData(out mAdapter);
             expandableListView.SetAdapter(mAdapter);
@@ -160,9 +160,6 @@ namespace RescueMe.Droid.Activities
             expandableListView.SetAdapter(mAdapterNew);
         }
 
-
-
-
-
+        
     }
 }

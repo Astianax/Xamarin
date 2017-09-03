@@ -34,12 +34,16 @@ namespace RescueMe.Droid.Adapters
 
         public View GetInfoWindow(Marker marker)
         {
-            View view;
+            View view = _layoutInflater.Inflate(Resource.Layout.info_time, null, false);
             if (!string.IsNullOrEmpty(marker.Title) && marker.Title != "My position") //Show time and Distance
             {
-                view = _layoutInflater.Inflate(Resource.Layout.info_time, null, false);
-                view.FindViewById<TextView>(Resource.Id.txtTime).Text = _directions.Duration;
-                view.FindViewById<TextView>(Resource.Id.txtDistance).Text = _directions.Distance;
+                if (_directions != null && !string.IsNullOrEmpty(_directions.Duration)
+              && !string.IsNullOrEmpty(_directions.Distance))
+                {
+                    
+                    view.FindViewById<TextView>(Resource.Id.txtTime).Text = _directions.Duration;
+                    view.FindViewById<TextView>(Resource.Id.txtDistance).Text = _directions.Distance;
+                }
             }
             else
             {
